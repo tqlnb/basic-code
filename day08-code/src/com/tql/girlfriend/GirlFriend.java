@@ -7,17 +7,17 @@ public class GirlFriend {
 
 
 
-     public void setName(String n){
-        name = n;
+     public void setName(String name){
+        this.name = name;
     }
 
     public String getName(){
          return name;
     }
 
-    public void setAge(int a){
-         if(a>=18 && a < 50)
-             age = a;
+    public void setAge(int age){
+         if(age>=18 && age < 50)
+             this.age = age;
          else
              System.out.println("非法数据");
     }
@@ -26,8 +26,8 @@ public class GirlFriend {
          return age;
     }
 
-    public void setGender(String g){
-         gender = g;
+    public void setGender(String gender){
+         this.gender = gender;
     }
 
     public String getGender(){
