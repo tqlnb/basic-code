@@ -6,6 +6,5 @@ public class StudentTest {
         Student s = new Student("tql",22);
         System.out.println(s.getAge());
         System.out.println(s.getName());
-        System.out.println();
     }
 }
