@@ -124,6 +124,7 @@ public class Role {
         int index = r.nextInt(attacks_desc.length);
         String kungfu = attacks_desc[index];
         System.out.printf(kungfu,this.getName(),role.getName());
+        System.out.println();
 
 
         int damage = r.nextInt(20) + 1;
@@ -136,11 +137,30 @@ public class Role {
         role.setBlood(remain);
 
         //受伤的描述
-
+        if(remain > 90){
+            System.out.printf(injureds_desc[0],role.getName());
+        }else if (remain > 80){
+            System.out.printf(injureds_desc[1],role.getName());
+        } else if (remain > 70) {
+            System.out.printf(injureds_desc[2],role.getName());
+        } else if (remain > 60) {
+            System.out.printf(injureds_desc[3],role.getName());
+        } else if (remain > 40) {
+            System.out.printf(injureds_desc[4],role.getName());
+        } else if (remain > 20) {
+            System.out.printf(injureds_desc[5],role.getName());
+        } else if (remain > 10) {
+            System.out.printf(injureds_desc[6],role.getName());
+        } else if (remain >= 0 && remain<= 10) {
+            System.out.printf(injureds_desc[7],role.getName());
+        }
+        System.out.println();
 
         //this表示方法的调用者
+/*
         System.out.println(this.getName()+"举起拳头，打了"+role.getName()+"一下"+
          "造成了"+damage+"点伤害，"+role.getName()+"还剩下"+remain+"点血");
+*/
     }
 
 }

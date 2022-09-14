@@ -10,7 +10,6 @@ public class LegendsFight {
         r1.showInfo();
         r2.showInfo();
 
-/*
         while (true) {
             r1.attack(r2);
             if (r2.getBlood() == 0) {
@@ -23,7 +22,6 @@ public class LegendsFight {
                 break;
             }
         }
-*/
 
     }
 }
