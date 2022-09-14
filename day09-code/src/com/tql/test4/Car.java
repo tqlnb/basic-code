@@ -1,4 +1,4 @@
-package test4;
+package com.tql.test4;
 
 import java.util.Scanner;
 
