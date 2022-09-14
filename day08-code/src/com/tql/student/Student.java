@@ -10,6 +10,7 @@ public class Student {
     public Student(){
         //空参构造
         System.out.println("看看我执行了吗");
+        System.out.println();
     }
 
     public Student(String name,int age){
