@@ -75,14 +75,12 @@ public class StudentTest {
 
     public static Student [] creatNewArr(Student [] arr){
         Student [] newArr =new Student [arr.length+1];
-        for (int i = 0; i < arr.length; i++) {
-/*
+        /*
             newArr[i].setId(arr[i].getId());
             newArr[i].setName(arr[i].getName());
             newArr[i].setAge(arr[i].getAge());
 */
-            newArr[i] = arr [i];
-        }
+        System.arraycopy(arr, 0, newArr, 0, arr.length);
         return newArr;
     }
 
