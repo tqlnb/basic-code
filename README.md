@@ -1,5 +1,7 @@
 # basic-code
-学习java
+学习java  来自“黑马程序员”
+自己学着写的一些代码和笔记
+www.bilibili.com/video/BV17F411T
 
 ===================================================================
 StringBulider
