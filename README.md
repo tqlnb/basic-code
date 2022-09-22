@@ -32,5 +32,17 @@ String 原理
 
 ![image](https://user-images.githubusercontent.com/88382462/191158030-5208296e-7707-43b3-8512-1b8b639d74b2.png)
 
-
+=================================================
+集合
+集合和数组的区别
 ![img.png](img.png)
+创建集合
+![img_2.png](img_2.png)
+ArrayList成员方法
+![img_3.png](img_3.png)
+
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
+基本数据类型的包装类
+![img_6.png](img_6.png)
+![img_7.png](img_7.png)
