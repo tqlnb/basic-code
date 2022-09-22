@@ -47,3 +47,8 @@ ArrayList成员方法
 基本数据类型的包装类
 ![image](https://user-images.githubusercontent.com/88382462/191681309-dbce7e0d-16d5-4614-835a-a61f72a16740.png)
 ![image](https://user-images.githubusercontent.com/88382462/191681357-4e1e2a00-12bc-4f50-a64b-504f986c4408.png)
+
+==============================================================================================================
+当循环嵌套时想退出外面的循环
+![image](https://user-images.githubusercontent.com/88382462/191693489-485ca7dc-03ff-4051-9732-f7c087ecbdff.png)
+
