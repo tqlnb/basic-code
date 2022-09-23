@@ -110,9 +110,8 @@ public class StudentSystem {
 
     //判断id是否存在
     public static boolean contains(ArrayList<Student> list,String id){
-        for (int i = 0; i < list.size(); i++) {
-            Student stu = list.get(i);
-            if(stu.getId().equals(id)){
+        for (Student stu : list) {
+            if (stu.getId().equals(id)) {
                 return true;
             }
         }
