@@ -96,7 +96,6 @@ public class StudentSystem {
     public static void queryStudent(ArrayList<Student> list){
         if(list.size()==0){
             System.out.println("当前无学生信息，请添加后再查询");
-            return;
         }else {
             System.out.println("id" + '\t' + '\t' + "姓名" + '\t' + "年龄" + '\t' + "家庭住址");
             for (Student student : list) {
