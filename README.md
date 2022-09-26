@@ -52,3 +52,12 @@ ArrayList成员方法
 当循环嵌套时想退出外面的循环
 ![image](https://user-images.githubusercontent.com/88382462/191693489-485ca7dc-03ff-4051-9732-f7c087ecbdff.png)
 
+
+==============================================================================================================
+static关键字
+
+![image](https://user-images.githubusercontent.com/88382462/192304073-f85684a5-954f-4247-94ed-fd353dc365c5.png)
+![image](https://user-images.githubusercontent.com/88382462/192304670-74834351-597c-419f-81ae-a937055c4527.png)
+![image](https://user-images.githubusercontent.com/88382462/192304854-b2bc9c63-b6af-40a4-97dd-7702be041948.png)
+
+
