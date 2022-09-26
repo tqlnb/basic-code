@@ -165,8 +165,6 @@ public class StudentSystem {
         System.out.println("请输入用户名");
         String username = sc.next();
         int userIndex = getUserIndex(userList, username);
-        User u = userList.get(userIndex);
-        String basicPassword = u.getPassword();
         if(userIndex == -1){
             System.out.println("用户未注册");
             return false;
@@ -175,6 +173,8 @@ public class StudentSystem {
         String password = sc.next();
         System.out.println("请输入验证码");
         String vCode = sc.next();
+        User u = userList.get(userIndex);
+        String basicPassword = u.getPassword();
         while(true) {
             if (vCode.equals(verificationCode)) {
                 for(int i = 0 ; i < 3 ; i++){
@@ -301,6 +301,9 @@ public class StudentSystem {
     //获取user索引
     public static int getUserIndex(ArrayList<User> userList,String username){
         int count = 0;
+        if(userList.size() == 0){
+            return -1;
+        }
         for (User user : userList) {
             if(user.getUsername().equals(username)){
                 return count;
