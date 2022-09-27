@@ -70,6 +70,18 @@ static关键字
 ![image](https://user-images.githubusercontent.com/88382462/192316904-a425d31f-c6b4-4136-ae32-9f9706334dc3.png)
 
 
+===================================================================================================
+封装
+![image](https://user-images.githubusercontent.com/88382462/192415469-a34ea306-7f65-4740-a7f8-a45de43af7d6.png)
+
+![image](https://user-images.githubusercontent.com/88382462/192416569-a9f9a1c5-1e18-40b9-93c6-d66e6796cab8.png)
+
+![image](https://user-images.githubusercontent.com/88382462/192416738-f0a01b2a-2978-47e7-a9a8-44a8f0367ab3.png)
+
+![image](https://user-images.githubusercontent.com/88382462/192416905-b47ee3e4-53af-4321-947e-32c27edff7d6.png)
+
+![image](https://user-images.githubusercontent.com/88382462/192417934-f56a5bfe-5ad1-42a5-aa6b-70eba4e3608e.png)
+
 
 
 
