@@ -102,5 +102,12 @@ static关键字
 
 ![image](https://user-images.githubusercontent.com/88382462/192742068-11b7d9a9-1d72-4f36-afd8-be42e9f89454.png)
 
+![image](https://user-images.githubusercontent.com/88382462/192742588-5d1e408a-ae98-44f2-89ce-a75ba33267d8.png)
+
+![image](https://user-images.githubusercontent.com/88382462/192744675-ac244198-c158-4cab-827a-8151e9766c6e.png)
+
+
+
+
 
 
