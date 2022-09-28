@@ -86,7 +86,9 @@ static关键字
 
 ![image](https://user-images.githubusercontent.com/88382462/192470608-a3ab47c5-96f0-410c-b124-2aad27d55e94.png)
 
+![image](https://user-images.githubusercontent.com/88382462/192729991-69d7e9e4-02f7-4055-9c1f-014acd9bf3b7.png)
 
+![image](https://user-images.githubusercontent.com/88382462/192730532-b4b46699-12e4-45f4-8e87-8c03b445ca37.png)
 
 
 
