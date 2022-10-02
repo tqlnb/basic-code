@@ -110,6 +110,47 @@ static关键字
 
 ![image](https://user-images.githubusercontent.com/88382462/192746886-4d33f32a-db60-4a65-a6da-3ce87af066e9.png)
 
+==========================================================================================
+多态
+
+![image](https://user-images.githubusercontent.com/88382462/193443335-096a6f91-f6f7-4176-a72d-c11d7d5d0ef4.png)
+
+![image](https://user-images.githubusercontent.com/88382462/193443788-4539d724-0449-4690-b311-4defa0559bdb.png)
+
+![image](https://user-images.githubusercontent.com/88382462/193443816-72ea183c-721b-44b7-b120-0baeb34adcf4.png)
+
+调用成员变量:编译看左边，运行也看左边
+编译看左边: javac编译代码的时候，会看左边的父类中有没有这个变量，如果有，编译成功，如果没有编译失败。
+运行也看左边: java运行代码的时候，实际获取的就是左边父类中成员变量的值
+
+调用成员方法:编译看左边，运行看右边
+编译看左边: javac编译代码的时候，会看左边的父类中有没有这个方法，如果有，编译成功，如果没有编译失败。
+运行看右边: java运行代码的时候，实际上运行的是子类中的方法。
+
+![image](https://user-images.githubusercontent.com/88382462/193444370-6abd8aba-8969-4499-85c4-4a866aa16d8e.png)
+
+多态的弊端
+不能调用子类的特有功能
+报错的原因?
+当调用成员方法的时候，编译看左边，运行看右边
+那么在编译的时候会先检查左边的父类中有没有这个方法，如果没有直接报错。
+解决方案:
+变回子类类型就可以了（可以用强制转换）（但是瞎转转成其他的对象就会报错）
+可以用instanceof来判断对象是什么类型的
+![image](https://user-images.githubusercontent.com/88382462/193444895-5379e9b7-707e-4bd1-bda4-1df4ff106bb9.png)
+
+![image](https://user-images.githubusercontent.com/88382462/193445015-6ce2109b-6a93-47dd-84ae-2c35afcd67bf.png)
+
+![image](https://user-images.githubusercontent.com/88382462/193445071-d6231b8c-3518-44cf-b915-22fab0dc3d17.png)
+
+![image](https://user-images.githubusercontent.com/88382462/193445126-da9512d4-5399-4961-9c7f-af2eb7e1876c.png)
 
 
+=============================================================================================
+包
+![image](https://user-images.githubusercontent.com/88382462/193446805-7f347726-8623-455a-aa3f-488d0baeec2a.png)
+导包
+![image](https://user-images.githubusercontent.com/88382462/193446840-70b0a958-a83c-4b3a-9698-3b907a67be27.png)
+![image](https://user-images.githubusercontent.com/88382462/193446859-b8d12557-8e98-47a1-9795-2f6e17670ac5.png)
+![image](https://user-images.githubusercontent.com/88382462/193447098-53feddfa-3c23-4920-bf77-2f6459d4fe41.png)
 
