@@ -161,6 +161,24 @@ final
 
 ![image](https://user-images.githubusercontent.com/88382462/193462339-431f325e-516d-4dd2-a834-eaf93fc3dcc9.png)
 
+![image](https://user-images.githubusercontent.com/88382462/194689623-3bc7be28-2a4c-4f96-b9fe-a8ef5b5b9c7d.png)
+ 
+![image](https://user-images.githubusercontent.com/88382462/194888059-6035f9b8-c882-4d9a-ad46-316fc4566c7f.png)
 
+![image](https://user-images.githubusercontent.com/88382462/194889136-d35f4f08-620b-4d4b-8868-6d54f440fe3d.png)
 
+但是构造代码块很少使用，如果多个构造方法有一些相同的代码可以用以下的方式
+![image](https://user-images.githubusercontent.com/88382462/194890863-95023260-7f07-44ee-b90c-26ffe50786f6.png)
+
+![image](https://user-images.githubusercontent.com/88382462/194895174-20e9d72a-646d-4411-b7a8-6b1451143d6c.png)
+
+![image](https://user-images.githubusercontent.com/88382462/194896373-61105c1f-8748-42fd-988a-8b181332aba0.png)
+
+![image](https://user-images.githubusercontent.com/88382462/194896523-1654cc9a-df52-4efa-a152-1e091bdefc1a.png)
+ 
+ ![image](https://user-images.githubusercontent.com/88382462/194897297-542c908f-421d-4a3c-a74a-865f9d02dc19.png)
+
+ 
+ 
+ 
 
