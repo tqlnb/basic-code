@@ -163,5 +163,14 @@ final
 
 ![image](https://user-images.githubusercontent.com/88382462/194689623-3bc7be28-2a4c-4f96-b9fe-a8ef5b5b9c7d.png)
  
+![image](https://user-images.githubusercontent.com/88382462/194888059-6035f9b8-c882-4d9a-ad46-316fc4566c7f.png)
+
+![image](https://user-images.githubusercontent.com/88382462/194889136-d35f4f08-620b-4d4b-8868-6d54f440fe3d.png)
+
+但是构造代码块很少使用，如果多个构造方法有一些相同的代码可以用以下的方式
+![image](https://user-images.githubusercontent.com/88382462/194890863-95023260-7f07-44ee-b90c-26ffe50786f6.png)
+
+
+
 
 
