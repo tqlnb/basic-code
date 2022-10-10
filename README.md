@@ -170,6 +170,7 @@ final
 但是构造代码块很少使用，如果多个构造方法有一些相同的代码可以用以下的方式
 ![image](https://user-images.githubusercontent.com/88382462/194890863-95023260-7f07-44ee-b90c-26ffe50786f6.png)
 
+![image](https://user-images.githubusercontent.com/88382462/194895174-20e9d72a-646d-4411-b7a8-6b1451143d6c.png)
 
 
 
