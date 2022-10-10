@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StudentSystem {
+
+    static ArrayList <User> userList = new ArrayList<>();
+    static {
+        userList.add(new User("tql","123abc","400000000008290010","131123456789"));
+    }
     private static final  String ADD_USER = "1";
     private static final  String DELETE_STUDENT = "2";
     private static final  String UPDATE_STUDENT = "3";
@@ -138,7 +143,7 @@ public class StudentSystem {
     //登陆系统
     public static void loginSystem(){
         Scanner sc = new Scanner(System.in);
-        ArrayList<User> userList = new ArrayList<>();
+//        ArrayList<User> userList = new ArrayList<>();
         looper: while(true) {
             System.out.println("-----欢迎来到学生管理系统-----");
             System.out.println("请选择操作 1.登录 2.注册 3.忘记密码");
