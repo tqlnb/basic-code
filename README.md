@@ -178,7 +178,54 @@ final
  
  ![image](https://user-images.githubusercontent.com/88382462/194897297-542c908f-421d-4a3c-a74a-865f9d02dc19.png)
 
- 
- 
- 
+ ===============================================================================
+ 接口
+ ![image](https://user-images.githubusercontent.com/88382462/195065577-fbdf768a-5060-4811-a685-61abccaeec94.png)
 
+ ![image](https://user-images.githubusercontent.com/88382462/195073694-05c38cc1-a574-41c3-9e9a-86dce0e12e99.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195078798-3681c96d-6718-4f16-8291-82278773fe14.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195083063-26424218-1de6-4d89-bb2e-9d469f7b8402.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195088563-1fb53c54-045b-48d8-b510-7ccb82b32e49.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195090214-7be3fda3-19a7-4f11-a869-0a65d41d6142.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195091618-c05e421b-0d9b-433b-bf9b-51433cbedb00.png)
+ 
+![image](https://user-images.githubusercontent.com/88382462/195093990-dc58c43b-025e-44dc-9c97-7dc6ce19d777.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195094439-fb2cb0da-d8d9-4d97-8323-c15e7721e7de.png)
+  
+ ![image](https://user-images.githubusercontent.com/88382462/195094808-f6a4c0c4-1903-41bb-a94b-bfac6c4f9589.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195252965-d6816991-33a0-441d-8502-e849aa031a6f.png)
+当一个方法的参数是接口时，可以传递接口所有实现类的对象，这种方式称之为接口多态。
+![image](https://user-images.githubusercontent.com/88382462/195253161-c69b1e31-1e7a-4a97-a587-78dff5b2e33f.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195254134-50fc1e71-96f5-4cb4-a337-f9bce80aa09e.png)
+========================================================================================
+内部类
+![image](https://user-images.githubusercontent.com/88382462/195254292-1a41f7e2-ab97-48f3-b150-018170f2d1ed.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195254397-53904668-9f72-4e0b-9434-6cb4d413520c.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195254619-7c654814-f7a8-489a-8f24-be07ca01de38.png)
+
+![image](https://user-images.githubusercontent.com/88382462/195256185-7aef5fc1-85d2-4be1-907a-c49d9dca4596.png)
+![image](https://user-images.githubusercontent.com/88382462/195256696-9eb4026c-fa5c-4693-bb03-22065e2bcd6f.png)
+![image](https://user-images.githubusercontent.com/88382462/195256859-66e2ceea-ce8e-4ea3-bef8-2f9baea508eb.png)
+![image](https://user-images.githubusercontent.com/88382462/195257342-e49f4f13-ddea-443d-bec8-5c89d630ffad.png)
+
+
+
+
+
+
+
+
+
+
+
+ 
