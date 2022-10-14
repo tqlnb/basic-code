@@ -220,8 +220,12 @@ final
 ![image](https://user-images.githubusercontent.com/88382462/195263171-1bfd870d-b798-4901-a7d8-e9d752a3a8f3.png)
 ![image](https://user-images.githubusercontent.com/88382462/195263454-432b485c-6c2c-40c0-97ea-c0e13d9dbe15.png)
 ![image](https://user-images.githubusercontent.com/88382462/195263693-86c89bbe-33aa-4625-8743-70fd6a976428.png)
+![image](https://user-images.githubusercontent.com/88382462/195792742-0a970046-f7eb-4283-a96e-036502c5f61d.png)
 
-
+========================================================================================
+匿名内部类
+![image](https://user-images.githubusercontent.com/88382462/195794365-d429243f-b87e-4bce-a16a-5c23d8af1cf6.png)
+![image](https://user-images.githubusercontent.com/88382462/195796546-a7d68049-352a-4c40-8e2c-baa1bd8fe3c4.png)
 
 
 
