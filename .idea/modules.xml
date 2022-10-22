@@ -16,7 +16,9 @@
       <module fileurl="file://$PROJECT_DIR$/day13-code/day13-code.iml" filepath="$PROJECT_DIR$/day13-code/day13-code.iml" />
       <module fileurl="file://$PROJECT_DIR$/day14-code/day14-code.iml" filepath="$PROJECT_DIR$/day14-code/day14-code.iml" />
       <module fileurl="file://$PROJECT_DIR$/day15-code/day15-code.iml" filepath="$PROJECT_DIR$/day15-code/day15-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/day16-code/day16-code.iml" filepath="$PROJECT_DIR$/day16-code/day16-code.iml" />
       <module fileurl="file://$PROJECT_DIR$/day13-code/oop-extends/oop-extends.iml" filepath="$PROJECT_DIR$/day13-code/oop-extends/oop-extends.iml" />
+      <module fileurl="file://$PROJECT_DIR$/puzzlegame/puzzlegame.iml" filepath="$PROJECT_DIR$/puzzlegame/puzzlegame.iml" />
       <module fileurl="file://$PROJECT_DIR$/studentsystem/studentsystem.iml" filepath="$PROJECT_DIR$/studentsystem/studentsystem.iml" />
     </modules>
   </component>
