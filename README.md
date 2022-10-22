@@ -233,6 +233,13 @@ final
 ========================================================================================
 GUI
 ![image](https://user-images.githubusercontent.com/88382462/196923244-775afbb2-8060-4180-9380-1359fe8f6c9f.png)
+![image](https://user-images.githubusercontent.com/88382462/197311400-95c798c7-8aef-4889-9161-9ddabb3bd62c.png)
+![image](https://user-images.githubusercontent.com/88382462/197311393-a51119d9-8f19-4c12-8f15-ab97719ec90a.png)
+![image](https://user-images.githubusercontent.com/88382462/197311465-67557037-1e27-440f-9f19-568d9efe1dd1.png)
+![image](https://user-images.githubusercontent.com/88382462/197311490-e726f93c-595d-4631-8b37-d5393f15b2e8.png)
+![image](https://user-images.githubusercontent.com/88382462/197316325-30d3b4e3-e44f-4368-805f-d7172e3508d5.png)
+![image](https://user-images.githubusercontent.com/88382462/197316480-e1679369-d7b3-423c-842e-05a8ed6855f7.png)
+
 
 
 
