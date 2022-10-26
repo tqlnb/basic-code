@@ -240,6 +240,11 @@ GUI
 ![image](https://user-images.githubusercontent.com/88382462/197316325-30d3b4e3-e44f-4368-805f-d7172e3508d5.png)
 ![image](https://user-images.githubusercontent.com/88382462/197316480-e1679369-d7b3-423c-842e-05a8ed6855f7.png)
 ![image](https://user-images.githubusercontent.com/88382462/197980394-ac2e4889-8a87-4f15-b355-911d259c8e1a.png)
+![image](https://user-images.githubusercontent.com/88382462/197989772-d1602dde-ca13-4023-a284-58ad0c24227e.png)
+![image](https://user-images.githubusercontent.com/88382462/197989820-81550170-7a16-4654-adb8-16b06dbb5062.png)
+![image](https://user-images.githubusercontent.com/88382462/197994468-5dc80479-3257-438a-8f06-4c8e6e8ff296.png)
+![image](https://user-images.githubusercontent.com/88382462/197994598-977efe20-8e35-455b-aee9-612fd103364a.png)
+
 
 
 
