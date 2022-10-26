@@ -1,18 +1,26 @@
 package com.tql.ui;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GameJFrame extends JFrame {
+    int [] [] data = new int[4][4];
     //JFrame 界面，窗体
     //子类呢? 也表示界面，窗体
     ///规定: GameJFrame这个界面表示的就是游戏的主界面
     // 以后跟游戏相关的所有逻辑都写在这个类中
     public GameJFrame(){
+
+
         //初始化
         jFrameInit();
 
         //初始化菜单
         JMenuBar jMenuBar = initJMenuBar();
+
+        //初始化数据(打乱)
+        initData();
+
 
         //给整个界面设置菜单
         this.setJMenuBar(jMenuBar);
@@ -24,11 +32,44 @@ public class GameJFrame extends JFrame {
         this.setVisible(true);
     }
 
+    private void initData() {
+        //1.定义一个一维数组
+        int [] tempArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        //2.打乱数组中的数据的顺序
+        //遍历数组，得到每一个元素，拿着每一个元素跟随机索引上的数据进行交换
+        Random r = new Random();
+        for(int i = 0;i < tempArr.length;i ++){
+            //获取到随机索引
+            int index = r.nextInt(tempArr.length);
+            int temp = tempArr[i];
+            tempArr[i] = tempArr[index];
+            tempArr[index] = temp;
+        }
+        for (int i : tempArr) {
+            System.out.print(i+" ");
+        }
+
+        System.out.println();
+
+
+        //5.给二维数组添加数据
+        //遍历二维数组，给里面的每一个数据赋值、
+        int index = 0;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j] = tempArr[index];
+                index ++;
+            }
+        }
+
+
+    }
+
     //初始化图片
     private void initImage() {
         for (int i = 0; i < 16; i++) {
             //创建一个JLabel的对象（管理容器)
-            JLabel jLabel = new JLabel(new ImageIcon("C:\\Users\\tql\\IdeaProjects\\basic-code\\puzzlegame\\image\\animal\\animal3\\"+(i+1)+".jpg"));
+            JLabel jLabel = new JLabel(new ImageIcon("C:\\Users\\tql\\IdeaProjects\\basic-code\\puzzlegame\\image\\animal\\animal3\\"+data[i/4][i%4]+".jpg"));
             //指定图片的位置
             jLabel.setBounds(105*(i%4),105*(i/4),105,105);//105*(i%4)是横坐标  105*(i/4)是纵坐标
             //把管理容器添加到界面中

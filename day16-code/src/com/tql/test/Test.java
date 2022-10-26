@@ -21,6 +21,46 @@ public class Test {
             tempArr[i] = tempArr[index];
             tempArr[index] = temp;
         }
+        for (int i : tempArr) {
+            System.out.print(i+" ");
+        }
+
+        System.out.println();
+
+        int [] [] data = new int[4][4];
+/*
+        //给二维数组添加数据
+        // 解法一:
+        //遍历一维数组tempArr得到每一个元素，把每一个元素依次添加到二维数组当中
+        for (int i = 0; i < tempArr.length; i++) {
+            data[i/4][i%4] = tempArr[i];
+        }
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.print(data[i][j]+" ");
+            }
+            System.out.println();
+        }
+*/
+
+        //5.给二维数组添加数据
+        // 解法二:
+        //遍历二维数组，给里面的每一个数据赋值、
+        int index = 0;
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j] = tempArr[index];
+                index ++;
+            }
+        }
+
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.print(data[i][j]+" ");
+            }
+            System.out.println();
+        }
+
 
     }
 }
