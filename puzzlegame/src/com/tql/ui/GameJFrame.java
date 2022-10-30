@@ -1,6 +1,7 @@
 package com.tql.ui;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.util.Random;
 
 public class GameJFrame extends JFrame {
@@ -67,15 +68,38 @@ public class GameJFrame extends JFrame {
 
     //初始化图片
     private void initImage() {
+
+        //路径分为两种:
+        //绝对路径:一定是从盘符开始的。C: \  D: \
+        //相对路径:不是从盘符开始的
+        //相对路径相对当前项目而言的。 aaa\ bbb
+        //在当前项目下，去找aaa文件夹，里面再找bbb文件夹。
+
+        //细节:
+        //先加载的图片在上方，后加载的图片塞在下面。
+
+
         for (int i = 0; i < 16; i++) {
             //创建一个JLabel的对象（管理容器)
-            JLabel jLabel = new JLabel(new ImageIcon("C:\\Users\\tql\\IdeaProjects\\basic-code\\puzzlegame\\image\\animal\\animal3\\"+data[i/4][i%4]+".jpg"));
+            JLabel jLabel = new JLabel(new ImageIcon("puzzlegame\\image\\animal\\animal3\\"+data[i/4][i%4]+".jpg"));
             //指定图片的位置
-            jLabel.setBounds(105*(i%4),105*(i/4),105,105);//105*(i%4)是横坐标  105*(i/4)是纵坐标
+            jLabel.setBounds(105*(i%4)+83,105*(i/4)+134,105,105);//105*(i%4)是横坐标  105*(i/4)是纵坐标
+            //给图片添加边框
+            //0:表示让图片凸起来
+            //1:表示让图片凹下去
+            jLabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
             //把管理容器添加到界面中
             this.getContentPane().add(jLabel);
 
         }
+
+        //添加背景图片
+        JLabel background = new JLabel(new ImageIcon("puzzlegame\\image\\background.png"));
+        background.setBounds(40,40,508,560);
+        //把背景图片添加到界面中
+        this.getContentPane().add(background);
+
+
         
 /*
         //创建一个图片ImageIcon的对象
