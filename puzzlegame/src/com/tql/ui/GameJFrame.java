@@ -26,6 +26,14 @@ public class GameJFrame extends JFrame implements KeyListener , ActionListener {
     //定义变量用来统计步数
     int step = 0;
 
+    //创建下面的条目对象
+    JMenuItem replayItem = new JMenuItem("重新游戏");
+    JMenuItem reLoginItem = new JMenuItem("重新登陆");
+    JMenuItem closeItem = new JMenuItem("关闭游戏");
+
+    JMenuItem accountItem = new JMenuItem("作者信息");
+
+
     //JFrame 界面，窗体
     //子类呢? 也表示界面，窗体
     ///规定: GameJFrame这个界面表示的就是游戏的主界面
@@ -187,12 +195,6 @@ public class GameJFrame extends JFrame implements KeyListener , ActionListener {
         JMenu function = new JMenu("功能");
         JMenu aboutJMenu = new JMenu("关于我们");
 
-        //创建下面的条目对象
-        JMenuItem replayItem = new JMenuItem("重新游戏");
-        JMenuItem reLoginItem = new JMenuItem("重新登陆");
-        JMenuItem closeItem = new JMenuItem("关闭游戏");
-
-        JMenuItem accountItem = new JMenuItem("作者信息");
 
         //将选项下面的条目加入选项
         function.add(replayItem);
@@ -343,6 +345,47 @@ public class GameJFrame extends JFrame implements KeyListener , ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //获取当前被点击的条目对象
+        Object obj = e.getSource();
+        if(obj == replayItem){
+            System.out.println("重新游戏");
+            //计步器清零
+            step = 0;
+            //再次打乱二维数组中的数踞
+            initData();
+            //重新加载图片
+            initImage();
 
+        } else if (obj == reLoginItem) {
+            System.out.println("重新登录");
+            //关闭当前的游戏界面
+            this.setVisible(false);
+            //打开登录界面
+            new LoginJFrame();
+
+        } else if (obj == closeItem) {
+            System.out.println("关闭游戏");
+            //直接关闭虚拟机
+            System.exit(0);
+
+        } else if (obj == accountItem) {
+            System.out.println("作者信息");
+            JDialog jDialog = new JDialog();
+            JLabel jLabel = new JLabel("tqlNb");
+            //设置位置和宽高
+            jLabel.setBounds(100,100,150,60);
+            //把图片添加到弹框
+            jDialog.getContentPane().add(jLabel);
+            //给弹框设置大小
+            jDialog.setSize(344,344);
+            //弹框置顶
+            jDialog.setAlwaysOnTop(true);
+            //弹框居中
+            jDialog.setLocationRelativeTo(null);
+            //弹框不关闭无法操作下面的界面
+            jDialog.setModal(true);
+            //让弹框显示
+            jDialog.setVisible(true);
+        }
     }
 }
