@@ -2,10 +2,30 @@ package com.tql.ui;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameJFrame extends JFrame {
+public class GameJFrame extends JFrame implements KeyListener , ActionListener {
     int [] [] data = new int[4][4];
+    //记录空白方块在二维数组中的位置
+    int x = 0, y = 0;
+
+    String path = "puzzlegame\\image\\animal\\animal3\\";
+
+    //定义一个二维数组，展示正确的路径
+    int[][]win = {
+        {1,2,3,4},
+        {5,6,7,8},
+        {9,10,11,12},
+        {13,14,15,0},
+    };
+
+    //定义变量用来统计步数
+    int step = 0;
+
     //JFrame 界面，窗体
     //子类呢? 也表示界面，窗体
     ///规定: GameJFrame这个界面表示的就是游戏的主界面
@@ -46,11 +66,11 @@ public class GameJFrame extends JFrame {
             tempArr[i] = tempArr[index];
             tempArr[index] = temp;
         }
-        for (int i : tempArr) {
+/*        for (int i : tempArr) {
             System.out.print(i+" ");
         }
 
-        System.out.println();
+        System.out.println();*/
 
 
         //5.给二维数组添加数据
@@ -58,6 +78,10 @@ public class GameJFrame extends JFrame {
         int index = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
+                if(tempArr[index] == 0){
+                    x = index / 4;
+                    y = index % 4;
+                }
                 data[i][j] = tempArr[index];
                 index ++;
             }
@@ -68,6 +92,21 @@ public class GameJFrame extends JFrame {
 
     //初始化图片
     private void initImage() {
+
+        //清空原本已经出现的图片
+        this.getContentPane().removeAll();
+
+        //判断胜利
+        if(victory()) {
+            JLabel winJlable = new JLabel(new ImageIcon("puzzlegame\\image\\win.png"));
+            winJlable.setBounds(203,283,297,73);
+            this.getContentPane().add(winJlable);
+        }
+
+        //显示步数
+        JLabel stepCount = new JLabel("步数"+step);
+        stepCount.setBounds(50,30,100,20);
+        this.getContentPane().add(stepCount);
 
         //路径分为两种:
         //绝对路径:一定是从盘符开始的。C: \  D: \
@@ -81,7 +120,7 @@ public class GameJFrame extends JFrame {
 
         for (int i = 0; i < 16; i++) {
             //创建一个JLabel的对象（管理容器)
-            JLabel jLabel = new JLabel(new ImageIcon("puzzlegame\\image\\animal\\animal3\\"+data[i/4][i%4]+".jpg"));
+            JLabel jLabel = new JLabel(new ImageIcon(path+data[i/4][i%4]+".jpg"));
             //指定图片的位置
             jLabel.setBounds(105*(i%4)+83,105*(i/4)+134,105,105);//105*(i%4)是横坐标  105*(i/4)是纵坐标
             //给图片添加边框
@@ -99,6 +138,9 @@ public class GameJFrame extends JFrame {
         //把背景图片添加到界面中
         this.getContentPane().add(background);
 
+        //刷新一下界面
+        this.getContentPane().repaint();
+
 
         
 /*
@@ -113,7 +155,6 @@ public class GameJFrame extends JFrame {
         //获取隐藏容器并添加管理容器
         this.getContentPane().add(jLabel1);
 */
-
 
 
     }
@@ -132,9 +173,11 @@ public class GameJFrame extends JFrame {
 
         //取消默认的居中放置，只有取消了才会按xy轴的方式添加组件
         this.setLayout(null);
+        //添加键盘监听事件
+        this.addKeyListener(this);
     }
 
-    private static JMenuBar initJMenuBar() {
+    private JMenuBar initJMenuBar() {
         //初始化菜单
         //创建整个菜单对象
         JMenuBar jMenuBar = new JMenuBar();
@@ -158,9 +201,148 @@ public class GameJFrame extends JFrame {
 
         aboutJMenu.add(accountItem);
 
+        //给条目绑定事件
+        replayItem.addActionListener(this);
+        reLoginItem.addActionListener(this);
+        closeItem.addActionListener(this);
+        accountItem.addActionListener(this);
+
         //菜单的选项加入菜单
         jMenuBar.add(function);
         jMenuBar.add(aboutJMenu);
         return jMenuBar;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if(keyCode == 65){
+            //把界面中的图片删除
+            this.getContentPane().removeAll();
+            //加载完整图片
+            JLabel all = new JLabel(new ImageIcon(path +"all.jpg"));
+            all.setBounds(83,134,420,420);
+            this.getContentPane().add(all);
+            //添加背景图片
+            JLabel background = new JLabel(new ImageIcon("puzzlegame\\image\\background.png"));
+            background.setBounds(40,40,508,560);
+            //把背景图片添加到界面中
+            this.getContentPane().add(background);
+
+            //刷新一下界面
+            this.getContentPane().repaint();
+
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //判断游戏是否胜利，如果胜利，此方法需要直接结束，不能再执行下面的移动代码了
+        if(victory()){
+            return;
+        }
+
+        //对上下左右判断
+        //左:37 上: 38 右:39 下:40
+        int code = e.getKeyCode();
+        if(code == 37){
+            //左
+            System.out.println("向左移动");
+            if(y==3){
+                return;
+            }
+            data[x][y] = data[x][y+1];
+            data[x][y+1] = 0;
+            y++;
+            //每移动一次,步数自增一次
+            step ++;
+
+            initImage();
+
+
+        } else if (code == 38) {
+            //上
+            System.out.println("向上移动");
+            if(x == 3){
+                return;
+            }
+            data[x][y] = data[x+1][y];
+            data[x+1][y] = 0;
+            x++;
+            //每移动一次,步数自增一次
+            step ++;
+
+            initImage();
+
+        } else if (code == 39) {
+            //右
+            System.out.println("向右移动");
+            if(y==0){
+                return;
+            }
+            data[x][y] = data[x][y-1];
+            data[x][y-1] = 0;
+            y--;
+            //每移动一次,步数自增一次
+            step ++;
+
+            initImage();
+
+
+        } else if (code == 40) {
+            //下
+            System.out.println("向下移动");
+            if(x == 0){
+                return;
+            }
+
+            data[x][y] = data[x-1][y];
+            data[x-1][y] = 0;
+            x--;
+            //每移动一次,步数自增一次
+            step ++;
+
+            initImage();
+
+
+        } else if (code == 65) {
+            initImage();
+        } else if (code == 87) {
+            //按w一键通关
+            data = new int[][]{
+                    {1,2,3,4},
+                    {5,6,7,8},
+                    {9,10,11,12},
+                    {13,14,15,0},
+
+            };
+            initImage();
+        }
+
+    }
+
+    //判断data数组中的数据是否跟win数组中相同
+    //如果全部相同，返回true。否则返回false
+    public boolean victory(){
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                if(data[i][j] != win[i][j]){
+                    //有一个数据不一样,返回false
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
