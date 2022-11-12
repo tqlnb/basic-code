@@ -245,7 +245,11 @@ GUI
 ![image](https://user-images.githubusercontent.com/88382462/197994468-5dc80479-3257-438a-8f06-4c8e6e8ff296.png)
 ![image](https://user-images.githubusercontent.com/88382462/197994598-977efe20-8e35-455b-aee9-612fd103364a.png)
 
-
+=========================================================================================
+MATH
+![image](https://user-images.githubusercontent.com/88382462/200764190-add2f3ff-7071-4071-b3dc-d7459cfad150.png)
+![image](https://user-images.githubusercontent.com/88382462/201478751-88158b35-9573-4560-8666-e6d6a60d3f9a.png)
+![image](https://user-images.githubusercontent.com/88382462/201479007-4d835e91-944c-4cfd-9d09-63902ce8fbd0.png)
 
 
 
