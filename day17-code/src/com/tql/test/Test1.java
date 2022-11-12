@@ -11,6 +11,7 @@ public class Test1 {
         int input = sc.nextInt();
         isPrime(input);
         long end = System.currentTimeMillis();
+        //判断程序运行了多少毫秒
         System.out.println(end - begin +"毫秒");
     }
 
