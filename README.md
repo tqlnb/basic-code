@@ -251,6 +251,10 @@ MATH
 ![image](https://user-images.githubusercontent.com/88382462/201478751-88158b35-9573-4560-8666-e6d6a60d3f9a.png)
 ![image](https://user-images.githubusercontent.com/88382462/201479007-4d835e91-944c-4cfd-9d09-63902ce8fbd0.png)
 
+SYSTEM
+![image](https://user-images.githubusercontent.com/88382462/201480948-747235d7-4ee7-4247-8323-ea8e334bb10a.png)
+![image](https://user-images.githubusercontent.com/88382462/201480916-681590ad-dfc9-4f01-b29b-7edf57f5a6a6.png)
+![image](https://user-images.githubusercontent.com/88382462/201482246-f7a516da-df49-456a-b281-d3617273214a.png)
 
 
 
