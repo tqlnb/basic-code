@@ -248,7 +248,8 @@ GUI
 =========================================================================================
 MATH
 ![image](https://user-images.githubusercontent.com/88382462/200764190-add2f3ff-7071-4071-b3dc-d7459cfad150.png)
-
+![image](https://user-images.githubusercontent.com/88382462/201478751-88158b35-9573-4560-8666-e6d6a60d3f9a.png)
+![image](https://user-images.githubusercontent.com/88382462/201479007-4d835e91-944c-4cfd-9d09-63902ce8fbd0.png)
 
 
 
