@@ -256,6 +256,19 @@ SYSTEM
 ![image](https://user-images.githubusercontent.com/88382462/201480916-681590ad-dfc9-4f01-b29b-7edf57f5a6a6.png)
 ![image](https://user-images.githubusercontent.com/88382462/201482246-f7a516da-df49-456a-b281-d3617273214a.png)
 
+RUNTIME
+![image](https://user-images.githubusercontent.com/88382462/201514149-0d7deccb-1cc6-4e42-b0bc-8b6bd64125cd.png)
+![image](https://user-images.githubusercontent.com/88382462/201514159-35c94581-09c1-45b9-b09c-8536a88b4b61.png)
+
+OBJECT
+![image](https://user-images.githubusercontent.com/88382462/201514278-3ac501be-4849-409f-b462-496bd1682f7c.png)
+![image](https://user-images.githubusercontent.com/88382462/201514302-75ea8fa9-2a31-4df3-93f3-37b2ceab4338.png)
+ ![image](https://user-images.githubusercontent.com/88382462/201514715-57b9d985-4a52-4457-a2bf-d5c6ad72b670.png)
+![image](https://user-images.githubusercontent.com/88382462/201514989-434ce7c2-7c42-4f75-883f-7c168386e60d.png)
+
+
+
+
 
 
  
