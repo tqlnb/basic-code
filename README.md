@@ -276,6 +276,17 @@ OBJECT
 ![image](https://user-images.githubusercontent.com/88382462/201516765-cb35da72-235e-4658-b6e0-a7002a3be0f3.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516792-8fc81685-3c07-4076-a7f3-591ec34126f3.png)
 
+OBJECTS
+![image](https://user-images.githubusercontent.com/88382462/201690011-372cf37d-0e12-447c-b798-77ce08830a97.png)
+![image](https://user-images.githubusercontent.com/88382462/201691646-428c632f-4839-42b0-9922-d7d0dcb3cae2.png)
+
+BigInteger
+![image](https://user-images.githubusercontent.com/88382462/201692963-c96f9e39-0412-4c6b-bef3-da4ffa52da7e.png)
+
+
+
+
+
 
 
 
