@@ -256,6 +256,43 @@ SYSTEM
 ![image](https://user-images.githubusercontent.com/88382462/201480916-681590ad-dfc9-4f01-b29b-7edf57f5a6a6.png)
 ![image](https://user-images.githubusercontent.com/88382462/201482246-f7a516da-df49-456a-b281-d3617273214a.png)
 
+RUNTIME
+![image](https://user-images.githubusercontent.com/88382462/201514149-0d7deccb-1cc6-4e42-b0bc-8b6bd64125cd.png)
+![image](https://user-images.githubusercontent.com/88382462/201514159-35c94581-09c1-45b9-b09c-8536a88b4b61.png)
+
+OBJECT
+![image](https://user-images.githubusercontent.com/88382462/201514278-3ac501be-4849-409f-b462-496bd1682f7c.png)
+![image](https://user-images.githubusercontent.com/88382462/201514302-75ea8fa9-2a31-4df3-93f3-37b2ceab4338.png)
+ ![image](https://user-images.githubusercontent.com/88382462/201514715-57b9d985-4a52-4457-a2bf-d5c6ad72b670.png)
+![image](https://user-images.githubusercontent.com/88382462/201514989-434ce7c2-7c42-4f75-883f-7c168386e60d.png)
+![image](https://user-images.githubusercontent.com/88382462/201515215-4164c423-e8f8-45d1-adab-7f0e079b6771.png)
+![image](https://user-images.githubusercontent.com/88382462/201515557-bad20d9e-b956-473e-bea1-6dba832f6a0c.png)
+![image](https://user-images.githubusercontent.com/88382462/201515746-d5ce739d-7abf-4033-a68c-d34d22e2060c.png)
+![image](https://user-images.githubusercontent.com/88382462/201516056-5640170d-598f-447d-93d9-42b2f6e18310.png)
+![image](https://user-images.githubusercontent.com/88382462/201516124-5bf37ad7-e7a6-4a9d-a0ae-10d8b105e285.png)
+![image](https://user-images.githubusercontent.com/88382462/201516181-544615e3-a52f-445d-afe6-bf347922bf86.png)
+![image](https://user-images.githubusercontent.com/88382462/201516200-a6203523-0440-44f4-9c9b-6d48a1b6db4d.png)
+![image](https://user-images.githubusercontent.com/88382462/201516281-18aa38a7-d90d-41f0-992b-92ec1464736c.png)
+![image](https://user-images.githubusercontent.com/88382462/201516765-cb35da72-235e-4658-b6e0-a7002a3be0f3.png)
+![image](https://user-images.githubusercontent.com/88382462/201516792-8fc81685-3c07-4076-a7f3-591ec34126f3.png)
+
+OBJECTS
+![image](https://user-images.githubusercontent.com/88382462/201690011-372cf37d-0e12-447c-b798-77ce08830a97.png)
+![image](https://user-images.githubusercontent.com/88382462/201691646-428c632f-4839-42b0-9922-d7d0dcb3cae2.png)
+
+BigInteger
+![image](https://user-images.githubusercontent.com/88382462/201692963-c96f9e39-0412-4c6b-bef3-da4ffa52da7e.png)
+![image](https://user-images.githubusercontent.com/88382462/201699816-16fd12bf-1f51-4e0d-a4d0-a4bb4c4a6bbc.png)
+![image](https://user-images.githubusercontent.com/88382462/201700211-fc75ea3e-d7ea-450b-b6a4-8e3b93f4e562.png)
+
+
+
+
+
+
+
+
+
 
 
  
