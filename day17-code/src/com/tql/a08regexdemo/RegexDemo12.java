@@ -29,7 +29,7 @@ public class RegexDemo12 {
         //(.):把首字母看做一组
         // \\2:把首字母拿出来再次使用
         // *:作用于\\2,表示后面重复的内容出现日次或多次
-        String regex3 = "((.)\\2*).+\\1";
+        String regex3 = "((.)\\2+).+\\1";
         System.out.println("aaa123aaa".matches(regex3));
         System.out.println("bbb456bbb".matches(regex3));
         System.out.println("111789111".matches(regex3));
