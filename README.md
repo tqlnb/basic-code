@@ -353,6 +353,10 @@ Regex:正则表达式  Date Calendar
 键盘录入更规范的写法
 ![image](https://user-images.githubusercontent.com/88382462/203073493-8a53cfa2-c812-49e8-bf02-6d87fe6b2462.png)
 
+练习
+![image](https://user-images.githubusercontent.com/88382462/203094884-4ec17fd0-63d1-4d1c-a735-acfdf5d132ce.png)
+![image](https://user-images.githubusercontent.com/88382462/203094789-03a71d43-3914-4aa0-b784-1dc978f9d607.png)
+
 
 
 
