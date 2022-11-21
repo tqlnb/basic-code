@@ -11,10 +11,10 @@ public class A01_IntegerDemo1 {
         */
 
         //1.利用构造方法获取Integer的对象(JDK5以前的方式)
-        /*Integer i1 = new Integer(1);
+        Integer i1 = new Integer(1);
         Integer i2 = new Integer("1");
         System.out.println(i1);
-        System.out.println(i2);*/
+        System.out.println(i2);
 
         //2.利用静态方法获取Integer的对象(JDK5以前的方式)
         Integer i3 = Integer.valueOf(123);
@@ -41,12 +41,12 @@ public class A01_IntegerDemo1 {
 
         //因为看到了new关键字，在Java中，每一次new都是创建了一个新的对象
         //所以下面的两个对象都是new出来，地址值不一样。
-        /*Integer i10 = new Integer(127);
+        Integer i10 = new Integer(127);
         Integer i11 = new Integer(127);
         System.out.println(i10 == i11);
 
         Integer i12 = new Integer(128);
         Integer i13 = new Integer(128);
-        System.out.println(i12 == i13);*/
+        System.out.println(i12 == i13);
     }
 }

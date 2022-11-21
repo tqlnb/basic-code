@@ -10,7 +10,8 @@ public class A05_IntegerDemo5 {
         /* String str = sc.next();
         System.out.println(str);*/
         //弊端:
-        //当我们在使用next，nextInt，nextDouble在接收数据的时候，遇到空格，回车，制表符的时候就停止了
+        //当我们在使用next，nextInt，nextDouble在接收数据的时候，
+        //遇到空格，回车，制表符的时候就停止了
         //键盘录入的是123 123 那么此时只能接收到空格前面的数据
         //我想要的是接收一整行数据
         //约定:

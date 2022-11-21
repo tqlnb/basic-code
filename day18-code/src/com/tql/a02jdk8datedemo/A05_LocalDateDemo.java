@@ -9,7 +9,7 @@ public class A05_LocalDateDemo {
     public static void main(String[] args) {
         //1.获取当前时间的日历对象(包含 年月日)
         LocalDate nowDate = LocalDate.now();
-        //System.out.println("今天的日期:" + nowDate);
+        System.out.println("今天的日期:" + nowDate);
         //2.获取指定的时间的日历对象
         LocalDate ldDate = LocalDate.of(2023, 1, 1);
         System.out.println("指定日期:" + ldDate);
@@ -67,7 +67,8 @@ public class A05_LocalDateDemo {
         MonthDay birMd = MonthDay.of(birDate.getMonthValue(), birDate.getDayOfMonth());
         MonthDay nowMd = MonthDay.from(nowDate1);
 
-        System.out.println("今天是你的生日吗? " + birMd.equals(nowMd));//今天是你的生日吗?
+        System.out.println("今天是你的生日吗? " + birMd.equals(nowMd));
+        //今天是你的生日吗?
 
     }
 }

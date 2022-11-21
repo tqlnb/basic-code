@@ -10,7 +10,7 @@ public class A08_PeriodDemo {
         System.out.println(today);
 
         // 生日的 年月日
-        LocalDate birthDate = LocalDate.of(2000, 1, 1);
+        LocalDate birthDate = LocalDate.of(2000, 8, 29);
         System.out.println(birthDate);
 
         Period period = Period.between(birthDate, today);//第二个参数减第一个参数

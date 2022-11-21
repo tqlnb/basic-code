@@ -10,7 +10,8 @@ public class A09_DurationDemo {
         System.out.println(today);
 
         // 出生的日期时间对象
-        LocalDateTime birthDate = LocalDateTime.of(2000, 1, 1, 0, 0, 0);
+        LocalDateTime birthDate = LocalDateTime.of(2000, 1, 1,
+                0, 0, 0);
         System.out.println(birthDate);
 
         Duration duration = Duration.between(birthDate, today);//第二个参数减第一个参数
