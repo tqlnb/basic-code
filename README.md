@@ -390,10 +390,23 @@ Regex:正则表达式  Date Calendar
 
 Arrays
 ![image](https://user-images.githubusercontent.com/88382462/204129419-2c2990fe-ecd9-434e-a642-0397bbb63549.png)
-
-
-
-
+![image](https://user-images.githubusercontent.com/88382462/212838345-b5df044a-c7f0-4987-8758-0a85a3f40fc4.png)
+![image](https://user-images.githubusercontent.com/88382462/212838577-6c0f78ee-a296-485a-95dd-13d66b733cc9.png)
+![image](https://user-images.githubusercontent.com/88382462/212840022-05df4f80-1740-40d0-887d-e66a1941d416.png)
+![image](https://user-images.githubusercontent.com/88382462/212841260-4843be3b-938d-4066-bae3-195775ba72cc.png)
+![image](https://user-images.githubusercontent.com/88382462/212843080-3344b9e5-1e09-4d7d-9b2a-e5ced56a77ef.png)
+=============================
+Lambda表达式
+![image](https://user-images.githubusercontent.com/88382462/212844111-18b06548-a878-471b-87f4-894c2965c257.png)
+![image](https://user-images.githubusercontent.com/88382462/212844491-e2585351-7c52-47d4-a41d-72dc36b01929.png)
+![image](https://user-images.githubusercontent.com/88382462/212844821-312a043d-cfe7-4e08-9a12-524b2b7691f2.png)
+![image](https://user-images.githubusercontent.com/88382462/212846790-87b04796-d288-499d-9b06-24e390d604bf.png)
+![image](https://user-images.githubusercontent.com/88382462/212846834-4a9a184a-873d-46ab-a2b5-bab380d2a37f.png)
+![image](https://user-images.githubusercontent.com/88382462/212846974-1b2780e0-8f0a-474d-93ff-4eef4da674a3.png)
+![image](https://user-images.githubusercontent.com/88382462/212847403-ef1b6ee4-3396-49f6-88d3-48cb08b5b018.png)
+![image](https://user-images.githubusercontent.com/88382462/212847886-5f52aa37-6322-499b-aa7b-04c215adf758.png)
+![image](https://user-images.githubusercontent.com/88382462/212848511-b143a293-219f-4d98-90b4-d77b1cd86244.png)
+![image](https://user-images.githubusercontent.com/88382462/212850833-ec22ddc5-b582-4d90-9875-cc6e1802fbe0.png)
 
 
 
