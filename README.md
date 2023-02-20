@@ -438,6 +438,8 @@ lambda表达式遍历
 ![image](https://user-images.githubusercontent.com/88382462/219998998-d200c272-aaa1-415b-98c8-a9cd82ef6ea5.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999476-31d36b56-b155-4010-add3-d2efe674a982.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999888-9ea24500-925e-48bd-8f9d-b4d43959137d.png)
+
+list
 ![image](https://user-images.githubusercontent.com/88382462/220021481-4ef87a57-3a2d-47a0-8a80-80ba90cf587e.png)
 
 ```
@@ -467,7 +469,7 @@ lambda表达式遍历
 
         //E set(int index,E element)         
         //修改指定索引处的元素，返回被修改的元素
-        String result = list.set(0, "QQQ");
+        String result = list.set(0, "QQQ");   //aaa
         System.out.println(result);
 
         // E get(int index)                   
@@ -480,6 +482,114 @@ lambda表达式遍历
         System.out.println(list);
 ```
 
+list.remove 删除的小细节
+
+```ruby
+//List系列集合中的两个删除的方法
+        //1.直接删除元素
+        //2.通过索引进行删除
+
+        //1.创建集合并添加元素
+        List<Integer> list = new ArrayList<>();
+
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+
+        //2.删除元素
+        //请问：此时删除的是1这个元素，还是1索引上的元素？
+        //为什么？
+        //因为在调用方法的时候，如果方法出现了重载现象
+        //优先调用，实参跟形参类型一致的那个方法。
+
+        list.remove(1);
+
+
+        //手动装箱，手动把基本数据类型的1，变成Integer类型
+        Integer i = Integer.valueOf(1);
+
+        list.remove(i);
+
+        System.out.println(list);
+```
+
+list集合的5种遍历方式
+
+```
+  1.迭代器
+  2.列表迭代器
+  3.增强for
+  4.Lambda表达式
+  5.普通for循环
+```
+
+1.迭代器
+
+```ruby
+ Iterator<String> it = list.iterator();
+  while(it.hasNext()){
+      String str = it.next();
+      System.out.println(str);
+  }
+        
+```
+
+2.增强for
+
+```ruby
+ //2.增强for
+ //下面的变量s，其实就是一个第三方的变量而已。
+ //在循环的过程中，依次表示集合中的每一个元素
+ for (String s : list) {
+     System.out.println(s);
+ }
+
+```
+
+3.lambda表达式
+
+```ruby
+ //3.Lambda表达式
+ //forEach方法的底层其实就是一个循环遍历，依次得到集合中的每一个元素
+ //并把每一个元素传递给下面的accept方法
+ //accept方法的形参s，依次表示集合中的每一个元素
+ list.forEach(s->System.out.println(s) );
+
+```
+4.普通for循环
+
+```ruby
+ //4.普通for循环
+ //size方法跟get方法还有循环结合的方式，利用索引获取到集合中的每一个元素
+ for (int i = 0; i < list.size(); i++) {
+     //i:依次表示集合中的每一个索引
+     String s = list.get(i);
+     System.out.println(s);
+ }
+
+```
+
+5.列表迭代器
+
+```ruby
+ // 5.列表迭代器
+ //获取一个列表迭代器的对象，里面的指针默认也是指向0索引的
+
+ //额外添加了一个方法：在遍历的过程中，可以添加元素
+ ListIterator<String> it = list.listIterator();
+ while(it.hasNext()){
+     String str = it.next();
+     if("bbb".equals(str)){
+         //qqq
+         it.add("qqq");
+     }
+ }
+ System.out.println(list);
+
+```
+
+![image](https://user-images.githubusercontent.com/88382462/220029603-96efbf8d-b49b-4974-ac78-47342988b7ea.png)
 
 
 
@@ -489,5 +599,15 @@ lambda表达式遍历
 
 
 
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
