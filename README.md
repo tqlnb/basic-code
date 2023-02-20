@@ -785,8 +785,62 @@ public class GenericsDemo3 {
 }
 ```
 
+泛型接口
 
+![image](https://user-images.githubusercontent.com/88382462/220043693-99882c7d-baa6-4f11-9844-917edc7f0135.png)
+
+泛型接口的两种使用方式：
+   1.实现类给出具体的类型
+   2.实现类延续泛型，创建实现类对象时再确定类型
+   
+```ruby
+//1.实现类给出具体的类型
+public class MyArrayList2 implements List<String> {}
+//2.实现类延续泛型，创建实现类对象时再确定类型
+public class MyArrayList3<E> implements List<E>{}
+```
+
+**泛型的继承和通配符**
+泛型不具备继承性，数据具备继承性
+
+```ruby
+public  static <E> void method(ArrayList<E> list) {
+
+}
+```
+
+需求： 定义一个方法，形参是一个集合，但是集合中的数据类型不确定。
  
+```ruby
+ /*
+     * 此时，泛型里面写的是什么类型，那么只能传递什么类型的数据。
+     * 弊端：
+     *      利用泛型方法有一个小弊端，此时他可以接受任意的数据类型
+     *      Ye  Fu   Zi    Student
+     *
+     * 希望：本方法虽然不确定类型，但是以后我希望只能传递Ye Fu Zi
+     *
+     * 此时我们就可以使用泛型的通配符：
+     *      ?也表示不确定的类型
+     *      他可以进行类型的限定
+     *      ? extends E: 表示可以传递E或者E所有的子类类型
+     *      ? super E:表示可以传递E或者E所有的父类类型
+     *
+     * 应用场景：
+     *      1.如果我们在定义类、方法、接口的时候，如果类型不确定，就可以定义泛型类、泛型方法、泛型接口。
+     *      2.如果类型不确定，但是能知道以后只能传递某个继承体系中的，就可以泛型的通配符
+     * 泛型的通配符：
+     *      关键点：可以限定类型的范围。
+     *
+     * */
+```
+
+```ruby
+public static void method(ArrayList<? super Fu> list) {
+
+}
+```
+
  
  
  
