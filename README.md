@@ -670,7 +670,11 @@ list的实现类
 ![image](https://user-images.githubusercontent.com/88382462/220093950-07bf92d7-8603-4aa3-b758-591886a7b055.png)
 ![image](https://user-images.githubusercontent.com/88382462/220093992-f13e770e-b693-4505-8e34-1ee3379825f7
 
-
+红黑树
+![image](https://user-images.githubusercontent.com/88382462/220095287-0a6e24a3-80d9-4ea8-9353-5e1d6d7da9a6.png)
+![image](https://user-images.githubusercontent.com/88382462/220095732-87425e79-a880-4f76-bc5e-62b4dcc80068.png)
+红黑树添加节点的规则
+![image](https://user-images.githubusercontent.com/88382462/220097996-294dee22-873d-43b6-b74e-9cafebcdc24e.png)
 
 
 
