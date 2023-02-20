@@ -591,12 +591,199 @@ list集合的5种遍历方式
 
 ![image](https://user-images.githubusercontent.com/88382462/220029603-96efbf8d-b49b-4974-ac78-47342988b7ea.png)
 
+list的实现类
+
+数据结构
+![image](https://user-images.githubusercontent.com/88382462/220030693-20573337-597f-4131-bed8-a05af3cd3f1a.png)
+![image](https://user-images.githubusercontent.com/88382462/220030845-183ccf5b-9267-4139-8172-f0e05a51830f.png)
+
+栈
+![image](https://user-images.githubusercontent.com/88382462/220031566-16336ede-14de-4606-bb63-0f60e507b623.png)
+![image](https://user-images.githubusercontent.com/88382462/220031700-a1310d5a-eafa-4eab-98e0-f0c598013b8d.png)
+
+队列
+![image](https://user-images.githubusercontent.com/88382462/220031941-63421719-1488-49ae-b291-c8d88008b9f9.png)
+
+数组
+![image](https://user-images.githubusercontent.com/88382462/220032502-f43751fa-6224-454a-82c7-996be2313b05.png)
+
+链表
+![image](https://user-images.githubusercontent.com/88382462/220033617-ca82eb99-5c0e-4a98-b59b-47fae0ce2c42.png)
+![image](https://user-images.githubusercontent.com/88382462/220033748-714670e0-3521-4bf9-97fd-94733303eb71.png)
+![image](https://user-images.githubusercontent.com/88382462/220033952-4e2de156-0361-4c9d-9872-2aba86982a1a.png)
+![image](https://user-images.githubusercontent.com/88382462/220034119-77170c52-3e1e-4e88-b0b5-47a2b67bad49.png)
+
+LinkedList
+以下几种方法不常用
+![image](https://user-images.githubusercontent.com/88382462/220034890-e337f11e-aeb4-4e2f-a9f9-7e9e4197b339.png)
+
+泛型
+
+泛型概述
+![image](https://user-images.githubusercontent.com/88382462/220035567-477f2fe9-0972-4331-a11b-8117c199203a.png)
+
+没有泛型的时候，集合如何存储数据？
+    结论：
+    如果我们没有给集合指定类型，默认认为所有的数据类型都是Object类型
+    此时可以往集合添加任意的数据类型。
+    **带来一个坏处：我们在获取数据的时候，无法使用他的特有行为。**
+    此时推出了泛型，可以在添加数据的时候就把类型进行统一。
+    而且我们在获取数据的时候，也省的强转了，非常的方便。
+    
+没有泛型时
+```ruby
+ //1.创建集合的对象
+ ArrayList<String> list = new ArrayList<>();
+
+ //2.添加数据
+ list.add(123);
+ list.add("aaa");
+ list.add(new Student("zhangsan",123));
 
 
+ //3.遍历集合获取里面的每一个元素
+ Iterator<String> it = list.iterator();
+ while(it.hasNext()){
+     String str = it.next();
+     //多态的弊端是不能访问子类的特有功能
+     //obj.length();
+     //str.length();
+     System.out.println(str);
+ }
+```
+
+**泛型的好处**
+1.统一数据类型。
+2.把运行时期的问题提前到了编译期间，避免了强制类型转换可能出现的异常，因为在编译阶段类型就能确定下来。
+
+Java里的泛型是伪泛型
+
+**泛型的细节**
+1.泛型中不能写基本数据类型
+2.指定泛型的具体类型后，传递数据时，可以传入该类类型或者其子类类型
+3.如果不写泛型，类型默认是Object
+
+![image](https://user-images.githubusercontent.com/88382462/220038439-d0f7d5d2-35c8-4812-9be1-9c163b700ab8.png)
+
+泛型类
+![image](https://user-images.githubusercontent.com/88382462/220038644-5e32c8e9-8082-4d31-8366-53952503563a.png)
+
+编写泛型类
+```ruby
+/*
+*       当我在编写一个类的时候，如果不确定类型，那么这个类就可以定义为泛型类。
+* */
+public class MyArrayList<E> {
+
+    Object[] obj = new Object[10];
+    int size;
+
+    /*
+    E : 表示是不确定的类型。该类型在类名后面已经定义过了。
+    e：形参的名字，变量名
+    * */
+    public boolean add(E e){
+        obj[size] = e;
+        size++;
+        return true;
+    }
 
 
+    public E get(int index){
+        return (E)obj[index];
+    }
 
 
+    @Override
+    public String toString() {
+        return Arrays.toString(obj);
+    }
+}
+
+```
+对应的实现方法
+```ruby
+MyArrayList<String> list = new MyArrayList<>();
+
+list.add("aaa");
+list.add("bbb");
+list.add("ccc");
+
+
+System.out.println(list);
+
+
+MyArrayList<Integer> list2 = new MyArrayList<>();
+list2.add(123);
+list2.add(456);
+list2.add(789);
+
+
+int i = list2.get(0);
+System.out.println(i);
+
+
+System.out.println(list2);
+```
+
+
+泛型方法
+![image](https://user-images.githubusercontent.com/88382462/220041595-e08bfa9b-b8da-44fe-9383-7d65c55d454e.png)
+![image](https://user-images.githubusercontent.com/88382462/220041741-bc760f8d-61d8-4be7-9817-d667e1020726.png)
+
+定义一个工具类：ListUtil
+类中定义一个静态方法addAll，用来添加多个集合的元素。
+
+```ruby
+public class ListUtil {
+    private ListUtil(){}
+
+    //类中定义一个静态方法addAll，用来添加多个集合的元素。
+
+
+    /*
+    *   参数一：集合
+    *   参数二~最后：要添加的元素
+    *
+    * */
+    public static<E> void addAll(ArrayList<E> list, E e1,E e2,E e3,E e4){
+        list.add(e1);
+        list.add(e2);
+        list.add(e3);
+        list.add(e4);
+    }
+
+/*    public static<E> void addAll2(ArrayList<E> list, E...e){
+        //e为可变参数
+        for (E element : e) {
+            list.add(element);
+        }
+    }*/
+
+
+    public void show(){
+        System.out.println("阿玮");
+    }
+}
+
+```
+实现类
+```ruby
+public class GenericsDemo3 {
+    public static void main(String[] args) {
+
+        ArrayList<String> list1 = new ArrayList<>();
+        ListUtil.addAll(list1, "aaa", "bbb", "ccc", "ddd");
+        System.out.println(list1);
+
+
+        ArrayList<Integer> list2 = new ArrayList<>();
+        ListUtil.addAll(list2,1,2,3,4);
+        System.out.println(list2);
+
+    }
+}
+```
 
 
  
