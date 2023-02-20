@@ -438,7 +438,47 @@ lambda表达式遍历
 ![image](https://user-images.githubusercontent.com/88382462/219998998-d200c272-aaa1-415b-98c8-a9cd82ef6ea5.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999476-31d36b56-b155-4010-add3-d2efe674a982.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999888-9ea24500-925e-48bd-8f9d-b4d43959137d.png)
+![image](https://user-images.githubusercontent.com/88382462/220021481-4ef87a57-3a2d-47a0-8a80-80ba90cf587e.png)
 
+```
+        List系列集合独有的方法：
+            void add(int index,E element)       在此集合中的指定位置插入指定的元素
+            E remove(int index)                 删除指定索引处的元素，返回被删除的元素
+            E set(int index,E element)          修改指定索引处的元素，返回被修改的元素
+            E get(int index)                    返回指定索引处的元素
+```
+
+```ruby
+        //1.创建一个集合(接口多态)
+        List<String> list = new ArrayList<>();
+
+        //2.添加元素
+        list.add("aaa");
+        list.add("bbb");//1
+        list.add("ccc");
+
+        list.add(1,"ddd"); 
+
+        //E remove(int index)                 
+        // 删除指定索引处的元素，返回被删除的元素
+        String remove = list.remove(0);
+        System.out.println(remove);//aaa
+
+
+        //E set(int index,E element)         
+        //修改指定索引处的元素，返回被修改的元素
+        String result = list.set(0, "QQQ");
+        System.out.println(result);
+
+        // E get(int index)                   
+        //返回指定索引处的元素
+        String s = list.get(0);
+        System.out.println(s);
+
+
+        //3.打印集合
+        System.out.println(list);
+```
 
 
 
