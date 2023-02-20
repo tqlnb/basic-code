@@ -639,6 +639,38 @@ list的实现类
 
 ![image](https://user-images.githubusercontent.com/88382462/220079280-1bbf7c32-a25d-400c-94b2-69197d116cf6.png)
 
+二叉查找树弊端
+![image](https://user-images.githubusercontent.com/88382462/220080659-5e0b85bc-8289-4ebb-9c9c-4551c700a645.png)
+
+平衡二叉树
+![image](https://user-images.githubusercontent.com/88382462/220081164-ac9b47b2-b06c-4e9a-bafe-aeccd276cce3.png)
+![image](https://user-images.githubusercontent.com/88382462/220081346-8424b556-649a-4b43-a1f3-e79cbf2323a3.png)
+![image](https://user-images.githubusercontent.com/88382462/220081701-ead02489-5b0a-41fe-a199-91555ba3b47a.png)
+
+平衡二叉树旋转机制
+![image](https://user-images.githubusercontent.com/88382462/220082023-19fab3df-bbc4-4272-a7c2-d43558096cbd.png)
+![image](https://user-images.githubusercontent.com/88382462/220082481-3cfb93f3-0cbf-47ca-9d66-8d441fef2f4e.png)
+![image](https://user-images.githubusercontent.com/88382462/220082692-3d10d1dc-32c7-469a-8f11-57e16d3d1f16.png)
+![image](https://user-images.githubusercontent.com/88382462/220083019-f18f2656-1219-47c1-a204-ad40f2f3742d.png)
+![image](https://user-images.githubusercontent.com/88382462/220083899-eef0faac-75dd-447a-8e2e-3353d943b40f.png)
+![image](https://user-images.githubusercontent.com/88382462/220084067-cdfef676-5899-44df-9a53-d87fd0262aa5.png)
+
+平衡二叉树需要旋转的四种情况
+1.左左 - 一次右旋
+![image](https://user-images.githubusercontent.com/88382462/220085041-a28807fb-1b8f-4c76-8fa3-90433bd510b2.png)
+2.左右-先局部左旋，再整体右旋
+![image](https://user-images.githubusercontent.com/88382462/220092710-7063af79-2d44-4512-a728-2261391229c6.png)
+![image](https://user-images.githubusercontent.com/88382462/220092811-8592dca1-e9d1-4f50-98c1-2ef720b348e6.png)
+3.右右-一次左旋
+![image](https://user-images.githubusercontent.com/88382462/220093359-9c282351-204c-4e2b-ba44-5a264e6b2aea.png)
+4.右左-先局部右旋，再整体左旋
+![image](https://user-images.githubusercontent.com/88382462/220093685-02f7c131-c4a1-4a60-9baa-b33562a501a1.png)
+![image](https://user-images.githubusercontent.com/88382462/220093846-31340ca7-a4cb-406d-aa94-5e8234b9d08f.png)
+
+![image](https://user-images.githubusercontent.com/88382462/220093950-07bf92d7-8603-4aa3-b758-591886a7b055.png)
+![image](https://user-images.githubusercontent.com/88382462/220093992-f13e770e-b693-4505-8e34-1ee3379825f7
+
+
 
 
 
