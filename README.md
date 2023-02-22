@@ -1218,8 +1218,64 @@ public int compareTo(Student2 o) {
 
 用TreeSet集合，基于红黑树。后续也可以用List集合实现排序。
 
+# 双列集合
+![image](https://user-images.githubusercontent.com/88382462/220558939-68c3c1e3-4395-4c45-85b1-6cb66dce0131.png)
+## 双列集合特点
+①双列集合一次需要存一对数据，分别为键和值键不能重复，值可以重复
 
+③键和值是一一对应的，每一个键只能找到自己对应的值
 
+④键＋值这个整体我们称之为“键值对”或者“键值对对象”，在3ava中叫做“Entry对象”
+
+## Map
+![image](https://user-images.githubusercontent.com/88382462/220559398-836fd29a-5fc5-4e9e-8dd0-6e5e8b1b23c8.png)
+
+```ruby
+//创建Map对象
+Map<String, String> m = new HashMap();
+//添加元素
+//put方法的细节
+//添加/覆盖
+
+//在添加数据的时候，如果键不存在，那么直接把键值对对象添加到map集合当中，方法返回null
+//在添加数据的时候，如果键是存在的，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回。
+m.put("郭靖", "黄蓉");
+m.put("韦小宝", "沐剑屏");
+m.put("尹志平", "小龙女");
+
+String value2 = m.put("韦小宝","双儿");
+System.out.println(value2);     //沐剑屏
+
+//删除
+String result = m.remove("郭靖");
+System.out.println(result);     //黄蓉
+
+//判断是否包含
+System.out.println(m.containsKey("韦小宝"));
+System.out.println(m.containsValue("双儿"));
+
+//集合长度
+int size = m.size();
+
+//清空
+m.clear();
+
+System.out.println(size);
+System.out.println(m);
+```
+
+put方法 
+
+在添加数据的时候，如果键不存在，那么直接把键值对对象添加到map集合当中，方法返回null 
+
+在添加数据的时候，如果键是存在的，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回。
+
+### Map的遍历方式
+1.键找值
+2.键值对
+3.Lambda表达式
+
+#### 键找值遍历
  
  
  
