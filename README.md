@@ -1394,7 +1394,7 @@ HashMap跟HashSet底层原理是一模一样的，都是哈希表结构
 如果值存储自定义对象，不需要重写hashCode和equals方法
 
 
-### Map集合案例
+#### HashMap集合案例
 需求
 某个班级80名学生，现在需要组成秋游活动，班长提供了四个景点依次是(A、B、C、D),每个学生只能选择一个景点，请统计出最终哪个景点想去的人数最多。
 
@@ -1442,6 +1442,8 @@ for (Map.Entry<String, Integer> entry : entries) {
 }
 ```
  
+### LinkedHashMap
+
  
  
  
