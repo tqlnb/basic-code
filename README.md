@@ -986,8 +986,163 @@ System.out.println("acD".hashCode());//96354
 JDK8以前的HashSet
 ![image](https://user-images.githubusercontent.com/88382462/220501348-36f12f78-f097-47f9-bdff-ee6db3ff9386.png)
 ![image](https://user-images.githubusercontent.com/88382462/220501183-2980e9b7-4fc6-457f-ab9b-b018c888a11c.png)
+
 **扩容时机：当数组存了0.75*当前的数组长度时，数组长度加倍 （0.75为加载因子）**
-**当链表长度大于等于8且数组长度大于等于64时链表转换为红黑树。**
+
+**JDK8以后当链表长度大于等于8且数组长度大于等于64时链表转换为红黑树。**
+
+![image](https://user-images.githubusercontent.com/88382462/220502690-ea1b960f-7900-4f60-af0d-554a40431f82.png)
+
+**重写Equals一定要重写HashCode**
+
+```ruby
+/* 需求：创建一个存储学生对象的集合，存储多个学生对象。
+            使用程序实现在控制台遍历该集合。
+            要求：学生对象的成员变量值相同，我们就认为是同一个对象
+
+*/
+  //1.创建三个学生对象
+  Student s1 = new Student("zhangsan",23);
+  Student s2 = new Student("lisi",24);
+  Student s3 = new Student("wangwu",25);
+  Student s4 = new Student("zhangsan",23);
+
+
+  //2.创建集合用来添加学生
+  HashSet<Student> hs = new HashSet<>();
+
+  //3.添加元素，重写hashCode和equals方法后true，true，true，false
+  System.out.println(hs.add(s1));
+  System.out.println(hs.add(s2));
+  System.out.println(hs.add(s3));
+  System.out.println(hs.add(s4));
+
+  //4.打印集合
+  System.out.println(hs);
+```
+
+LinkedHashSet
+比HashSet多了一条双向链表用来存顺序
+![image](https://user-images.githubusercontent.com/88382462/220504932-f7348ac5-e5d8-4433-95cd-e1cd36b39f61.png)
+
+```ruby
+ //1.创建4个学生对象
+Student s1 = new Student("zhangsan",23);
+Student s2 = new Student("lisi",24);
+Student s3 = new Student("wangwu",25);
+Student s4 = new Student("zhangsan",23);
+
+//2.创建集合的对象
+LinkedHashSet<Student> lhs = new LinkedHashSet<>();
+
+//3.添加元素
+System.out.println(lhs.add(s3));    //true
+System.out.println(lhs.add(s2));    //true
+System.out.println(lhs.add(s1));    //true
+System.out.println(lhs.add(s4));    //false
+
+//4.打印集合
+System.out.println(lhs); //顺序打印
+```
+
+![image](https://user-images.githubusercontent.com/88382462/220505517-879f648c-7d87-41ab-9f4d-e16480a89725.png)
+
+TreeSet
+![image](https://user-images.githubusercontent.com/88382462/220505662-e807d99a-b997-44d8-8e17-c4b891a2918a.png)
+
+```ruby
+/*
+*
+*       需求：利用TreeSet存储整数并进行排序
+*
+* */
+
+//1.创建TreeSet集合对象
+TreeSet<Integer> ts = new TreeSet<>();
+
+//2.添加元素
+ts.add(4);
+ts.add(5);
+ts.add(1);
+ts.add(3);
+ts.add(2);
+
+//3.打印集合
+System.out.println(ts);   //1,2,3,4,5(存入时自动排序，从小到大)
+
+//4.遍历集合（三种遍历）
+//迭代器
+Iterator<Integer> it = ts.iterator();
+while(it.hasNext()){
+    int i = it.next();
+    System.out.println(i);
+}
+
+System.out.println("--------------------------");
+//增强for
+for (int t : ts) {
+    System.out.println(t);
+}
+System.out.println("--------------------------");
+//lambda
+ts.forEach( integer -> System.out.println(integer));
+```
+
+![image](https://user-images.githubusercontent.com/88382462/220507628-ff46df59-386b-40c5-aff7-fba84b4c1124.png)
+
+自定义排序规则
+
+```ruby
+需求：创建TreeSet集合，并添加3个学生对象
+            学生对象属性：
+                姓名，年龄。
+                要求按照学生的年龄进行排序
+                同年龄按照姓名字母排列（暂不考虑中文）
+                同姓名，同年龄认为是同一个人
+
+            方式一：
+                默认的排序规则/自然排序
+                Student实现Comparable接口，重写里面的抽象方法，再指定比较规则
+```
+
+**实现Comparable接口，重写里面的抽象方法，再指定比较规则**
+**存到TreeSet不用重写hashCode和eauals 因为TreeSet底层没有使用HashSet而是红黑树.
+如果要往TreeSet存入自定义对象，要重写compareTo来按照自定义规则排序**
+
+
+```ruby
+public class Student implements Comparable<Student>{ //实现Comparable接口，泛型为Student
+...
+...
+ //this：表示当前要添加的元素
+    //o：表示已经在红黑树存在的元素
+
+    //返回值：
+    //负数：表示当前要添加的元素是小的，存左边
+    //正数：表示当前要添加的元素是大的，存右边
+    //0 :表示当前要添加的元素已经存在，舍弃
+    public int compareTo(Student o) {
+        //指定排序的规则
+        //只看年龄，我想要按照年龄的升序进行排列
+        return this.getAge() - o.getAge();
+    }
+ }
+```
+
+TreeSet第二种排序方式:比较器排序
+```ruby
+//o1:表示当前要添加的元素
+//o2：表示已经在红黑树存在的元素
+//返回值规则跟之前是一样的
+TreeSet<String> ts = new TreeSet<>((o1, o2)->{
+        // 按照长度排序
+        int i = o1.length() - o2.length();
+        //如果一样长则按照首字母排序
+        i = i == 0 ? o1.compareTo(o2) : i;
+        return i;
+});
+```
+
 
 
 
