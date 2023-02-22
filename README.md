@@ -1271,13 +1271,103 @@ put方法
 在添加数据的时候，如果键是存在的，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回。
 
 ### Map的遍历方式
+
 1.键找值
+
 2.键值对
+
 3.Lambda表达式
 
 #### 键找值遍历
- 
- 
+**map.keySet()**
+
+```ruby
+//创建Map集合
+Map<String, String> map = new HashMap();
+
+//添加元素
+map.put("尹志平", "小龙女");
+map.put("郭靖", "穆念慈");
+map.put("欧阳克", "黄蓉");
+
+//通过键找值
+//获取所有的键，把这些键放到一个单列集合中
+Set<String> keys = map.keySet();
+//遍历单列集合，得到每一个键
+for (String key : keys) {
+    //利用Map中的键获取对应的值 get
+    String value = map.get(key);
+    System.out.println(key + "=" + value);
+
+}
+
+//迭代器
+Iterator<String> it = keys.iterator();
+while (it.hasNext()){
+    String key = it.next();
+    String value = map.get(key);
+    System.out.println(key + "=" + value);
+}
+
+//Lambda表达式
+keys.forEach((String s) -> {
+        String value = map.get(s);
+        System.out.println(s + "=" + value);
+    }
+);
+```
+
+#### 键值对遍历
+**map.entrySet()**
+
+```ruby
+//创建Map集合的对象
+Map<String, String> map = new HashMap();
+//添加元素
+map.put("标枪选手", "马超");
+map.put("人物挂件", "明世隐");
+map.put("御龙骑士", "尹志平");
+
+//通过键值对方式遍历
+//通过一个方法获取所有的键值对对象，方法返回一个set集合
+Set<Map.Entry<String, String>> entries = map.entrySet();
+//遍历entries集合，获取其中所有键值对
+for (Map.Entry<String, String> entry : entries) {
+    System.out.println(entry.getKey() + "=" + entry.getValue());
+}
+
+//迭代器
+Iterator<Map.Entry<String, String>> it = entries.iterator();
+while (it.hasNext()){
+    Map.Entry<String, String> entry = it.next();
+    System.out.println(entry.getKey() + "=" + entry.getValue());
+}
+
+//内部类（可简化Lambda表达式）
+entries.forEach(new Consumer<Map.Entry<String, String>>() {
+    @Override
+    public void accept(Map.Entry<String, String> stringStringEntry) {
+        System.out.println(stringStringEntry.getKey()+"="+stringStringEntry.getValue());
+    }
+});
+```
+
+#### Lambda表达式遍历
+**map.forEach**
+```ruby
+//利用Lambda表达式遍历
+ map.forEach(new BiConsumer<String, String>() {
+     @Override
+     public void accept(String key, String value) {
+         System.out.println(key + "=" + value);
+     }
+ });
+```
+利用Lambda简化后
+```
+map.forEach(( key, value) -> System.out.println(key + "=" + value));
+```
+
  
  
  
