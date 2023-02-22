@@ -1353,7 +1353,7 @@ entries.forEach(new Consumer<Map.Entry<String, String>>() {
 ```
 
 #### Lambda表达式遍历
-**map.forEach**
+map.forEach(( key, value) -> System.out.println(key + "=" + value));
 ```ruby
 //利用Lambda表达式遍历
  map.forEach(new BiConsumer<String, String>() {
@@ -1363,10 +1363,36 @@ entries.forEach(new Consumer<Map.Entry<String, String>>() {
      }
  });
 ```
+
 利用Lambda简化后
-```
+
+```ruby
 map.forEach(( key, value) -> System.out.println(key + "=" + value));
 ```
+
+底层:
+forEach其实就是利用第二种方式进行遍历，依次得到每一个键和值,再调用accept方法
+
+### HashMap
+**HashMap的特点**
+
+HashMap是Map里面的一个实现类。
+
+没有额外需要学习的特有方法，直接使用Map里面的方法就可以了
+
+特点都是由键决定的:无序、不重复、无索引
+
+HashMap跟HashSet底层原理是一模一样的，都是哈希表结构
+
+**总结**
+
+1. HashMap底层是哈希表结构的
+
+2．依赖hashCode方法和equals方法保证键的唯一
+
+3．如果键存储的是自定义对象，需要重写hashCode和equals方法 
+如果值存储自定义对象，不需要重写hashCode和equals方法
+
 
  
  
