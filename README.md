@@ -906,7 +906,91 @@ public static void method(ArrayList<? super Fu> list) {
 }
 ```
 
+set
+![image](https://user-images.githubusercontent.com/88382462/220497939-72e2b8c5-3436-4f30-baa7-0d42f8a49ae9.png)
+
+```ruby
+/*
+   利用Set系列的集合，添加字符串，并使用多种方式遍历。
+    迭代器
+    增强for
+    Lambda表达式
+
+*/
+
+
+//1.创建一个Set集合的对象（接口多态）
+Set<String> s = new HashSet<>();
+
+//2,添加元素
+//如果当前元素是第一次添加，那么可以添加成功，返回true
+//如果当前元素是第二次添加，那么添加失败，返回false
+System.out.println(s.add("张三"));    //true
+System.out.println(s.add("张三"));    //false
+s.add("李四");
+s.add("王五");
+
+//3.打印集合
+//无序
+//System.out.println(s);//[李四, 张三, 王五]
+
+//迭代器遍历
+Iterator<String> it = s.iterator();
+while (it.hasNext()){
+    String str = it.next();
+    System.out.println(str);
+}
+
+
+//增强for
+ for (String str : s) {
+    System.out.println(str);
+}
+
+// Lambda表达式
+s.forEach( str->System.out.println(str));
+```
  
+HashSet
+![image](https://user-images.githubusercontent.com/88382462/220499392-81665b21-31f3-448b-80cd-c4cd42f44065.png)
+
+哈希值
+![image](https://user-images.githubusercontent.com/88382462/220499720-4abae5b3-82dd-4e6c-aa25-75babbb5955c.png)
+
+```ruby
+/*
+   哈希值：
+       对象的整数表现形式
+       1. 如果没有重写hashCode方法，不同对象计算出的哈希值是不同的
+       2. 如果已经重写hashcode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+       3. 但是在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。（哈希碰撞）
+
+*/
+
+//1.创建对象
+Student s1 = new Student("zhangsan",23);
+Student s2 = new Student("zhangsan",23);
+
+//2.如果没有重写hashCode方法，不同对象计算出的哈希值是不同的
+//  如果已经重写hashcode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+System.out.println(s1.hashCode());//-1461067292
+System.out.println(s2.hashCode());//-1461067292
+
+
+//在小部分情况下，不同的属性值或者不同的地址值计算出来的哈希值也有可能一样。
+//哈希碰撞
+System.out.println("abc".hashCode());//96354
+System.out.println("acD".hashCode());//96354
+```
+
+JDK8以前的HashSet
+![image](https://user-images.githubusercontent.com/88382462/220501348-36f12f78-f097-47f9-bdff-ee6db3ff9386.png)
+![image](https://user-images.githubusercontent.com/88382462/220501183-2980e9b7-4fc6-457f-ab9b-b018c888a11c.png)
+**扩容时机：当数组存了0.75*当前的数组长度时，数组长度加倍 （0.75为加载因子）**
+**当链表长度大于等于8且数组长度大于等于64时链表转换为红黑树。**
+
+
+
  
  
  
