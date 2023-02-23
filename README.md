@@ -1471,13 +1471,33 @@ TreeMap跟TreeSet底层原理一样，都是红黑树结构的。
 
 注意:默认按照键的从小到大进行排序，也可以自己规定键的排序规则 
  
-代码书写两种排序规则
+**代码书写两种排序规则:**
 
 实现Comparable接口，指定比较规则。
 
 创建集合时传递comparator比较器对象，指定比较规则。
 
+```ruby
+//降序排列 o2 - o1 ,(默认升序)
+ TreeMap<Integer,String> tm = new TreeMap<>((o1, o2) -> o2-o1);
+ tm.put(5, "可恰可乐");
+ tm.put(4, "雷碧");
+ tm.put(3, "九个核桃");
+ tm.put(2, "康帅傅");
+ tm.put(1, "粤利粤");
+ System.out.println(tm); //{5=可恰可乐, 4=雷碧, 3=九个核桃, 2=康帅傅, 1=粤利粤}
+```
 
+```ruby
+public class Student implements Comparable<Student>
+...
+...
+public int compareTo(Student o) {
+    int i = this.getAge() - o.getAge();
+    i = i == 0 ? this.getName().compareTo(o.getName()) : i;
+    return i;
+}
+```
 
 
 
