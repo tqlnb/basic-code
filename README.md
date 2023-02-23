@@ -1450,8 +1450,39 @@ for (Map.Entry<String, Integer> entry : entries) {
 
 原理∶底层数据结构是依然哈希表，只是每个键值对元素又额外的多了一个双链表的机制记录存储的顺序。
 
+```ruby
+//创建集合
+LinkedHashMap<String , Integer> lhm =new LinkedHashMap<>();
+//添加元素
+lhm.put("c",789);
+lhm.put("b",456);
+lhm.put("a",123);
+lhm.put("a",111);
 
+System.out.println(lhm);    //{c=789, b=456, a=111}
+```
+
+### TreeMap
+TreeMap跟TreeSet底层原理一样，都是红黑树结构的。
+
+由键决定特性:不重复、无索引、可排序
+
+可排序:对键进行排序。
+
+注意:默认按照键的从小到大进行排序，也可以自己规定键的排序规则 
  
- 
- 
- 
+代码书写两种排序规则
+
+实现Comparable接口，指定比较规则。
+
+创建集合时传递comparator比较器对象，指定比较规则。
+
+
+
+
+
+
+
+
+
+
