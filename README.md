@@ -1572,6 +1572,8 @@ Collections常用API
 ![image](https://user-images.githubusercontent.com/88382462/220858621-3db3b304-c5ca-4be9-b12f-41f0b91f7d5d.png)
 ![image](https://user-images.githubusercontent.com/88382462/220858751-2fec447e-19a2-494b-9e62-8d7f261ee4f5.png)
 
+**Arraylist排序可以用collection里的sort方法，不需要转成TreeSet**
+
 ```ruby
 ArrayList<String> list = new ArrayList<>();
 
@@ -1584,6 +1586,13 @@ Collections.shuffle(list);
 System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
 ```
 
+**序号排序法**
+
+如果原始数据的规律非常复杂，我们可以先手动排序让每一个数据跟唯一的序号产生对应关系。
+
+序号就是数字，规律非常简单，后续的所有操作，我们以序号为准
+
+当真正需要操作原始数据时候，再通过序号找到原始数据即可。
 
 
 
