@@ -1526,6 +1526,63 @@ for (int i = 0; i < str.length(); i++) {
 tm.forEach((character, integer) -> System.out.print(character+"("+ integer + ")")         
 ```
 
+# 可变参数
+可变参数:一个大胖子,有多少吃多少
+
+1．可变参数本质上就是一个数组
+
+2．作用:在形参中接收多个数据
+
+3．格式:数据类型...参数名称
+
+举例: int...a
+
+4．注意事项:
+
+形参列表中可变参数只能有一个可变参数必须放在形参列表的最后面
+
+```ruby
+public static void main(String[] args) {
+    //JDK5
+    //可变参数
+    //方法形参的个数是可以发生变化的，0 1 2 3 ...
+    //格式:属性类型...名字
+    //int. . .args
+    System.out.println(getSum(1, 2, 3, 4, 5, 6, 7));
+}
+
+//底层:
+//可变参数底层就是一个数组
+//只不过不需要我们自己创建了，Java会帮我们创建好
+public static int getSum(int ... args){
+    int sum = 0;
+    for (int arg : args) {
+        sum += arg;
+    }
+    return sum;
+}
+```
+
+# Collections
+java.util.Collections:是集合工具类
+
+作用:Collections不是集合，而是集合的工具类。
+
+Collections常用API
+![image](https://user-images.githubusercontent.com/88382462/220858621-3db3b304-c5ca-4be9-b12f-41f0b91f7d5d.png)
+![image](https://user-images.githubusercontent.com/88382462/220858751-2fec447e-19a2-494b-9e62-8d7f261ee4f5.png)
+
+```ruby
+ArrayList<String> list = new ArrayList<>();
+
+//批量添加元素
+Collections.addAll(list,"abc","abc","abc","qwer","zxcv");
+System.out.println(list);   //[abc, abc, abc, qwer, zxcv]
+
+//shuffle
+Collections.shuffle(list);
+System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
+```
 
 
 
