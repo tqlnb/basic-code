@@ -1499,6 +1499,39 @@ public int compareTo(Student o) {
 }
 ```
 
+TreeMap例程
+
+```ruby
+/*
+需求:字符串“aababcabcdabcde"
+请统计字符串中每一个字符出现的次数，并按照以下格式输出输出结果:
+a (5) b (4) c (3) d (2) e (1) */
+//定义字符串
+String str = "aababcabcdabcde";
+//创建TreeMap对象
+TreeMap <Character , Integer> tm =new TreeMap<>();
+//遍历得到字符串每一个字符
+for (int i = 0; i < str.length(); i++) {
+    if(tm.containsKey(str.charAt(i))){
+        //如果键已存在,值加一
+        Integer count = tm.get(str.charAt(i));
+        count ++;
+        tm.put(str.charAt(i),count);
+    }else {
+        //键不存在,添加新的键
+        tm.put(str.charAt(i),1);
+    }
+}
+//格式化输出(利用Lambda表达式)
+tm.forEach((character, integer) -> System.out.print(character+"("+ integer + ")")         
+```
+
+
+
+
+
+
+
 
 
 
