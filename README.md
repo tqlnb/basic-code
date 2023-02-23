@@ -1218,14 +1218,390 @@ public int compareTo(Student2 o) {
 
 用TreeSet集合，基于红黑树。后续也可以用List集合实现排序。
 
+# 双列集合
+![image](https://user-images.githubusercontent.com/88382462/220558939-68c3c1e3-4395-4c45-85b1-6cb66dce0131.png)
+## 双列集合特点
+①双列集合一次需要存一对数据，分别为键和值键不能重复，值可以重复
 
+③键和值是一一对应的，每一个键只能找到自己对应的值
+
+④键＋值这个整体我们称之为“键值对”或者“键值对对象”，在3ava中叫做“Entry对象”
+
+## Map
+![image](https://user-images.githubusercontent.com/88382462/220559398-836fd29a-5fc5-4e9e-8dd0-6e5e8b1b23c8.png)
+
+```ruby
+//创建Map对象
+Map<String, String> m = new HashMap();
+//添加元素
+//put方法的细节
+//添加/覆盖
+
+//在添加数据的时候，如果键不存在，那么直接把键值对对象添加到map集合当中，方法返回null
+//在添加数据的时候，如果键是存在的，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回。
+m.put("郭靖", "黄蓉");
+m.put("韦小宝", "沐剑屏");
+m.put("尹志平", "小龙女");
+
+String value2 = m.put("韦小宝","双儿");
+System.out.println(value2);     //沐剑屏
+
+//删除
+String result = m.remove("郭靖");
+System.out.println(result);     //黄蓉
+
+//判断是否包含
+System.out.println(m.containsKey("韦小宝"));
+System.out.println(m.containsValue("双儿"));
+
+//集合长度
+int size = m.size();
+
+//清空
+m.clear();
+
+System.out.println(size);
+System.out.println(m);
+```
+
+put方法 
+
+在添加数据的时候，如果键不存在，那么直接把键值对对象添加到map集合当中，方法返回null 
+
+在添加数据的时候，如果键是存在的，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回。
+
+### Map的遍历方式
+
+1.键找值
+
+2.键值对
+
+3.Lambda表达式
+
+#### 键找值遍历
+**map.keySet()**
+
+```ruby
+//创建Map集合
+Map<String, String> map = new HashMap();
+
+//添加元素
+map.put("尹志平", "小龙女");
+map.put("郭靖", "穆念慈");
+map.put("欧阳克", "黄蓉");
+
+//通过键找值
+//获取所有的键，把这些键放到一个单列集合中
+Set<String> keys = map.keySet();
+//遍历单列集合，得到每一个键
+for (String key : keys) {
+    //利用Map中的键获取对应的值 get
+    String value = map.get(key);
+    System.out.println(key + "=" + value);
+
+}
+
+//迭代器
+Iterator<String> it = keys.iterator();
+while (it.hasNext()){
+    String key = it.next();
+    String value = map.get(key);
+    System.out.println(key + "=" + value);
+}
+
+//Lambda表达式
+keys.forEach((String s) -> {
+        String value = map.get(s);
+        System.out.println(s + "=" + value);
+    }
+);
+```
+
+#### 键值对遍历
+**map.entrySet()**
+
+```ruby
+//创建Map集合的对象
+Map<String, String> map = new HashMap();
+//添加元素
+map.put("标枪选手", "马超");
+map.put("人物挂件", "明世隐");
+map.put("御龙骑士", "尹志平");
+
+//通过键值对方式遍历
+//通过一个方法获取所有的键值对对象，方法返回一个set集合
+Set<Map.Entry<String, String>> entries = map.entrySet();
+//遍历entries集合，获取其中所有键值对
+for (Map.Entry<String, String> entry : entries) {
+    System.out.println(entry.getKey() + "=" + entry.getValue());
+}
+
+//迭代器
+Iterator<Map.Entry<String, String>> it = entries.iterator();
+while (it.hasNext()){
+    Map.Entry<String, String> entry = it.next();
+    System.out.println(entry.getKey() + "=" + entry.getValue());
+}
+
+//内部类（可简化Lambda表达式）
+entries.forEach(new Consumer<Map.Entry<String, String>>() {
+    @Override
+    public void accept(Map.Entry<String, String> stringStringEntry) {
+        System.out.println(stringStringEntry.getKey()+"="+stringStringEntry.getValue());
+    }
+});
+```
+
+#### Lambda表达式遍历
+map.forEach(( key, value) -> System.out.println(key + "=" + value));
+```ruby
+//利用Lambda表达式遍历
+ map.forEach(new BiConsumer<String, String>() {
+     @Override
+     public void accept(String key, String value) {
+         System.out.println(key + "=" + value);
+     }
+ });
+```
+
+利用Lambda简化后
+
+```ruby
+map.forEach(( key, value) -> System.out.println(key + "=" + value));
+```
+
+底层:
+forEach其实就是利用第二种方式进行遍历，依次得到每一个键和值,再调用accept方法
+
+### HashMap
+**HashMap的特点**
+
+HashMap是Map里面的一个实现类。
+
+没有额外需要学习的特有方法，直接使用Map里面的方法就可以了
+
+特点都是由键决定的:无序、不重复、无索引
+
+HashMap跟HashSet底层原理是一模一样的，都是哈希表结构
+
+**总结**
+
+1. HashMap底层是哈希表结构的
+
+2．依赖hashCode方法和equals方法保证键的唯一
+
+3．如果键存储的是自定义对象，需要重写hashCode和equals方法 
+如果值存储自定义对象，不需要重写hashCode和equals方法
+
+
+#### HashMap集合案例
+需求
+某个班级80名学生，现在需要组成秋游活动，班长提供了四个景点依次是(A、B、C、D),每个学生只能选择一个景点，请统计出最终哪个景点想去的人数最多。
+
+```ruby
+//先让同学们投票
+//定义一个数组储存景点
+String[] arr = {"A","B","C","D"};
+//利用随机数模拟80个同学的投票，，并把投票存起来
+ArrayList<String> list = new ArrayList<>();
+Random r = new Random();
+for (int i = 0; i < 80; i++) {
+    int index = r.nextInt(arr.length);
+    list.add(arr[index]);
+}
+
+//如果要统计的东西比较多，不方便使用计数器思想
+//可以定义Map集合，利用集合进行统计
+HashMap<String,Integer> hm = new HashMap<>();
+for (String name : list) {
+    //判断当前景点在集合中是否存在
+    if(hm.containsKey(name)){
+        //存在
+        //先获取当前景点被投票的次数
+        Integer count = hm.get(name);
+        count ++;
+        //把新的次数添加到集合
+        hm.put(name,count);
+    }else {
+        //不存在
+        hm.put(name,1);
+    }
+}
+System.out.println(hm);
+
+//求最大值
+int max = 0;
+Set<Map.Entry<String, Integer>> entries = hm.entrySet();
+for (Map.Entry<String, Integer> entry : entries) {
+    if(entry.getValue() > max) max = entry.getValue();
+}
+
+//判断那个景点最多，打印出来
+for (Map.Entry<String, Integer> entry : entries) {
+    if(entry.getValue() == max) System.out.println(entry.getKey());
+}
+```
  
+### LinkedHashMap
+
+由键决定:有序、不重复、无索引。
+
+这里的有序指的是保证存储和取出的元素顺序一致
+
+原理∶底层数据结构是依然哈希表，只是每个键值对元素又额外的多了一个双链表的机制记录存储的顺序。
+
+```ruby
+//创建集合
+LinkedHashMap<String , Integer> lhm =new LinkedHashMap<>();
+//添加元素
+lhm.put("c",789);
+lhm.put("b",456);
+lhm.put("a",123);
+lhm.put("a",111);
+
+System.out.println(lhm);    //{c=789, b=456, a=111}
+```
+
+### TreeMap
+TreeMap跟TreeSet底层原理一样，都是红黑树结构的。
+
+由键决定特性:不重复、无索引、可排序
+
+可排序:对键进行排序。
+
+注意:默认按照键的从小到大进行排序，也可以自己规定键的排序规则 
  
- 
- 
- 
- 
- 
- 
- 
- 
+**代码书写两种排序规则:**
+
+实现Comparable接口，指定比较规则。
+
+创建集合时传递comparator比较器对象，指定比较规则。
+
+```ruby
+//降序排列 o2 - o1 ,(默认升序)
+ TreeMap<Integer,String> tm = new TreeMap<>((o1, o2) -> o2-o1);
+ tm.put(5, "可恰可乐");
+ tm.put(4, "雷碧");
+ tm.put(3, "九个核桃");
+ tm.put(2, "康帅傅");
+ tm.put(1, "粤利粤");
+ System.out.println(tm); //{5=可恰可乐, 4=雷碧, 3=九个核桃, 2=康帅傅, 1=粤利粤}
+```
+
+```ruby
+public class Student implements Comparable<Student>
+...
+...
+public int compareTo(Student o) {
+    int i = this.getAge() - o.getAge();
+    i = i == 0 ? this.getName().compareTo(o.getName()) : i;
+    return i;
+}
+```
+
+TreeMap例程
+
+```ruby
+/*
+需求:字符串“aababcabcdabcde"
+请统计字符串中每一个字符出现的次数，并按照以下格式输出输出结果:
+a (5) b (4) c (3) d (2) e (1) */
+//定义字符串
+String str = "aababcabcdabcde";
+//创建TreeMap对象
+TreeMap <Character , Integer> tm =new TreeMap<>();
+//遍历得到字符串每一个字符
+for (int i = 0; i < str.length(); i++) {
+    if(tm.containsKey(str.charAt(i))){
+        //如果键已存在,值加一
+        Integer count = tm.get(str.charAt(i));
+        count ++;
+        tm.put(str.charAt(i),count);
+    }else {
+        //键不存在,添加新的键
+        tm.put(str.charAt(i),1);
+    }
+}
+//格式化输出(利用Lambda表达式)
+tm.forEach((character, integer) -> System.out.print(character+"("+ integer + ")")         
+```
+
+# 可变参数
+可变参数:一个大胖子,有多少吃多少
+
+1．可变参数本质上就是一个数组
+
+2．作用:在形参中接收多个数据
+
+3．格式:数据类型...参数名称
+
+举例: int...a
+
+4．注意事项:
+
+形参列表中可变参数只能有一个可变参数必须放在形参列表的最后面
+
+```ruby
+public static void main(String[] args) {
+    //JDK5
+    //可变参数
+    //方法形参的个数是可以发生变化的，0 1 2 3 ...
+    //格式:属性类型...名字
+    //int. . .args
+    System.out.println(getSum(1, 2, 3, 4, 5, 6, 7));
+}
+
+//底层:
+//可变参数底层就是一个数组
+//只不过不需要我们自己创建了，Java会帮我们创建好
+public static int getSum(int ... args){
+    int sum = 0;
+    for (int arg : args) {
+        sum += arg;
+    }
+    return sum;
+}
+```
+
+# Collections
+java.util.Collections:是集合工具类
+
+作用:Collections不是集合，而是集合的工具类。
+
+Collections常用API
+![image](https://user-images.githubusercontent.com/88382462/220858621-3db3b304-c5ca-4be9-b12f-41f0b91f7d5d.png)
+![image](https://user-images.githubusercontent.com/88382462/220858751-2fec447e-19a2-494b-9e62-8d7f261ee4f5.png)
+
+**Arraylist排序可以用collection里的sort方法，不需要转成TreeSet**
+
+```ruby
+ArrayList<String> list = new ArrayList<>();
+
+//批量添加元素
+Collections.addAll(list,"abc","abc","abc","qwer","zxcv");
+System.out.println(list);   //[abc, abc, abc, qwer, zxcv]
+
+//shuffle
+Collections.shuffle(list);
+System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
+```
+
+**序号排序法**
+
+如果原始数据的规律非常复杂，我们可以先手动排序让每一个数据跟唯一的序号产生对应关系。
+
+序号就是数字，规律非常简单，后续的所有操作，我们以序号为准
+
+当真正需要操作原始数据时候，再通过序号找到原始数据即可。
+
+
+
+
+
+
+
+
+
+
+
+
