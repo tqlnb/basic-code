@@ -1594,8 +1594,18 @@ System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
 
 当真正需要操作原始数据时候，再通过序号找到原始数据即可。
 
+
 # 不可变集合
 
+不可变集合应用场景
+
+如果某个数据不能被修改，把它防御性地拷贝到不可变集合中是个很好的实践。
+
+当集合对象被不可信的库调用时，不可变形式是安全的。
+
+## 创建不可变集合书写格式
+
+![image](https://user-images.githubusercontent.com/88382462/221139187-2360f70b-626a-4f1e-9adf-aafc1fc4c711.png)
 
 
 
