@@ -1672,9 +1672,29 @@ Map map = Map.ofEntries(arr2);
 简化写法
 
 ```ruby
+Map<Object, Object> map = Map.ofEntries(hm.entrySet().toArray(new Map.Entry[0]));
+//或者:Jdk10以后 copyOf() 生成不可变集合
 Map<String, String> map = Map.copyOf(hm);
 ```
 
+## 不可变集合总结 
+1．不可变集合的特点?
+
+定义完成后不可以修改，或者添加、删除
+
+2．如何创建不可变集合?
+
+List、Set.Map接口中，都存在of方法可以创建不可变集合
+
+3.三种方式的细节
+
+List:直接用
+
+Set:元素不能重复
+
+Map:元素不能重复、键值对数量最多是10个。
+
+超过10个用ofEntries方法,如果Jdk版本大于10,可以用copyOf 方法
 
 
 
