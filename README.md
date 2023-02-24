@@ -1597,7 +1597,7 @@ System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
 
 # 不可变集合
 
-不可变集合应用场景
+不可变集合应用场景:
 
 如果某个数据不能被修改，把它防御性地拷贝到不可变集合中是个很好的实践。
 
@@ -1605,8 +1605,15 @@ System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
 
 ## 创建不可变集合书写格式
 
-![image](https://user-images.githubusercontent.com/88382462/221139187-2360f70b-626a-4f1e-9adf-aafc1fc4c711.png)
+在List、Set、Map接口中，都存在静态的of方法，可以获取一个不可变的集合。
 
+|方法名称	|说明 |
+| --- | --- |
+|static<E> List<E> of(E...elements) |	创建一个具有指定元素的List集合对象 |
+|static<E> Set<E> of(E...elements)	  |创建一个具有指定元素的Set集合对象 |
+|static<K , V> Map<K , V> of(E...elements) |	创建一个具有指定元素的Map集合对象 |
+
+注意:这个集合不能添加，不能删除，不能修改。
 
 
 
