@@ -1594,7 +1594,7 @@ System.out.println(list);   //[abc, zxcv, qwer, abc, abc]
 
 当真正需要操作原始数据时候，再通过序号找到原始数据即可。
 
-
+# 不可变集合
 
 
 
