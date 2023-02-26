@@ -1773,6 +1773,409 @@ Map:元素不能重复、键值对数量最多是10个。
 
 超过10个用ofEntries方法,如果Jdk版本大于10,可以用copyOf 方法
 
+# Stream流
+
+## Stream作用 
+结合了Lambda表达式，简化集合、数组的操作
+
+| 获取方式 |	方法名 |	说明 |
+| --- | --- | --- |
+| 单列集合 |	default Stream<E> stream()	|collection中的默认方法 | 
+| 双列集合 |	无	| 无法直接使用stream流 |
+| 数组 |	public static <T> Stream<T> stream(T[] array) |	Arrays工具类中的静态方法 |
+| 一堆零散数据 |	public static<T> Stream<T> of(T... values) |	Stream接口中的静态方法 |
+
+## Stream流的使用步骤:
+
+1.先得到一条Stream流（流水线），并把数据放上去
+
+2.使用中间方法对流水线上的数据进行操作
+
+3.使用终结方法对流水线上的数据进行操作
+
+![image](https://user-images.githubusercontent.com/88382462/221397588-4007395f-24af-40e1-9027-2013836f129f.png)
+
+### 单列集合Stream流
+
+```ruby
+//1.单列集合获取Stream流
+ ArrayList<String> list = new ArrayList<>();
+ Collections.addAll(list,"a","b","c","d","e");
+ //获取到一条流水线，并把集合中的数据放到流水线上
+ Stream<String> stream1 = list.stream();
+ //使用终结方法打印一下流水线上的所有数据
+ stream1.forEach(new Consumer<String>() {
+     @Override
+     public void accept(String s) {
+         //s:依次表示流水线上的每一个数据
+         System.out.println(s);
+     }
+ });
+```
+
+简化写法
+
+```ruby
+list.stream().forEach(s -> System.out.println(s));
+```
+
+### 双列集合Stream流
+
+获取键或者获取键值对再获取stream流
+
+```ruby
+//1.创建双列集合
+HashMap<String,Integer> hm = new HashMap<>();
+//2.添加数据
+hm.put("aaa",111);
+hm.put("bbb",222);
+hm.put("ccc",333);
+hm.put("ddd",444);
+
+//3.第一种获取stream流
+
+hm.keySet().stream().forEach(s -> System.out.println(s));
+
+//4.第二种获取stream流
+
+hm.entrySet().stream().forEach(s-> System.out.println(s));
+```
+
+### 集合Stream流
+```ruby
+// 数组          public static <T> Stream<T> stream(T[] array)        Arrays工具类中的静态方法
+
+//1.创建数组
+int[] arr1 = {1,2,3,4,5,6,7,8,9,10};
+String[] arr2 = {"a","b","c"};
+
+//2.获取stream流
+ Arrays.stream(arr1).forEach(s-> System.out.println(s));
+System.out.println("============================");
+
+Arrays.stream(arr2).forEach(s-> System.out.println(s));
+```
+
+### 零散数据Stream流
+```ruby
+//一堆零散数据   public static<T> Stream<T> of(T... values)    Stream接口中的静态方法
+
+Stream.of(1,2,3,4,5).forEach(s-> System.out.println(s));
+Stream.of("a","b","c","d","e").forEach(s-> System.out.println(s));
+```
+
+注意：
+
+**Stream接口中静态方法of的细节**
+
+方法的形参是一个可变参数，可以传递一堆零散的数据，也可以传递数组
+
+但是数组必须是引用数据类型的，如果传递基本数据类型，是会把整个数组当做一个元素，放到Stream当中。
+
+```ruby
+int[] arr1 = {1,2,3,4,5,6,7,8,9,10};
+Stream.of(arr1).forEach(s-> System.out.println(s));//[I@41629346
+```
+
+## Stream流中间方法
+
+|名称	| 说明 |
+| --- | --- |
+|Stream<T> filter(Predicate<? super T> predicate)	| 过滤 |
+|Stream<T> limit(long maxSize)| 	获取前几个元素 |
+|Stream<T> skip(long n) |	跳过前几个元素 |
+|Stream<T> distinct()	| 元素去重，依赖(hashCode和equals方法) |
+|static<T> Stream<T> concat(Stream a, Stream b)	| 合并a和b两个流为一个流 |
+|stream<R> map(Function<T， R> mapper)	| 转换流中的数据类型 | 
+
+**注意1**∶中间方法，返回新的Stream流，原来的Stream流只能使用一次，建议使用链式编程
+
+**注意2**:修改Stream流中的数据，不会影响原来集合或者数组中的数据
+
+### filter 过滤
+
+匿名内部类写法
+
+```ruby
+//filter   过滤  把张开头的留下，其余数据过滤不要
+list.stream().filter(new Predicate<String>() {
+    @Override
+    public boolean test(String s) {
+        //如果返回值为true，表示当前数据留下
+        //如果返回值为false，表示当前数据舍弃不要
+        return s.startsWith("张");
+    }
+}).forEach(s -> System.out.println(s));
+```
+
+Lambda表达式写法
+
+```ruby
+list.stream()
+          .filter(s -> s.startsWith("张"))
+          .filter(s -> s.length() == 3)
+          .forEach(s -> System.out.println(s));
+```
+
+### limit 获取前几个元素 和 skip 跳过前几个元素
+
+```ruby
+//"张无忌", "周芷若", "赵敏", "张强", "张三丰", "张翠山", "张良", "王二麻子", "谢广坤"
+list.stream().limit(3)
+        .forEach(s -> System.out.println(s));   //张无忌 周芷若 赵敏
+list.stream().skip(4)
+        .forEach(s -> System.out.println(s));   //张三丰 张翠山 张良 王二麻子 谢广坤
+```
+
+### distinct 元素去重 和 concat 流合并
+
+distinct  元素去重，依赖(hashCode和equals方法)
+
+ concat   合并a和b两个流为一个流
+
+```ruby
+// distinct            元素去重，依赖(hashCode和equals方法)
+list1.stream().distinct().forEach(s -> System.out.println(s));
+
+// concat   合并a和b两个流为一个流
+Stream.concat(list1.stream(),list2.stream()).forEach(s -> System.out.println(s));
+```
+
+### map 转换流中的数据类型
+
+```ruby
+/*
+    map                 转换流中的数据类型
+
+    注意1：中间方法，返回新的Stream流，原来的Stream流只能使用一次，建议使用链式编程
+    注意2：修改Stream流中的数据，不会影响原来集合或者数组中的数据
+*/
+
+ArrayList<String> list = new ArrayList<>();
+Collections.addAll(list, "张无忌-15", "周芷若-14", "赵敏-13", "张强-20", "张三丰-100", "张翠山-40", "张良-35", "王二麻子-37", "谢广坤-41");
+//需求：只获取里面的年龄并进行打印
+//String->int
+
+//第一个类型：流中原本的数据类型
+//第二个类型：要转成之后的类型
+
+//apply的形参s：依次表示流里面的每一个数据
+//返回值：表示转换之后的数据
+
+//当map方法执行完毕之后，流上的数据就变成了整数
+//所以在下面forEach当中，s依次表示流里面的每一个数据，这个数据现在就是整数了
+list.stream().map(new Function<String, Integer>() {
+    @Override
+    public Integer apply(String s) {
+        String[] arr = s.split("-");    //把字符串按"-"切割,返回数组
+        String ageString = arr[1];
+        int age = Integer.parseInt(ageString);
+        return age;
+    }
+}).forEach(s-> System.out.println(s));
+
+System.out.println("------------------------");
+
+```
+
+使用Lambda表达式
+
+```ruby
+
+list.stream()
+        .map(s-> Integer.parseInt(s.split("-")[1]))
+        .forEach(s-> System.out.println(s));
+}
+```
+
+## Stream流 终结方法
+
+|名称	| 说明 |
+| --- | --- |
+|void forEach(Consumer action) |	遍历 |
+|long count()	| 统计 |
+|toArray()	| 收集流中的数据，放到数组中 |
+|collect(Collector collector) |	收集流中的数据，放到集合中 |
+
+### forEach 遍历 count 统计 toArray 收集流中的数据，放到数组中
+
+```ruby
+//void forEach(Consumer action)           遍历
+
+//Consumer的泛型：表示流中数据的类型
+//accept方法的形参s：依次表示流里面的每一个数据
+//方法体：对每一个数据的处理操作（打印）
+list.stream().forEach(new Consumer<String>() {
+    @Override
+    public void accept(String s) {
+        System.out.println(s);
+    }
+});
+
+list.stream().forEach(s -> System.out.println(s));
+```
+
+```ruby
+ // long count()                            统计
+ long count = list.stream().count();
+ System.out.println(count);
+```
+
+```ruby
+// toArray()                               收集流中的数据，放到数组中
+Object[] arr1 = list.stream().toArray();
+System.out.println(Arrays.toString(arr1));
+```
+
+```ruby
+//IntFunction的泛型：具体类型的数组
+//apply的形参:流中数据的个数，要跟数组的长度保持一致
+//apply的返回值：具体类型的数组
+//方法体：就是创建数组
+
+//toArray方法的参数的作用：负责创建一个指定类型的数组
+//toArray方法的底层，会依次得到流里面的每一个数据，并把数据放到数组当中
+//toArray方法的返回值：是一个装着流里面所有数据的数组
+String[] arr = list.stream().toArray(new IntFunction<String[]>() {
+    @Override
+    public String[] apply(int value) {
+        return new String[value];
+    }
+});
+
+System.out.println(Arrays.toString(arr));
+```
+
+Lambda表达式写法
+
+```ruby
+ String[] arr2 = list.stream().toArray(value -> new String[value]);
+ System.out.println(Arrays.toString(arr2));
+```
+
+### collect 收集流中的数据，放到集合中 (List Set Map)
+
+收集到List集合和Set集合中
+
+```ruby
+ArrayList<String> list = new ArrayList<>();
+Collections.addAll(list, "张无忌-男-15", "周芷若-女-14", "赵敏-女-13", "张强-男-20",
+        "张三丰-男-100", "张翠山-男-40", "张良-男-35", "王二麻子-男-37", "谢广坤-男-41");
+
+//收集List集合当中
+//需求：
+//我要把所有的男性收集起来
+List<String> newList1 = list.stream()
+        .filter(s -> "男".equals(s.split("-")[1]))
+        .collect(Collectors.toList());
+System.out.println(newList1);
+
+//收集Set集合当中
+//需求：
+//我要把所有的男性收集起来
+Set<String> newList2 = list.stream().filter(s -> "男".equals(s.split("-")[1]))
+        .collect(Collectors.toSet());
+System.out.println(newList2);
+```
+
+**收集到Map集合中(注意键和值和参数)**
+
+注意点：
+
+    如果我们要收集到Map集合当中，键不能重复，否则会报错
+
+```ruby
+//收集Map集合当中
+//谁作为键,谁作为值.
+//我要把所有的男性收集起来
+//键：姓名。 值：年龄
+Map<String, Integer> map = list.stream()
+        .filter(s -> "男".equals(s.split("-")[1]))
+        /*
+         *   toMap : 参数一表示键的生成规则
+         *           参数二表示值的生成规则
+         *
+         * 参数一：
+         *       Function泛型一：表示流中每一个数据的类型
+         *               泛型二：表示Map集合中键的数据类型
+         *
+         *        方法apply形参：依次表示流里面的每一个数据
+         *               方法体：生成键的代码
+         *               返回值：已经生成的键
+         *
+         *
+         * 参数二：
+         *        Function泛型一：表示流中每一个数据的类型
+         *                泛型二：表示Map集合中值的数据类型
+         *
+         *       方法apply形参：依次表示流里面的每一个数据
+         *               方法体：生成值的代码
+         *               返回值：已经生成的值
+         *
+         * */
+        .collect(Collectors.toMap(new Function<String, String>() {
+                                      @Override
+                                      public String apply(String s) {
+                                          //张无忌-男-15
+                                          return s.split("-")[0];
+                                      }
+                                  },
+                new Function<String, Integer>() {
+                    @Override
+                    public Integer apply(String s) {
+                        return Integer.parseInt(s.split("-")[2]);
+                    }
+                }));
+```
+
+收集到Map集合的Lambda表达式
+
+```ruby
+ Map<String, Integer> map2 = list.stream()
+         .filter(s -> "男".equals(s.split("-")[1]))
+         .collect(Collectors.toMap(
+                 s -> s.split("-")[0],
+                 s -> Integer.parseInt(s.split("-")[2])));
+```
+
+## Stream流总结
+
+**1. Stream流的作用**
+
+结合了Lambda表达式，简化集合、数组的操作
+
+**2. Stream的使用步骤**
+
+获取Stream流对象使用中间方法处理数据使用终结方法处理数据
+
+**3．如何获取Stream流对象**
+
+单列集合:Collection中的默认方法
+
+stream双列集合:不能直接获取
+
+数组:Arrays工具类型中的静态方法stream一堆零散的数据:Stream接口中的静态方法of
+
+**4．常见方法**
+
+中间方法:
+filter，limit，skip，distinct,concat,map
+
+终结方法:
+forEach, count,collect
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
