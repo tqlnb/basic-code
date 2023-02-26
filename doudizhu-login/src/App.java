@@ -1,8 +1,9 @@
-import com.tql.game.LoginJFrame;
+import com.tql.game.GameJFrame;
 
 public class App {
     public static void main(String[] args) {
-        new LoginJFrame();
+        //new LoginJFrame();
+        new GameJFrame();
 
     }
 }

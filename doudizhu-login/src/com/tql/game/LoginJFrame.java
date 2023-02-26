@@ -162,6 +162,8 @@ public class LoginJFrame extends JFrame implements MouseListener {
             User useradd = new User(usname,psword);
             if(userList.contains(useradd)){
                 System.out.println("登陆成功");
+                //进入游戏界面
+                new GameJFrame();
             }else {
                 System.out.println("用户名或密码错误");
             }
