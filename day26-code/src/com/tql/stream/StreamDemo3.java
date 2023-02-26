@@ -16,7 +16,7 @@ public class StreamDemo3 {
         hm.put("ddd",444);
 
         //3.第一种获取stream流
-        //hm.keySet().stream().forEach(s -> System.out.println(s));
+        hm.keySet().stream().forEach(s -> System.out.println(s));
 
         //4.第二种获取stream流
         hm.entrySet().stream().forEach(s-> System.out.println(s));

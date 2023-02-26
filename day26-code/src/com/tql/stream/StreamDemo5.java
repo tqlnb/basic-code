@@ -2,7 +2,8 @@ package com.tql.stream;
 
 import java.util.stream.Stream;
 
-public class StreamDemo5 {
+public class
+StreamDemo5 {
     public static void main(String[] args) {
         //一堆零散数据   public static<T> Stream<T> of(T... values)           Stream接口中的静态方法
 

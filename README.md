@@ -1441,6 +1441,12 @@ map.forEach(( key, value) -> System.out.println(key + "=" + value));
 map.forEach(( key, value) -> System.out.println(key + "=" + value));
 ```
 
+
+
+
+
+
+
 底层:
 forEach其实就是利用第二种方式进行遍历，依次得到每一个键和值,再调用accept方法
 

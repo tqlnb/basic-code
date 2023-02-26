@@ -1,5 +1,6 @@
 package com.tql.stream;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class StreamDemo4 {
@@ -13,14 +14,13 @@ public class StreamDemo4 {
 
 
         //2.获取stream流
-        // Arrays.stream(arr1).forEach(s-> System.out.println(s));
+         Arrays.stream(arr1).forEach(s-> System.out.println(s));
 
-        //System.out.println("============================");
+        System.out.println("============================");
 
-        //Arrays.stream(arr2).forEach(s-> System.out.println(s));
+        Arrays.stream(arr2).forEach(s-> System.out.println(s));
 
-
-        //System.out.println("============================");
+        System.out.println("============================");
 
 
         //注意：

@@ -29,7 +29,7 @@ public class StreamDemo8 {
         list.stream().map(new Function<String, Integer>() {
             @Override
             public Integer apply(String s) {
-                String[] arr = s.split("-");
+                String[] arr = s.split("-");    //把字符串按"-"切割,返回数组
                 String ageString = arr[1];
                 int age = Integer.parseInt(ageString);
                 return age;

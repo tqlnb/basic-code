@@ -25,7 +25,7 @@ public class StreamDemo10 {
         List<String> newList1 = list.stream()
                 .filter(s -> "男".equals(s.split("-")[1]))
                 .collect(Collectors.toList());
-        //System.out.println(newList1);
+        System.out.println(newList1);
 
 
         //收集Set集合当中
@@ -33,7 +33,7 @@ public class StreamDemo10 {
         //我要把所有的男性收集起来
         Set<String> newList2 = list.stream().filter(s -> "男".equals(s.split("-")[1]))
                 .collect(Collectors.toSet());
-        //System.out.println(newList2);
+        System.out.println(newList2);
 
 
         //收集Map集合当中
