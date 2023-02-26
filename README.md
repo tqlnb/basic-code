@@ -69,16 +69,20 @@ www.bilibili.com/video/BV17F411T
 ![image](https://user-images.githubusercontent.com/88382462/192415469-a34ea306-7f65-4740-a7f8-a45de43af7d6.png)
 
 ## 继承
+
+### 继承的定义及好处
 ![image](https://user-images.githubusercontent.com/88382462/192416569-a9f9a1c5-1e18-40b9-93c6-d66e6796cab8.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192416738-f0a01b2a-2978-47e7-a9a8-44a8f0367ab3.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192416905-b47ee3e4-53af-4321-947e-32c27edff7d6.png)
 
+### 继承的格式
 ![image](https://user-images.githubusercontent.com/88382462/192417934-f56a5bfe-5ad1-42a5-aa6b-70eba4e3608e.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192418395-a71d9e29-980e-41d6-a9e1-dafb78cdb9f5.png)
 
+### 继承中成员变量的访问特点
 ![image](https://user-images.githubusercontent.com/88382462/192470608-a3ab47c5-96f0-410c-b124-2aad27d55e94.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192729991-69d7e9e4-02f7-4055-9c1f-014acd9bf3b7.png)
@@ -87,6 +91,7 @@ www.bilibili.com/video/BV17F411T
 
 ![image](https://user-images.githubusercontent.com/88382462/192733170-5553bda4-2439-49e5-b234-2851ef02bf16.png)
 
+### 继承中成员方法的访问特点
 ![image](https://user-images.githubusercontent.com/88382462/192733283-923e1df5-c625-4112-a248-e74e5a94cfcb.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192735006-f4046805-d193-4dc9-bbda-5903fc419dfd.png)
@@ -97,29 +102,36 @@ www.bilibili.com/video/BV17F411T
 
 ![image](https://user-images.githubusercontent.com/88382462/192742068-11b7d9a9-1d72-4f36-afd8-be42e9f89454.png)
 
+### 继承中构造方法的访问特点
 ![image](https://user-images.githubusercontent.com/88382462/192742588-5d1e408a-ae98-44f2-89ce-a75ba33267d8.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192744675-ac244198-c158-4cab-827a-8151e9766c6e.png)
 
+### this/super 使用总结
 ![image](https://user-images.githubusercontent.com/88382462/192746319-824bdb7d-011a-41a3-ad74-2950e53495c3.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/192746886-4d33f32a-db60-4a65-a6da-3ce87af066e9.png)
 
-==========================================================================================
-多态
+## 多态
 
+### 什么是多态
 ![image](https://user-images.githubusercontent.com/88382462/193443335-096a6f91-f6f7-4176-a72d-c11d7d5d0ef4.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/193443788-4539d724-0449-4690-b311-4defa0559bdb.png)
 
+### 多态调用成员变量和成员方法的特点
 ![image](https://user-images.githubusercontent.com/88382462/193443816-72ea183c-721b-44b7-b120-0baeb34adcf4.png)
 
 调用成员变量:编译看左边，运行也看左边
+
 编译看左边: javac编译代码的时候，会看左边的父类中有没有这个变量，如果有，编译成功，如果没有编译失败。
+
 运行也看左边: java运行代码的时候，实际获取的就是左边父类中成员变量的值
 
 调用成员方法:编译看左边，运行看右边
+
 编译看左边: javac编译代码的时候，会看左边的父类中有没有这个方法，如果有，编译成功，如果没有编译失败。
+
 运行看右边: java运行代码的时候，实际上运行的是子类中的方法。
 
 ![image](https://user-images.githubusercontent.com/88382462/193444370-6abd8aba-8969-4499-85c4-4a866aa16d8e.png)
