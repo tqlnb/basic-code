@@ -122,79 +122,93 @@ www.bilibili.com/video/BV17F411T
 ### 多态调用成员变量和成员方法的特点
 ![image](https://user-images.githubusercontent.com/88382462/193443816-72ea183c-721b-44b7-b120-0baeb34adcf4.png)
 
-调用成员变量:编译看左边，运行也看左边
+**调用成员变量:编译看左边，运行也看左边**
 
 编译看左边: javac编译代码的时候，会看左边的父类中有没有这个变量，如果有，编译成功，如果没有编译失败。
 
 运行也看左边: java运行代码的时候，实际获取的就是左边父类中成员变量的值
 
-调用成员方法:编译看左边，运行看右边
+**调用成员方法:编译看左边，运行看右边**
 
 编译看左边: javac编译代码的时候，会看左边的父类中有没有这个方法，如果有，编译成功，如果没有编译失败。
 
 运行看右边: java运行代码的时候，实际上运行的是子类中的方法。
 
+### 多态的优势
 ![image](https://user-images.githubusercontent.com/88382462/193444370-6abd8aba-8969-4499-85c4-4a866aa16d8e.png)
 
-多态的弊端
-不能调用子类的特有功能
-报错的原因?
+### 多态的弊端
+**不能调用子类的特有功能**
+
+调用会报错,报错的原因?
+
 当调用成员方法的时候，编译看左边，运行看右边
+
 那么在编译的时候会先检查左边的父类中有没有这个方法，如果没有直接报错。
+
 解决方案:
+
 变回子类类型就可以了（可以用强制转换）（但是瞎转转成其他的对象就会报错）
+
 可以用instanceof来判断对象是什么类型的
+
 ![image](https://user-images.githubusercontent.com/88382462/193444895-5379e9b7-707e-4bd1-bda4-1df4ff106bb9.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/193445015-6ce2109b-6a93-47dd-84ae-2c35afcd67bf.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/193445071-d6231b8c-3518-44cf-b915-22fab0dc3d17.png)
 
+### 多态总结
 ![image](https://user-images.githubusercontent.com/88382462/193445126-da9512d4-5399-4961-9c7f-af2eb7e1876c.png)
 
-
-=============================================================================================
-包
+# 包
+## 包的定义
 ![image](https://user-images.githubusercontent.com/88382462/193446805-7f347726-8623-455a-aa3f-488d0baeec2a.png)
-导包
+## 导包
 ![image](https://user-images.githubusercontent.com/88382462/193446840-70b0a958-a83c-4b3a-9698-3b907a67be27.png)
 ![image](https://user-images.githubusercontent.com/88382462/193446859-b8d12557-8e98-47a1-9795-2f6e17670ac5.png)
 ![image](https://user-images.githubusercontent.com/88382462/193447098-53feddfa-3c23-4920-bf77-2f6459d4fe41.png)
 
-
-=============================================================================================
-final
+## final关键字
 ![image](https://user-images.githubusercontent.com/88382462/193462016-7ec4148f-427c-45f8-b036-cc376f876385.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/193462339-431f325e-516d-4dd2-a834-eaf93fc3dcc9.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/194689623-3bc7be28-2a4c-4f96-b9fe-a8ef5b5b9c7d.png)
  
+ ## 权限修饰符分类和使用规则
 ![image](https://user-images.githubusercontent.com/88382462/194888059-6035f9b8-c882-4d9a-ad46-316fc4566c7f.png)
 
+## 构造代码块
 ![image](https://user-images.githubusercontent.com/88382462/194889136-d35f4f08-620b-4d4b-8868-6d54f440fe3d.png)
 
 但是构造代码块很少使用，如果多个构造方法有一些相同的代码可以用以下的方式
 ![image](https://user-images.githubusercontent.com/88382462/194890863-95023260-7f07-44ee-b90c-26ffe50786f6.png)
 
+### 静态代码块
+
 ![image](https://user-images.githubusercontent.com/88382462/194895174-20e9d72a-646d-4411-b7a8-6b1451143d6c.png)
 
+## 抽象方法和抽象类
 ![image](https://user-images.githubusercontent.com/88382462/194896373-61105c1f-8748-42fd-988a-8b181332aba0.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/194896523-1654cc9a-df52-4efa-a152-1e091bdefc1a.png)
  
  ![image](https://user-images.githubusercontent.com/88382462/194897297-542c908f-421d-4a3c-a74a-865f9d02dc19.png)
 
- ===============================================================================
- 接口
+ # 接口
+ ## 接口定义和使用
  ![image](https://user-images.githubusercontent.com/88382462/195065577-fbdf768a-5060-4811-a685-61abccaeec94.png)
 
  ![image](https://user-images.githubusercontent.com/88382462/195073694-05c38cc1-a574-41c3-9e9a-86dce0e12e99.png)
-
+ 
+## 接口中成员特点 
 ![image](https://user-images.githubusercontent.com/88382462/195078798-3681c96d-6718-4f16-8291-82278773fe14.png)
 
+## 接口和类的关系
 ![image](https://user-images.githubusercontent.com/88382462/195083063-26424218-1de6-4d89-bb2e-9d469f7b8402.png)
 
+## JDK8和JDK9接口新增方法
 ![image](https://user-images.githubusercontent.com/88382462/195088563-1fb53c54-045b-48d8-b510-7ccb82b32e49.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/195090214-7be3fda3-19a7-4f11-a869-0a65d41d6142.png)
@@ -208,37 +222,44 @@ final
  ![image](https://user-images.githubusercontent.com/88382462/195094808-f6a4c0c4-1903-41bb-a94b-bfac6c4f9589.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/195252965-d6816991-33a0-441d-8502-e849aa031a6f.png)
+
+## 接口多态
 当一个方法的参数是接口时，可以传递接口所有实现类的对象，这种方式称之为接口多态。
 ![image](https://user-images.githubusercontent.com/88382462/195253161-c69b1e31-1e7a-4a97-a587-78dff5b2e33f.png)
 
+## 适配器设计模式
 ![image](https://user-images.githubusercontent.com/88382462/195254134-50fc1e71-96f5-4cb4-a337-f9bce80aa09e.png)
-========================================================================================
-内部类
+
+# 内部类
+## 什么是内部类
 ![image](https://user-images.githubusercontent.com/88382462/195254292-1a41f7e2-ab97-48f3-b150-018170f2d1ed.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/195254397-53904668-9f72-4e0b-9434-6cb4d413520c.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/195254619-7c654814-f7a8-489a-8f24-be07ca01de38.png)
 
+## 内部类分类
 ![image](https://user-images.githubusercontent.com/88382462/195256185-7aef5fc1-85d2-4be1-907a-c49d9dca4596.png)
+### 成员内部类
 ![image](https://user-images.githubusercontent.com/88382462/195256696-9eb4026c-fa5c-4693-bb03-22065e2bcd6f.png)
 ![image](https://user-images.githubusercontent.com/88382462/195256859-66e2ceea-ce8e-4ea3-bef8-2f9baea508eb.png)
 ![image](https://user-images.githubusercontent.com/88382462/195257342-e49f4f13-ddea-443d-bec8-5c89d630ffad.png)
+#### 内部类内存图
 ![image](https://user-images.githubusercontent.com/88382462/195263171-1bfd870d-b798-4901-a7d8-e9d752a3a8f3.png)
+#### 成员内部类总结
 ![image](https://user-images.githubusercontent.com/88382462/195263454-432b485c-6c2c-40c0-97ea-c0e13d9dbe15.png)
+### 静态内部类
 ![image](https://user-images.githubusercontent.com/88382462/195263693-86c89bbe-33aa-4625-8743-70fd6a976428.png)
+### 局部内部类
 ![image](https://user-images.githubusercontent.com/88382462/195792742-0a970046-f7eb-4283-a96e-036502c5f61d.png)
 
-========================================================================================
-匿名内部类
+### 匿名内部类(重要)
 ![image](https://user-images.githubusercontent.com/88382462/195794365-d429243f-b87e-4bce-a16a-5c23d8af1cf6.png)
 ![image](https://user-images.githubusercontent.com/88382462/195796546-a7d68049-352a-4c40-8e2c-baa1bd8fe3c4.png)
 ![image](https://user-images.githubusercontent.com/88382462/196916464-8b47eaca-d82d-4964-8244-40bc1494f54d.png)
 ![image](https://user-images.githubusercontent.com/88382462/196920860-7b162a88-584f-419f-8055-182fb4d5a757.png)
 
-
-========================================================================================
-GUI
+# GUI(Jframe)
 ![image](https://user-images.githubusercontent.com/88382462/196923244-775afbb2-8060-4180-9380-1359fe8f6c9f.png)
 ![image](https://user-images.githubusercontent.com/88382462/197311400-95c798c7-8aef-4889-9161-9ddabb3bd62c.png)
 ![image](https://user-images.githubusercontent.com/88382462/197311393-a51119d9-8f19-4c12-8f15-ab97719ec90a.png)
@@ -252,54 +273,62 @@ GUI
 ![image](https://user-images.githubusercontent.com/88382462/197994468-5dc80479-3257-438a-8f06-4c8e6e8ff296.png)
 ![image](https://user-images.githubusercontent.com/88382462/197994598-977efe20-8e35-455b-aee9-612fd103364a.png)
 
-=========================================================================================
-MATH
+# 一些常用工具类
+## MATH类
 ![image](https://user-images.githubusercontent.com/88382462/200764190-add2f3ff-7071-4071-b3dc-d7459cfad150.png)
 ![image](https://user-images.githubusercontent.com/88382462/201478751-88158b35-9573-4560-8666-e6d6a60d3f9a.png)
 ![image](https://user-images.githubusercontent.com/88382462/201479007-4d835e91-944c-4cfd-9d09-63902ce8fbd0.png)
 
-SYSTEM
+## SYSTEM
 ![image](https://user-images.githubusercontent.com/88382462/201480948-747235d7-4ee7-4247-8323-ea8e334bb10a.png)
 ![image](https://user-images.githubusercontent.com/88382462/201480916-681590ad-dfc9-4f01-b29b-7edf57f5a6a6.png)
 ![image](https://user-images.githubusercontent.com/88382462/201482246-f7a516da-df49-456a-b281-d3617273214a.png)
 
-RUNTIME
+## RUNTIME
 ![image](https://user-images.githubusercontent.com/88382462/201514149-0d7deccb-1cc6-4e42-b0bc-8b6bd64125cd.png)
 ![image](https://user-images.githubusercontent.com/88382462/201514159-35c94581-09c1-45b9-b09c-8536a88b4b61.png)
 
-OBJECT
+## OBJECT
+### Object构造方法
 ![image](https://user-images.githubusercontent.com/88382462/201514278-3ac501be-4849-409f-b462-496bd1682f7c.png)
+### Object成员方法
 ![image](https://user-images.githubusercontent.com/88382462/201514302-75ea8fa9-2a31-4df3-93f3-37b2ceab4338.png)
+ #### 重写toString
  ![image](https://user-images.githubusercontent.com/88382462/201514715-57b9d985-4a52-4457-a2bf-d5c6ad72b670.png)
+
 ![image](https://user-images.githubusercontent.com/88382462/201514989-434ce7c2-7c42-4f75-883f-7c168386e60d.png)
+#### 重写equals
 ![image](https://user-images.githubusercontent.com/88382462/201515215-4164c423-e8f8-45d1-adab-7f0e079b6771.png)
 ![image](https://user-images.githubusercontent.com/88382462/201515557-bad20d9e-b956-473e-bea1-6dba832f6a0c.png)
+#### 对象克隆(浅克隆和深克隆)
 ![image](https://user-images.githubusercontent.com/88382462/201515746-d5ce739d-7abf-4033-a68c-d34d22e2060c.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516056-5640170d-598f-447d-93d9-42b2f6e18310.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516124-5bf37ad7-e7a6-4a9d-a0ae-10d8b105e285.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516181-544615e3-a52f-445d-afe6-bf347922bf86.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516200-a6203523-0440-44f4-9c9b-6d48a1b6db4d.png)
 ![image](https://user-images.githubusercontent.com/88382462/201516281-18aa38a7-d90d-41f0-992b-92ec1464736c.png)
+##### 第三方工具实现深克隆
 ![image](https://user-images.githubusercontent.com/88382462/201516765-cb35da72-235e-4658-b6e0-a7002a3be0f3.png)
+### Object总结
 ![image](https://user-images.githubusercontent.com/88382462/201516792-8fc81685-3c07-4076-a7f3-591ec34126f3.png)
 
-OBJECTS
+## OBJECTS
 ![image](https://user-images.githubusercontent.com/88382462/201690011-372cf37d-0e12-447c-b798-77ce08830a97.png)
 ![image](https://user-images.githubusercontent.com/88382462/201691646-428c632f-4839-42b0-9922-d7d0dcb3cae2.png)
 
-BigInteger
+## BigInteger
 ![image](https://user-images.githubusercontent.com/88382462/201692963-c96f9e39-0412-4c6b-bef3-da4ffa52da7e.png)
 ![image](https://user-images.githubusercontent.com/88382462/201699816-16fd12bf-1f51-4e0d-a4d0-a4bb4c4a6bbc.png)
 ![image](https://user-images.githubusercontent.com/88382462/201700211-fc75ea3e-d7ea-450b-b6a4-8e3b93f4e562.png)
 
 
-BigDecimal
+## BigDecimal
 ![image](https://user-images.githubusercontent.com/88382462/201882203-a45ba5d2-f136-4b7b-b15c-00548dc1809e.png)
 ![image](https://user-images.githubusercontent.com/88382462/201885104-d50ef8b8-c98a-40c6-b3c5-957b8f1c30bc.png)
 ![image](https://user-images.githubusercontent.com/88382462/201885266-1bd73863-eb04-4777-a8f9-17b8164b2b92.png)
 ![image](https://user-images.githubusercontent.com/88382462/201888770-8783e06d-f643-48a9-be1e-928c8f94ed7b.png)
 
-Regex:正则表达式  Date Calendar
+## Regex:正则表达式
 ![image](https://user-images.githubusercontent.com/88382462/201891646-35a26245-721d-41a6-babe-cd7b72d0846c.png)
 ![image](https://user-images.githubusercontent.com/88382462/201895122-97145d02-c0a1-4726-816d-e8c99c234f19.png)
 ![image](https://user-images.githubusercontent.com/88382462/201907062-e2d2178f-c424-49e8-8488-046e336ecab9.png)
@@ -319,9 +348,11 @@ Regex:正则表达式  Date Calendar
 ![image](https://user-images.githubusercontent.com/88382462/202897249-10cfb18a-caa6-4a0f-b681-4c4661dd3d2f.png)
 ![image](https://user-images.githubusercontent.com/88382462/202897296-9d4f2289-76b4-4e29-9dde-0f06e5baac57.png)
 ![image](https://user-images.githubusercontent.com/88382462/202897438-7488ebcd-f9bc-46f7-be2a-e15f5bd07a19.png)
+## Date
 ![image](https://user-images.githubusercontent.com/88382462/202897519-4ec553e9-35da-4ca9-b5e3-e39077141c72.png)
 ![image](https://user-images.githubusercontent.com/88382462/202897625-7919bea0-732b-4f10-a493-4be8d0fcaca2.png)
 ![image](https://user-images.githubusercontent.com/88382462/202899396-8a052354-fc84-47ee-8f19-9e935d86af34.png)
+## SimpleDateFormat (时间格式化和解析)
 ![image](https://user-images.githubusercontent.com/88382462/202899912-18fea89a-87f4-47c6-b44d-e24a4acd6950.png)
 ![image](https://user-images.githubusercontent.com/88382462/202899960-babd0bab-95a3-4fb4-b063-4be4679a7a47.png)
 ![image](https://user-images.githubusercontent.com/88382462/202900038-d3f8f862-561f-49dc-ab6c-f18d80b43447.png)
@@ -329,35 +360,43 @@ Regex:正则表达式  Date Calendar
 ![image](https://user-images.githubusercontent.com/88382462/202900513-78ecfe63-b42e-40f3-818e-bdac7df157b8.png)
 ![image](https://user-images.githubusercontent.com/88382462/202900516-43fc6521-2c63-45b7-a704-7e96d02acfb5.png)
 ![image](https://user-images.githubusercontent.com/88382462/202901290-f3639bf6-54a1-4ba0-be06-cf003098f28f.png)
+## Calendar
  ![image](https://user-images.githubusercontent.com/88382462/202901362-473c798f-a850-4d74-8617-6ffb22119f7b.png)
 ![image](https://user-images.githubusercontent.com/88382462/202901698-05eabdb5-2053-4593-b96f-cfecbb2134dc.png)
 ![image](https://user-images.githubusercontent.com/88382462/202902188-746bb30a-6127-47cf-833e-e57464239a08.png)
 ![image](https://user-images.githubusercontent.com/88382462/202902498-f8ed29ef-4580-4544-a0d2-23f4122327cb.png)
+## Jdk8以后时间类
 ![image](https://user-images.githubusercontent.com/88382462/202902519-75dcc771-1d28-4578-9ec4-fb775e4b553d.png)
+### ZoneId 时区
 ![image](https://user-images.githubusercontent.com/88382462/202902569-9819cbd4-f0b2-4453-b8af-f4d0eb0ae724.png)
 ![image](https://user-images.githubusercontent.com/88382462/202902578-302921e8-6423-4ea5-99d7-ac0bf4bb246a.png)
 ![image](https://user-images.githubusercontent.com/88382462/202902982-4d5f9175-d64d-4b6f-8073-cc14e07d3752.png)
+### Instant 时间戳
 ![image](https://user-images.githubusercontent.com/88382462/202903027-4fb5cb6e-66c0-4f73-ae6e-754b30789bfa.png)
 ![image](https://user-images.githubusercontent.com/88382462/202903553-1250c6e6-9c23-47b4-b283-0c64e30c862a.png)
+### ZoneDateTime 带时区的时间
 ![image](https://user-images.githubusercontent.com/88382462/202903594-5f38298d-d683-44b0-80d3-9fb6a06aac2b.png)
 ![image](https://user-images.githubusercontent.com/88382462/202903883-a41d9760-b0be-44e0-aed6-1c858f0bc47e.png)
+### DateTimeFormatter 用于时间的格式化和解析
 ![image](https://user-images.githubusercontent.com/88382462/202903984-ba2bc7af-d687-4013-9e74-1b5d574a3083.png)
 ![image](https://user-images.githubusercontent.com/88382462/202903989-3e048940-bb5c-4da4-a1c7-b5d4c4195b87.png)
+## LocalDate LocalTime LocalDateTime
 ![image](https://user-images.githubusercontent.com/88382462/203062932-e0db39e1-a8a6-4427-882e-1e680379d5cb.png)
 ![image](https://user-images.githubusercontent.com/88382462/203067139-14949efd-d5d6-48f6-bcc5-cf6cd01afa7a.png)
 ![image](https://user-images.githubusercontent.com/88382462/203067711-89ac5ade-b35c-46fe-95ee-4c3470e073ce.png)
 ![image](https://user-images.githubusercontent.com/88382462/203068644-2aa13d94-21f0-4f07-ac95-9c442b85ce00.png)
 
 
-包装类
+# 包装类
 ![image](https://user-images.githubusercontent.com/88382462/203069149-21c93513-2bec-4107-800b-f822cf8b6dff.png)
 ![image](https://user-images.githubusercontent.com/88382462/203070078-edbcfe8b-290b-40cb-8e0d-8fd1af4dc5c7.png)
 ![image](https://user-images.githubusercontent.com/88382462/203071231-3a79771a-bcb3-4d58-9818-5ee5c531eb79.png)
 ![image](https://user-images.githubusercontent.com/88382462/203071418-57ff286a-4e93-4abd-8c42-c81b9eaf6d57.png)
 ![image](https://user-images.githubusercontent.com/88382462/203071642-4c31716d-0150-4492-b93c-8b215265d65d.png)
+## Integer
 ![image](https://user-images.githubusercontent.com/88382462/203071759-b534efe5-d69a-4228-9d29-dcb017e830f0.png)
 ![image](https://user-images.githubusercontent.com/88382462/203072800-9f54bcba-f358-44b3-9559-5d758ffdf046.png)
-键盘录入更规范的写法
+# 键盘录入更规范的写法
 ![image](https://user-images.githubusercontent.com/88382462/203073493-8a53cfa2-c812-49e8-bf02-6d87fe6b2462.png)
 
 练习
@@ -365,45 +404,56 @@ Regex:正则表达式  Date Calendar
 ![image](https://user-images.githubusercontent.com/88382462/203094789-03a71d43-3914-4aa0-b784-1dc978f9d607.png)
 
 ====================================================================================
-查找
+# 查找
+## 基本查找/顺序查找
 ![image](https://user-images.githubusercontent.com/88382462/203272542-b0860da3-10c5-43ac-ad50-b9d472cd718b.png)
+## 二分查找
 ![image](https://user-images.githubusercontent.com/88382462/203273128-bb9b0a2b-9458-41d2-9c3c-e0efebb7685e.png)
 ![image](https://user-images.githubusercontent.com/88382462/203274122-60f823c0-6c78-4559-88f2-b6582b676d3e.png)
 ![image](https://user-images.githubusercontent.com/88382462/203276350-00e33a09-164c-493a-a60e-25e54d4c2746.png)
+## 插值查找
 ![image](https://user-images.githubusercontent.com/88382462/203276840-b9e801c8-4f2d-494d-8dd3-8534ae2faa22.png)
+## 斐波那契查找
 ![image](https://user-images.githubusercontent.com/88382462/203277104-1939a944-e8f1-473d-adb6-974e3f174721.png)
+## 二分/插值/斐波那契查找各自的特点
 ![image](https://user-images.githubusercontent.com/88382462/203277398-33d58c8a-99b1-4cba-a8f4-8b2f239ebf35.png)
+## 分块查找
 ![image](https://user-images.githubusercontent.com/88382462/203277952-d6d1a2f0-7cf6-4751-9f88-97fe985c118d.png)
+### 拓展的分块查找
 ![image](https://user-images.githubusercontent.com/88382462/203280577-960902ae-985e-4029-b315-d099fe1ca836.png)
 ![image](https://user-images.githubusercontent.com/88382462/203281332-267a683a-8a38-4a0c-8adb-70e68dd0d522.png)
+## 七种查找方式
 ![image](https://user-images.githubusercontent.com/88382462/203281476-6d25d58b-b998-4ac2-9790-82318be9ed3a.png)
 
-
-=========================================================================
-排序
+# 排序
+## 四种排序
 ![image](https://user-images.githubusercontent.com/88382462/204125316-0fea450a-efc3-4653-a8e1-ea9136c5147a.png)
+## 冒泡排序
 ![image](https://user-images.githubusercontent.com/88382462/204125441-8a380509-07f8-443d-ab95-d3887dd7e1c6.png)
 ![image](https://user-images.githubusercontent.com/88382462/204125608-b4049365-926b-4e13-9a51-a5c49d96352e.png)
+## 选择排序
 ![image](https://user-images.githubusercontent.com/88382462/204125779-e2556b86-4247-4bc9-8fc0-4b020f5c2b38.png)
+## 插入排序
 ![image](https://user-images.githubusercontent.com/88382462/204126092-bcb803a5-3781-4c06-8893-47b3caa5d02f.png)
-递归
+## 递归
 ![image](https://user-images.githubusercontent.com/88382462/204126188-d4d1fec1-a095-48ae-b5b7-27242e6d6d8b.png)
 ![image](https://user-images.githubusercontent.com/88382462/204126218-9e7b8468-2c80-4b7c-ab00-7ed91274e81b.png)
 ![image](https://user-images.githubusercontent.com/88382462/204126447-f7c01fee-3ec3-4544-b947-4b0ba751fd68.png)
 ![image](https://user-images.githubusercontent.com/88382462/204126604-d6f5cd47-d5d5-4380-8040-d22a6180e829.png)
+## 快速排序
 ![image](https://user-images.githubusercontent.com/88382462/204126791-6564be36-508b-4c8e-a5e4-69921f2de601.png)
 ![image](https://user-images.githubusercontent.com/88382462/204128602-ac11012e-0486-4f81-869e-fcc4d42c4452.png)
+## 排序总结
 ![image](https://user-images.githubusercontent.com/88382462/204128653-c75cf7cf-edb2-4d5c-ba00-fb0ddc33175d.png)
 
-Arrays
+# Arrays
 ![image](https://user-images.githubusercontent.com/88382462/204129419-2c2990fe-ecd9-434e-a642-0397bbb63549.png)
 ![image](https://user-images.githubusercontent.com/88382462/212838345-b5df044a-c7f0-4987-8758-0a85a3f40fc4.png)
 ![image](https://user-images.githubusercontent.com/88382462/212838577-6c0f78ee-a296-485a-95dd-13d66b733cc9.png)
 ![image](https://user-images.githubusercontent.com/88382462/212840022-05df4f80-1740-40d0-887d-e66a1941d416.png)
 ![image](https://user-images.githubusercontent.com/88382462/212841260-4843be3b-938d-4066-bae3-195775ba72cc.png)
 ![image](https://user-images.githubusercontent.com/88382462/212843080-3344b9e5-1e09-4d7d-9b2a-e5ced56a77ef.png)
-=============================
-Lambda表达式
+# Lambda表达式
 ![image](https://user-images.githubusercontent.com/88382462/212844111-18b06548-a878-471b-87f4-894c2965c257.png)
 ![image](https://user-images.githubusercontent.com/88382462/212844491-e2585351-7c52-47d4-a41d-72dc36b01929.png)
 ![image](https://user-images.githubusercontent.com/88382462/212844821-312a043d-cfe7-4e08-9a12-524b2b7691f2.png)
@@ -417,15 +467,17 @@ Lambda表达式
 
 ![image](https://user-images.githubusercontent.com/88382462/213338212-f465bea6-6138-4ff0-b4bd-1b97160efe7e.png)
 
-========================================================================
-集合进阶 迭代器
+# 集合进阶
 ![image](https://user-images.githubusercontent.com/88382462/216255773-8767ecee-e2c0-496e-8ae7-8d1f83fb36e9.png)
 ![image](https://user-images.githubusercontent.com/88382462/216256092-b126e33c-6113-4340-854b-f23a78dd2ae6.png)
+## Collection集合
 ![image](https://user-images.githubusercontent.com/88382462/216256372-243aa9f5-39d4-41b1-bff8-af549627d4af.png)
 ![image](https://user-images.githubusercontent.com/88382462/216264717-872ce773-53b6-481e-a456-86ef27d1c4fe.png)
 ![image](https://user-images.githubusercontent.com/88382462/219992068-0b791076-6178-46e2-b2ba-777f776c1ce5.png)
 ![image](https://user-images.githubusercontent.com/88382462/219992083-1537850c-11dd-44ad-9366-194b265c77ab.png)
+### Collection遍历方式
 ![image](https://user-images.githubusercontent.com/88382462/219992435-020faff8-1778-4115-842f-d817575c7eda.png)
+#### 迭代器遍历
 ![image](https://user-images.githubusercontent.com/88382462/219992689-84aaea5c-50f8-495a-9b38-cf969119d9b4.png)
 ![image](https://user-images.githubusercontent.com/88382462/219993400-3e620c3e-2fca-4725-ae00-ebc4f17f30f9.png)
 ![image](https://user-images.githubusercontent.com/88382462/219993565-83b9b82d-d667-4361-a943-22ce3e514c72.png)
@@ -436,17 +488,17 @@ Lambda表达式
 ![image](https://user-images.githubusercontent.com/88382462/219996961-2bf8b440-148b-4873-ada2-6dbb23acd9c4.png)
 ![image](https://user-images.githubusercontent.com/88382462/219997025-6f13b13c-f790-4166-8f86-5db02aac3f79.png)
 
-增强for遍历
+#### 增强for遍历
 ![image](https://user-images.githubusercontent.com/88382462/219997360-cf27e5a1-6876-4209-9e4d-cd161c82a0d6.png)
 ![image](https://user-images.githubusercontent.com/88382462/219997562-9924c26f-1836-4550-a22e-b56e1446bf69.png)
 ![image](https://user-images.githubusercontent.com/88382462/219998454-e59fad6e-18bc-45f2-9ecc-0664acf0fa1c.png)
 
-lambda表达式遍历
+#### lambda表达式遍历
 ![image](https://user-images.githubusercontent.com/88382462/219998998-d200c272-aaa1-415b-98c8-a9cd82ef6ea5.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999476-31d36b56-b155-4010-add3-d2efe674a982.png)
 ![image](https://user-images.githubusercontent.com/88382462/219999888-9ea24500-925e-48bd-8f9d-b4d43959137d.png)
 
-list
+## list集合
 ![image](https://user-images.githubusercontent.com/88382462/220021481-4ef87a57-3a2d-47a0-8a80-80ba90cf587e.png)
 
 ```
@@ -521,7 +573,7 @@ list.remove 删除的小细节
         System.out.println(list);
 ```
 
-list集合的5种遍历方式
+### list集合的5种遍历方式
 
 ```
   1.迭代器
@@ -598,63 +650,62 @@ list集合的5种遍历方式
 
 ![image](https://user-images.githubusercontent.com/88382462/220029603-96efbf8d-b49b-4974-ac78-47342988b7ea.png)
 
-list的实现类
 
-数据结构
+# 数据结构
 ![image](https://user-images.githubusercontent.com/88382462/220030693-20573337-597f-4131-bed8-a05af3cd3f1a.png)
 ![image](https://user-images.githubusercontent.com/88382462/220030845-183ccf5b-9267-4139-8172-f0e05a51830f.png)
 
-栈
+## 栈
 ![image](https://user-images.githubusercontent.com/88382462/220031566-16336ede-14de-4606-bb63-0f60e507b623.png)
 ![image](https://user-images.githubusercontent.com/88382462/220031700-a1310d5a-eafa-4eab-98e0-f0c598013b8d.png)
 
-队列
+## 队列
 ![image](https://user-images.githubusercontent.com/88382462/220031941-63421719-1488-49ae-b291-c8d88008b9f9.png)
 
-数组
+## 数组
 ![image](https://user-images.githubusercontent.com/88382462/220032502-f43751fa-6224-454a-82c7-996be2313b05.png)
 
-链表
+## 链表
 ![image](https://user-images.githubusercontent.com/88382462/220033617-ca82eb99-5c0e-4a98-b59b-47fae0ce2c42.png)
 ![image](https://user-images.githubusercontent.com/88382462/220033748-714670e0-3521-4bf9-97fd-94733303eb71.png)
 ![image](https://user-images.githubusercontent.com/88382462/220033952-4e2de156-0361-4c9d-9872-2aba86982a1a.png)
 ![image](https://user-images.githubusercontent.com/88382462/220034119-77170c52-3e1e-4e88-b0b5-47a2b67bad49.png)
 
-树
+## 树
 ![image](https://user-images.githubusercontent.com/88382462/220077681-0adc38c2-a15f-46c3-bb6b-6bea0e51b1ec.png)
 ![image](https://user-images.githubusercontent.com/88382462/220077745-b0d9cf38-bf54-4bdc-b829-027490b8546d.png)
 
-二叉树
+## 二叉树
 ![image](https://user-images.githubusercontent.com/88382462/220077871-70d5e10f-8474-4236-956a-ae099f74267d.png)
 ![image](https://user-images.githubusercontent.com/88382462/220077976-756e4654-5a5b-4b3d-bee3-dd4fd7414232.png)
 
-二叉查找树（排序树/搜索树）
+### 二叉查找树（排序树/搜索树）
 ![image](https://user-images.githubusercontent.com/88382462/220078162-cd7913eb-c1f1-4675-b930-9f62ef5b8e2e.png)
 ![image](https://user-images.githubusercontent.com/88382462/220078242-b93266b1-1217-4f09-bb40-4b9f4bc2111f.png)
 
-二叉查找树遍历方式
+#### 二叉查找树遍历方式
 ![image](https://user-images.githubusercontent.com/88382462/220078399-84bb6ff5-e67e-4280-95d1-f5d08753e613.png)
-1、前序遍历
+##### 1、前序遍历
 ![image](https://user-images.githubusercontent.com/88382462/220078578-53edca32-361d-47c0-b44b-5db96da491c3.png)
-2、中序遍历
+##### 2、中序遍历
 ![image](https://user-images.githubusercontent.com/88382462/220078664-01927b26-94f0-47a6-a0f2-29ba418f7800.png)
-3、后序遍历
+##### 3、后序遍历
 ![image](https://user-images.githubusercontent.com/88382462/220078967-4921a529-30f2-47ad-a7cf-81801d567505.png)
 
-4、层序遍历
+##### 4、层序遍历
 ![image](https://user-images.githubusercontent.com/88382462/220079228-ea6102ae-a273-4cc6-a579-c48f71a3dd0a.png)
 
 ![image](https://user-images.githubusercontent.com/88382462/220079280-1bbf7c32-a25d-400c-94b2-69197d116cf6.png)
 
-二叉查找树弊端
+#### 二叉查找树弊端
 ![image](https://user-images.githubusercontent.com/88382462/220080659-5e0b85bc-8289-4ebb-9c9c-4551c700a645.png)
 
-平衡二叉树
+### 平衡二叉树
 ![image](https://user-images.githubusercontent.com/88382462/220081164-ac9b47b2-b06c-4e9a-bafe-aeccd276cce3.png)
 ![image](https://user-images.githubusercontent.com/88382462/220081346-8424b556-649a-4b43-a1f3-e79cbf2323a3.png)
 ![image](https://user-images.githubusercontent.com/88382462/220081701-ead02489-5b0a-41fe-a199-91555ba3b47a.png)
 
-平衡二叉树旋转机制
+#### 平衡二叉树旋转机制
 ![image](https://user-images.githubusercontent.com/88382462/220082023-19fab3df-bbc4-4272-a7c2-d43558096cbd.png)
 ![image](https://user-images.githubusercontent.com/88382462/220082481-3cfb93f3-0cbf-47ca-9d66-8d441fef2f4e.png)
 ![image](https://user-images.githubusercontent.com/88382462/220082692-3d10d1dc-32c7-469a-8f11-57e16d3d1f16.png)
@@ -662,7 +713,7 @@ list的实现类
 ![image](https://user-images.githubusercontent.com/88382462/220083899-eef0faac-75dd-447a-8e2e-3353d943b40f.png)
 ![image](https://user-images.githubusercontent.com/88382462/220084067-cdfef676-5899-44df-9a53-d87fd0262aa5.png)
 
-平衡二叉树需要旋转的四种情况
+##### 平衡二叉树需要旋转的四种情况
 1.左左 - 一次右旋
 ![image](https://user-images.githubusercontent.com/88382462/220085041-a28807fb-1b8f-4c76-8fa3-90433bd510b2.png)
 2.左右-先局部左旋，再整体右旋
@@ -677,29 +728,34 @@ list的实现类
 ![image](https://user-images.githubusercontent.com/88382462/220093950-07bf92d7-8603-4aa3-b758-591886a7b055.png)
 ![image](https://user-images.githubusercontent.com/88382462/220093992-f13e770e-b693-4505-8e34-1ee3379825f7
 
-红黑树
+### 红黑树
 ![image](https://user-images.githubusercontent.com/88382462/220095287-0a6e24a3-80d9-4ea8-9353-5e1d6d7da9a6.png)
 ![image](https://user-images.githubusercontent.com/88382462/220095732-87425e79-a880-4f76-bc5e-62b4dcc80068.png)
-红黑树添加节点的规则
+#### 红黑树添加节点的规则
 ![image](https://user-images.githubusercontent.com/88382462/220097996-294dee22-873d-43b6-b74e-9cafebcdc24e.png)
 
 
 
-LinkedList
+# LinkedList(list的一种实现类)
 以下几种方法不常用
 ![image](https://user-images.githubusercontent.com/88382462/220034890-e337f11e-aeb4-4e2f-a9f9-7e9e4197b339.png)
 
-泛型
+# 泛型
 
-泛型概述
+## 泛型概述
 ![image](https://user-images.githubusercontent.com/88382462/220035567-477f2fe9-0972-4331-a11b-8117c199203a.png)
 
-没有泛型的时候，集合如何存储数据？
+## 没有泛型的时候，集合如何存储数据？
     结论：
+    
     如果我们没有给集合指定类型，默认认为所有的数据类型都是Object类型
+    
     此时可以往集合添加任意的数据类型。
+    
     **带来一个坏处：我们在获取数据的时候，无法使用他的特有行为。**
+    
     此时推出了泛型，可以在添加数据的时候就把类型进行统一。
+    
     而且我们在获取数据的时候，也省的强转了，非常的方便。
     
 没有泛型时
@@ -724,20 +780,25 @@ LinkedList
  }
 ```
 
-**泛型的好处**
+## 泛型的好处
+
 1.统一数据类型。
+
 2.把运行时期的问题提前到了编译期间，避免了强制类型转换可能出现的异常，因为在编译阶段类型就能确定下来。
 
 Java里的泛型是伪泛型
 
-**泛型的细节**
+## 泛型的细节
+
 1.泛型中不能写基本数据类型
+
 2.指定泛型的具体类型后，传递数据时，可以传入该类类型或者其子类类型
+
 3.如果不写泛型，类型默认是Object
 
 ![image](https://user-images.githubusercontent.com/88382462/220038439-d0f7d5d2-35c8-4812-9be1-9c163b700ab8.png)
 
-泛型类
+## 泛型类
 ![image](https://user-images.githubusercontent.com/88382462/220038644-5e32c8e9-8082-4d31-8366-53952503563a.png)
 
 编写泛型类
@@ -799,7 +860,7 @@ System.out.println(list2);
 ```
 
 
-泛型方法
+## 泛型方法
 ![image](https://user-images.githubusercontent.com/88382462/220041595-e08bfa9b-b8da-44fe-9383-7d65c55d454e.png)
 ![image](https://user-images.githubusercontent.com/88382462/220041741-bc760f8d-61d8-4be7-9817-d667e1020726.png)
 
@@ -857,7 +918,7 @@ public class GenericsDemo3 {
 }
 ```
 
-泛型接口
+## 泛型接口
 
 ![image](https://user-images.githubusercontent.com/88382462/220043693-99882c7d-baa6-4f11-9844-917edc7f0135.png)
 
@@ -872,8 +933,9 @@ public class MyArrayList2 implements List<String> {}
 public class MyArrayList3<E> implements List<E>{}
 ```
 
-**泛型的继承和通配符**
-泛型不具备继承性，数据具备继承性
+## 泛型的继承和通配符
+
+**泛型不具备继承性，数据具备继承性**
 
 ```ruby
 public  static <E> void method(ArrayList<E> list) {
@@ -913,7 +975,7 @@ public static void method(ArrayList<? super Fu> list) {
 }
 ```
 
-set
+# set
 ![image](https://user-images.githubusercontent.com/88382462/220497939-72e2b8c5-3436-4f30-baa7-0d42f8a49ae9.png)
 
 ```ruby
@@ -958,10 +1020,10 @@ while (it.hasNext()){
 s.forEach( str->System.out.println(str));
 ```
  
-HashSet
+## HashSet
 ![image](https://user-images.githubusercontent.com/88382462/220499392-81665b21-31f3-448b-80cd-c4cd42f44065.png)
 
-哈希值
+### 哈希值
 ![image](https://user-images.githubusercontent.com/88382462/220499720-4abae5b3-82dd-4e6c-aa25-75babbb5955c.png)
 
 ```ruby
@@ -990,7 +1052,7 @@ System.out.println("abc".hashCode());//96354
 System.out.println("acD".hashCode());//96354
 ```
 
-JDK8以前的HashSet
+### JDK8以前的HashSet
 ![image](https://user-images.githubusercontent.com/88382462/220501348-36f12f78-f097-47f9-bdff-ee6db3ff9386.png)
 ![image](https://user-images.githubusercontent.com/88382462/220501183-2980e9b7-4fc6-457f-ab9b-b018c888a11c.png)
 
@@ -1028,7 +1090,7 @@ JDK8以前的HashSet
   System.out.println(hs);
 ```
 
-LinkedHashSet
+## LinkedHashSet
 比HashSet多了一条双向链表用来存顺序
 ![image](https://user-images.githubusercontent.com/88382462/220504932-f7348ac5-e5d8-4433-95cd-e1cd36b39f61.png)
 
@@ -1054,9 +1116,9 @@ System.out.println(lhs); //顺序打印
 
 ![image](https://user-images.githubusercontent.com/88382462/220505517-879f648c-7d87-41ab-9f4d-e16480a89725.png)
 
-TreeSet
+## TreeSet
 ![image](https://user-images.githubusercontent.com/88382462/220505662-e807d99a-b997-44d8-8e17-c4b891a2918a.png)
-
+### 创建和遍历
 ```ruby
 /*
 *
@@ -1097,8 +1159,8 @@ ts.forEach( integer -> System.out.println(integer));
 
 ![image](https://user-images.githubusercontent.com/88382462/220507628-ff46df59-386b-40c5-aff7-fba84b4c1124.png)
 
-自定义排序规则
-
+### 两种排序规则
+#### 1.默认排序/自然排序
 ```ruby
 需求：创建TreeSet集合，并添加3个学生对象
             学生对象属性：
@@ -1113,8 +1175,10 @@ ts.forEach( integer -> System.out.println(integer));
 ```
 
 **实现Comparable接口，重写里面的抽象方法，再指定比较规则**
-**存到TreeSet不用重写hashCode和eauals 因为TreeSet底层没有使用HashSet而是红黑树.
-如果要往TreeSet存入自定义对象，要重写compareTo来按照自定义规则排序**
+
+**存到TreeSet不用重写hashCode和eauals 因为TreeSet底层没有使用HashSet而是红黑树.**
+
+**如果要往TreeSet存入自定义对象，要重写compareTo来按照自定义规则排序**
 
 
 ```ruby
@@ -1136,7 +1200,7 @@ public class Student implements Comparable<Student>{ //实现Comparable接口，
  }
 ```
 
-TreeSet第二种排序方式:比较器排序
+#### 2.比较器排序
 ```ruby
 //o1:表示当前要添加的元素
 //o2：表示已经在红黑树存在的元素
@@ -1184,7 +1248,7 @@ public int compareTo(Student2 o) {
     return i;
 }
 ```
-
+### TreeSet总结
 ```
 1. TreeSet集合的特点是怎么样的?
 可排序、不重复、无索引
@@ -1203,7 +1267,7 @@ public int compareTo(Student2 o) {
 0:表示当前要添加的元素已经存在，舍弃
 ```
 
-各种集合应用场景
+## 各种单列集合应用场景
 
 1．如果想要集合中的元素**可重复**
 
