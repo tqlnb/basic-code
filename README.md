@@ -1,7 +1,7 @@
 # basic-code
 学习java  来自“黑马程序员”
 自己学着写的一些代码和笔记
-www.bilibili.com/video/BV17F411T
+www.bilibili.com/video/BV17F411T7Ao/
 
 # ASCII码表
 ![image](https://user-images.githubusercontent.com/88382462/191399708-bb773f47-edba-4dc2-bd5e-e0a0f3a02a49.png)
