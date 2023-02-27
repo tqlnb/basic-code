@@ -2416,6 +2416,40 @@ list.stream().map(String::toUpperCase).forEach(s -> System.out.println(s));
 范例: int[]  :: new
 ```
 
+# 异常
+
+![image](https://user-images.githubusercontent.com/88382462/221524168-252df432-9151-42f8-b44f-10d16a555a1f.png)
+
+**Error:代表的系统级别错误（属于严重问题)**
+
+系统一旦出现问题，sun公司会把这些错误封装成Error对象。Error是给sun公司自己用的，不是给我们程序员用的。
+
+因此我们开发人员不用管它。
+
+**Exception:叫做异常，代表程序可能出现的问题。**
+
+我们通常会用Exception以及他的子类来封装程序出现的问题。
+
+运行时异常:RuntimeException及其子类，编译阶段不会出现异常提醒。运行时出现的异常（如:数组索引越界异常)
+
+编译时异常:编译阶段就会出现异常提醒的。（如:日期解析异常)
+
+1．异常是什么?
+
+程序中可能出现的问题
+
+2．异常体系的最上层父类是谁?异常分为几类?
+
+父类:Exception
+
+异常分为两类∶编译时异常、运行时异常
+
+3．编译时异常和运行时异常的区别?
+
+编译时异常:没有继承RuntimeExcpetion的异常，直接继承于Excpetion。编译阶段就会错误提示
+
+运行时异常:RuntimeException本身和子类。编译阶段没有错误提示，运行时出现的
+
 
 
 
