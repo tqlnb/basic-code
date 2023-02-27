@@ -2197,6 +2197,51 @@ List<Actor> actorList =
 System.out.println(actorList);
 ```
 
+# 方法引用
+
+把已经有的方法拿过来用，当做函数式接口中抽象方法的方法体
+
+原来的写法:
+
+```ruby
+Arrays.sort(arr, new Comparator<Integer>() {
+@Override
+public int compare(Integer o1, Integer o2) {
+    return o2 - o1;
+}
+```
+
+可以用Lambda简化:
+
+```ruby
+Arrays.sort(arr, (o1, o2)->o2 - o1 );
+```
+
+方法引用:
+
+```ruby
+//表示引用FunctionDemo1类里面的subtraction方法
+//把这个方法当做抽象方法的方法体
+Arrays.sort(arr, FunctionDemo1::subtraction);
+
+public static int subtraction(int num1, int num2) {
+        return num2 - num1;
+    }
+```
+"::" 是方法引用符
+
+方法引用细节:
+
+1.引用处需要是函数式接口
+
+2.被引用的方法需要已经存在
+
+3.被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
+
+4.被引用方法的功能需要满足当前的要求
+
+
+
 
 
 
