@@ -1,7 +1,7 @@
 # basic-code
 学习java  来自“黑马程序员”
 自己学着写的一些代码和笔记
-www.bilibili.com/video/BV17F411T
+www.bilibili.com/video/BV17F411T7Ao/
 
 # ASCII码表
 ![image](https://user-images.githubusercontent.com/88382462/191399708-bb773f47-edba-4dc2-bd5e-e0a0f3a02a49.png)
@@ -2164,19 +2164,355 @@ filter，limit，skip，distinct,concat,map
 终结方法:
 forEach, count,collect
 
+## 练习
+
+```ruby
+现在有两个ArrayList集合，
+第一个集合中∶存储6名男演员的名字和年龄。第二个集合中:存储6名女演员的名字和年龄。姓名和年龄中间用逗号隔开。比如:张三,23
+要求完成如下的操作:
+1，男演员只要名字为3个字的前两人2，女演员只要姓杨的，并且不要第一个
+3，把过滤后的男演员姓名和女演员姓名合并到一起4，将上一步的演员信息封装成Actor对象。
+5，将所有的演员对象都保存到List集合中。备注:演员类Actor，属性有:name,age
+```
+
+```ruby
+//创建集合并添加元素
+ArrayList<String> maleActorList = new ArrayList<>();
+ArrayList<String> femaleActorList = new ArrayList<>();
+Collections.addAll(maleActorList, "蔡坤坤,24", "叶齁咸,23", "刘不甜,22", "吴签,24", "谷嘉,30", "肖梁梁,27");
+Collections.addAll(femaleActorList, "赵小颖,35", "杨颖,36", "高元元,43", "张天天,31", "刘诗,35", "杨小幂,33");
+//分别对两个集合进行流处理,得到两个流
+Stream<String> maleStream = maleActorList.stream()
+        .filter(s -> s.split(",")[0].length() == 3)
+        .limit(2);
+Stream<String> femaleStream = femaleActorList.stream()
+        .filter(s -> s.split(",")[0].startsWith("杨"))
+        .skip(1);
+//使用concat进行流合并再用map把流转换成actor,最后打包成list
+List<Actor> actorList =
+        Stream.concat(maleStream, femaleStream)
+        .map(s -> new Actor(s.split(",")[0], Integer.parseInt(s.split(",")[1])))
+                .collect(Collectors.toList());
+
+System.out.println(actorList);
+```
+
+# 方法引用
+
+把已经有的方法拿过来用，当做函数式接口中抽象方法的方法体
+
+原来的写法:
+
+```ruby
+Arrays.sort(arr, new Comparator<Integer>() {
+@Override
+public int compare(Integer o1, Integer o2) {
+    return o2 - o1;
+}
+```
+
+可以用Lambda简化:
+
+```ruby
+Arrays.sort(arr, (o1, o2)->o2 - o1 );
+```
+
+方法引用:
+
+```ruby
+//表示引用FunctionDemo1类里面的subtraction方法
+//把这个方法当做抽象方法的方法体
+Arrays.sort(arr, FunctionDemo1::subtraction);
+
+public static int subtraction(int num1, int num2) {
+        return num2 - num1;
+    }
+```
+"::" 是方法引用符
+
+**方法引用细节:**
+
+1.引用处需要是函数式接口
+
+2.被引用的方法需要已经存在
+
+3.被引用方法的形参和返回值需要跟抽象方法的形参和返回值保持一致
+
+4.被引用方法的功能需要满足当前的要求
+
+## 方法引用的分类
+
+1.引用静态方法
+
+2.引用成员方法
+
+```ruby
+1.引用其他类的成员方法
+2.引用本类的成员方法
+3.引用父类的成员方法
+```
+
+3.引用构造方法
+
+4.其它调用方式
+
+```ruby
+1.使用类名引用成员方法
+2.引用数组的构造方法
+```
+
+### 引用静态方法
+
+格式:类名::静态方法
+
+范例:Integer : : parseInt
+
+```ruby
+需求：
+   集合中有以下数字，要求把他们都变成int类型
+   "1","2","3","4","5"
+*/
+//1.创建集合并添加元素
+ArrayList<String> list = new ArrayList<>();
+Collections.addAll(list,"1","2","3","4","5");
+
+//2.把他们都变成int类型
+list.stream().map(new Function<String, Integer>() {
+   @Override
+   public Integer apply(String s) {
+       int i = Integer.parseInt(s);
+       return i;
+   }
+}).forEach(s -> System.out.println(s));
+```
+
+方法引用:
+
+```ruby
+list.stream()
+        .map(Integer::parseInt)
+        .forEach(s-> System.out.println(s));
+```
+
+### 引用成员方法
+
+格式:对象::成员方法
+
+其他类: 其他类对象::方法名
+
+本类: this::方法名(引用处不能是静态方法)
+
+父类: super::方法名(引用处不能是静态方法)
+
+```ruby
+StringOperation so = new StringOperation();
+list.stream().filter(so::stringJudge)
+        .forEach(s-> System.out.println(s));
+```
+
+```ruby
+public class StringOperation {
+    public boolean stringJudge(String s){
+        return s.startsWith("张") && s.length() == 3;
+    }
+}
+```
+
+如果方法写在本类,不能直接用this :: 方法名()调用
+
+因为静态方法(main方法)是没有this的
+```ruby
+静态方法没有this是因为静态方法是属于类而不是属于对象的。在Java和其他一些面向对象编程语言中，类是一个模板，用于创建具有相似属性和方法的对象。当创建对象时，会使用该类的构造函数来初始化对象的属性，并为该对象分配内存。因此，对象是类的一个实例，每个对象都有自己的状态和行为。
+
+与此不同的是，静态方法是直接属于类本身的，而不是属于类的每个对象。这意味着在静态方法中，您不能使用this关键字来引用对象的实例变量或方法。相反，您只能访问静态变量和其他静态方法，因为它们属于类本身，而不是属于对象。
+
+因此，当您需要访问类级别的变量或执行类级别的操作时，可以使用静态方法。而当您需要访问对象级别的变量或执行对象级别的操作时，则需要使用实例方法，并使用this关键字引用当前对象的实例变量或方法。
+```
+
+可以创建本类对象再调用:
+
+```ruby
+list.stream().filter(new FunctionDemo3()::stringJudge)
+            .forEach(s-> System.out.println(s));
+
+```
+
+### 引用构造方法
+
+格式:类名 :: new
+
+范例:student :: new
+
+```ruby
+//需求：
+//     集合里面存储姓名和年龄，要求封装成Student对象并收集到List集合中
+List<Student> newList = list.stream().map(new Function<String, Student>() {
+    @Override
+    public Student apply(String s) {
+        String[] arr = s.split(",");
+        String name = arr[0];
+        int age = Integer.parseInt(arr[1]);
+        return new Student(name, age);
+    }
+}).collect(Collectors.toList());
+
+```
+
+```ruby
+List<Student> newList2 = list.stream().map(Student::new).collect(Collectors.toList());
+
+//下面是重载的构造方法,没有返回值,Student::new引用时返回该对象
+public Student(String str) {
+    String[] arr = str.split(",");
+    this.name = arr[0];
+    this.age = Integer.parseInt(arr[1]);
+}
+```
+
+### 其它调用方式
+
+**使用类名引用成员方法**
+
+格式:类名::成员方法
+
+范例:string : : substring
+
+```ruby
+/*
+方法引用（类名引用成员方法）
+格式
+        类名::成员方法
+需求：
+     集合里面一些字符串，要求变成大写后进行输出
+
+抽象方法形参的详解：
+第一个参数：表示被引用方法的调用者，决定了可以引用哪些类中的方法
+            在Stream流当中，第一个参数一般都表示流里面的每一个数据。
+            假设流里面的数据是字符串，那么使用这种方式进行方法引用，只能引用String这个类中的方法
+
+第二个参数到最后一个参数：跟被引用方法的形参保持一致，如果没有第二个参数，说明被引用的方法需要是无参的成员方法
+
+局限性：
+    不能引用所有类中的成员方法。
+    是跟抽象方法的第一个参数有关，这个参数是什么类型的，那么就只能引用这个类中的方法。
+
+*/
+
+//1.创建集合对象
+ArrayList<String> list = new ArrayList<>();
+//2.添加数据
+Collections.addAll(list, "aaa", "bbb", "ccc", "ddd");
+//3.变成大写后进行输出
+//map(String::toUpperCase)
+//拿着流里面的每一个数据，去调用String类中的toUpperCase方法，方法的返回值就是转换之后的结果。
+list.stream().map(String::toUpperCase).forEach(s -> System.out.println(s));
+
+```
+
+引用数组的构造方法
+
+```ruby
+格式:数据类型[] :: new
+范例: int[]  :: new
+```
+
+# 异常
+
+![image](https://user-images.githubusercontent.com/88382462/221524168-252df432-9151-42f8-b44f-10d16a555a1f.png)
+
+**Error:代表的系统级别错误（属于严重问题)**
+
+系统一旦出现问题，sun公司会把这些错误封装成Error对象。Error是给sun公司自己用的，不是给我们程序员用的。
+
+因此我们开发人员不用管它。
+
+**Exception:叫做异常，代表程序可能出现的问题。**
+
+我们通常会用Exception以及他的子类来封装程序出现的问题。
+
+运行时异常:RuntimeException及其子类，编译阶段不会出现异常提醒。运行时出现的异常（如:数组索引越界异常)
+
+编译时异常:编译阶段就会出现异常提醒的。（如:日期解析异常)
+
+1．异常是什么?
+
+程序中可能出现的问题
+
+2．异常体系的最上层父类是谁?异常分为几类?
+
+父类:Exception
+
+异常分为两类∶编译时异常、运行时异常
+
+3．编译时异常和运行时异常的区别?
+
+**编译时异常**:没有继承RuntimeExcpetion的异常，直接继承于Excpetion。编译阶段就会错误提示
+
+**运行时异常**:RuntimeException本身和子类。编译阶段没有错误提示，运行时出现的
+
+```ruby
+//编译时异常(在编译阶段，必须要手动处理，否则代码报错)
+String time = "2030年1月1日";
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+Date date = sdf.parse(time);  //需要在方法后加上throws ParseException 
+System.out.println(date);
+
+//运行时异常（在编译阶段是不需要处理的，是代码运行时出现的异常）
+int[] arr = {1,2,3,4,5};
+System.out.println(arr[10]);//ArrayIndexOutOfBoundsException
+
+```
+
+![image](https://user-images.githubusercontent.com/88382462/221530518-370ccedf-e232-4e64-8e91-481b8bdf48ab.png)
+
+## 异常的作用
+
+作用一:异常是用来查询bug的关键参考信息
+
+作用二:异常可以作为方法内部的一种特殊返回值，以便通知调用者底层的执行情况
+
+## 异常的处理方式
+
+### 1.JVM默认的处理方式
+
+把异常的名称，异常原因及异常出现的位置等信息输出在了控制台
+
+程序停止执行，下面的代码不会再执行了
+
+### 2.自己处理(捕获异常)
+
+格式:
+
+```ruby
+try {
+   可能出现异常的代码;
+} catch(异常类名 变量名) {
+   异常的处理代码;
+}
+```
+
+例程
+
+```ruby
+int[] arr = {1, 2, 3, 4, 5, 6};
+try{
+    //可能出现异常的代码;
+    System.out.println(arr[10]);//此处出现了异常，程序就会在这里创建一个ArrayIndexOutOfBoundsException对象
+                                //new ArrayIndexOutOfBoundsException();
+                                //拿着这个对象到catch的小括号中对比，看括号中的变量是否可以接收这个对象
+                                //如果能被接收，就表示该异常就被捕获（抓住），执行catch里面对应的代码
+                                //当catch里面所有的代码执行完毕，继续执行try...catch体系下面的其他代码
+}catch(ArrayIndexOutOfBoundsException e){
+    //如果出现了ArrayIndexOutOfBoundsException异常，我该如何处理
+    System.out.println("索引越界了");
+}
+
+System.out.println("看看我执行了吗？");  //执行了
+```
 
 
 
-
-
-
-
-
-
-
-
-
-
+### 3.抛出异常
 
 
 
