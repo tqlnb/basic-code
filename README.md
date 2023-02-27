@@ -2446,14 +2446,73 @@ list.stream().map(String::toUpperCase).forEach(s -> System.out.println(s));
 
 3．编译时异常和运行时异常的区别?
 
-编译时异常:没有继承RuntimeExcpetion的异常，直接继承于Excpetion。编译阶段就会错误提示
+**编译时异常**:没有继承RuntimeExcpetion的异常，直接继承于Excpetion。编译阶段就会错误提示
 
-运行时异常:RuntimeException本身和子类。编译阶段没有错误提示，运行时出现的
+**运行时异常**:RuntimeException本身和子类。编译阶段没有错误提示，运行时出现的
+
+```ruby
+//编译时异常(在编译阶段，必须要手动处理，否则代码报错)
+String time = "2030年1月1日";
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+Date date = sdf.parse(time);  //需要在方法后加上throws ParseException 
+System.out.println(date);
+
+//运行时异常（在编译阶段是不需要处理的，是代码运行时出现的异常）
+int[] arr = {1,2,3,4,5};
+System.out.println(arr[10]);//ArrayIndexOutOfBoundsException
+
+```
+
+![image](https://user-images.githubusercontent.com/88382462/221530518-370ccedf-e232-4e64-8e91-481b8bdf48ab.png)
+
+## 异常的作用
+
+作用一:异常是用来查询bug的关键参考信息
+
+作用二:异常可以作为方法内部的一种特殊返回值，以便通知调用者底层的执行情况
+
+## 异常的处理方式
+
+### 1.JVM默认的处理方式
+
+把异常的名称，异常原因及异常出现的位置等信息输出在了控制台
+
+程序停止执行，下面的代码不会再执行了
+
+### 2.自己处理(捕获异常)
+
+格式:
+
+```ruby
+try {
+   可能出现异常的代码;
+} catch(异常类名 变量名) {
+   异常的处理代码;
+}
+```
+
+例程
+
+```ruby
+int[] arr = {1, 2, 3, 4, 5, 6};
+try{
+    //可能出现异常的代码;
+    System.out.println(arr[10]);//此处出现了异常，程序就会在这里创建一个ArrayIndexOutOfBoundsException对象
+                                //new ArrayIndexOutOfBoundsException();
+                                //拿着这个对象到catch的小括号中对比，看括号中的变量是否可以接收这个对象
+                                //如果能被接收，就表示该异常就被捕获（抓住），执行catch里面对应的代码
+                                //当catch里面所有的代码执行完毕，继续执行try...catch体系下面的其他代码
+}catch(ArrayIndexOutOfBoundsException e){
+    //如果出现了ArrayIndexOutOfBoundsException异常，我该如何处理
+    System.out.println("索引越界了");
+}
+
+System.out.println("看看我执行了吗？");  //执行了
+```
 
 
 
-
-
+### 3.抛出异常
 
 
 
