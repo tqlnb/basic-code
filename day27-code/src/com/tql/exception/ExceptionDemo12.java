@@ -12,7 +12,7 @@ public class ExceptionDemo12 {
 */
 
 
-        int[] arr = null;
+        int[] arr = {};
         int max = 0;
         try {
             max = getMax(arr);

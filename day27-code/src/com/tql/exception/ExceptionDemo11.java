@@ -18,16 +18,17 @@ public class ExceptionDemo11 {
         try {
             System.out.println(arr[10]);
         } catch (ArrayIndexOutOfBoundsException e) {
-          *//*  String message = e.getMessage();
-            System.out.println(message);//Index 10 out of bounds for length 6*//*
+            String message = e.getMessage();
+            System.out.println(message);//Index 10 out of bounds for length 6
 
-         *//*   String str = e.toString();
-            System.out.println(str);//java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 6*//*
+            String str = e.toString();
+            System.out.println(str);//java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 6
 
             e.printStackTrace();
 
         }
-        System.out.println("看看我执行了吗？");*/
+        System.out.println("看看我执行了吗？");
+*/
 
 
         //正常的输出语句

@@ -23,12 +23,10 @@ public class ExceptionDemo8 {
             System.out.println(2/0);//ArithmeticException
             String s = null;
             System.out.println(s.equals("abc"));
-        }catch(ArrayIndexOutOfBoundsException | ArithmeticException e){
-            System.out.println("索引越界了");
-        }catch(NullPointerException e){
+        }catch (ArrayIndexOutOfBoundsException | ArithmeticException e){
+            System.out.println("数组越界或者空指针异常");
+        }catch (NullPointerException e){
             System.out.println("空指针异常");
-        }catch (Exception e){
-            System.out.println("Exception");
         }
 
         System.out.println("看看我执行了吗？");

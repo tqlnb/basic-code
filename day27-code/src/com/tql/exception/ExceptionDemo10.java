@@ -15,7 +15,7 @@ public class ExceptionDemo10 {
 
         try{
             System.out.println(arr[10]);
-            System.out.println("看看我执行了吗？... try");
+            System.out.println("看看我执行了吗？... tr y");
         }catch(ArrayIndexOutOfBoundsException e){
             System.out.println("索引越界了");
         }
