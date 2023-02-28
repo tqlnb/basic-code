@@ -2712,7 +2712,141 @@ public void setAge(int age) {
     }
     this.age = age;
 }
+public void setName(String name)  {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new RuntimeException();
+    }
+    this.name = name;
+}
 ```
+
+### 自定义异常
+
+意义:就是为了让控制台的报错信息更加的见名知意
+
+**写自定义异常步骤**
+
+1.定义异常类
+
+2.写继承关系
+
+3.空参构造
+
+4.带参构造
+
+异常类:
+
+```ruby
+public class NameFormatException extends RuntimeException{
+    //技巧：
+    //NameFormat：当前异常的名字，表示姓名格式化问题
+    //Exception：表示当前类是一个异常类
+
+    // 继承:
+    //运行时：RuntimeException 核心 就表示由于参数错误而导致的问题
+    //编译时：Exception 核心 提醒程序员检查本地信息
+
+
+    public NameFormatException() {
+    }
+
+    public NameFormatException(String message) {
+        super(message);
+    }
+}
+
+public class AgeOutOfBoundsException extends RuntimeException{
+
+    public AgeOutOfBoundsException() {
+    }
+
+    public AgeOutOfBoundsException(String message) {
+        super(message);
+    }
+}
+```
+
+调用:
+
+```ruby
+public void setName(String name) {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new NameFormatException(name + "格式有误，长度应该为：3~10");
+    }
+    this.name = name;
+}
+
+public void setAge(int age) {
+    if(age < 18 || age > 40){
+       throw new AgeOutOfBoundsException(age + "超出了范围");
+    }
+    this.age = age;
+}
+
+catch (NumberFormatException e) {
+    e.printStackTrace();
+} catch (NameFormatException e) {
+    e.printStackTrace();
+}catch (AgeOutOfBoundsException e) {
+    e.printStackTrace();
+}
+```
+
+# File
+
+File对象就表示一个路径，可以是文件的路径、也可以是文件夹的路径
+
+这个路径可以是存在的，也允许是不存在的
+
+## File构造方法:
+
+|方法名称 |	说明 |
+|---|---|
+|public File(string pathname) |	根据文件路径创建文件对象 |
+|public File(string parent，string child) |	根据父路径名字符串和子路径名字符串创建文件对象 |
+|public File(File parent，string child) |	根据父路径对应文件对象和子路径名字符串创建文件对象 |
+
+```ruby
+//1.根据字符串表示的路径，变成File对象
+String str = "C:\\Users\\tql\\Desktop\\a.txt";
+File f1 = new File(str);
+System.out.println(f1);//C:\Users\tql\Desktop\a.txt
+
+//2.父级路径：C:\Users\tql\Desktop
+//子级路径：a.txt
+String parent = "C:\\Users\\tql\\Desktop";
+String child = "a.txt";
+File f2 = new File(parent,child);
+System.out.println(f2);//C:\Users\tql\Desktop\a.txt
+
+File f3 = new File(parent + "\\" + child);
+System.out.println(f3);//C:\Users\tql\Desktop\a.txt
+
+//3.把一个File表示的路径和String表示路径进行拼接
+File parent2 = new File("C:\\Users\\tql\\Desktop");
+String child2 = "a.txt";
+File f4 = new File(parent2,child2);
+System.out.println(f4);//C:\Users\tql\Desktop\a.txt
+```
+
+## File成员方法
+
+### 判断/获取
+
+| 方法名称 |	说明 |
+|---|---|
+| public boolean isDirectory() |	判断此路径名表示的File是否为文件夹 |
+| public boolean isFile() |	判断此路径名表示的File是否为文件 |
+| public boolean exists() |	判断此路径名表示的File是否存在 |
+| public long length() |	返回文件的大小（字节数量)|
+| public string getAbsolutePath() |	返回文件的绝对路径|
+| public string getPath() |	返回定义文件时使用的路径|
+| public string getName() |	返回文件的名称，带后缀|
+| public long lastModified() |	返回文件的最后修改时间（时间毫秒值)|
+
+
 
 
 
