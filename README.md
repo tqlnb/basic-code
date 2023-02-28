@@ -2561,7 +2561,159 @@ System.out.println("看看我执行了吗？");  //执行了
 
 但是如果没有对应catch与之匹配，那么还是会交给虚拟机进行处理
 
+Throwable 成员方法
+
+| 方法名称 |	说明 |
+| --- | --- |
+| public string getMessage() |	返回此 throwable的详细消息字符串 |
+| public string tostring() |	返回此可抛出的简短描述 |
+| public voidprintstackTrace() |	把异常的错误信息输出在控制台 |
+
+```ruby
+try {
+    System.out.println(arr[10]);
+} catch (ArrayIndexOutOfBoundsException e) {
+    String message = e.getMessage();
+    System.out.println(message);//Index 10 out of bounds for length 6
+
+    String str = e.toString();
+    System.out.println(str);//java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 6
+
+    e.printStackTrace();
+
+}
+System.out.println("看看我执行了吗？");
+```
+
+
 ### 3.抛出异常
+
+Throw 和 Throws
+
+![image](https://user-images.githubusercontent.com/88382462/221766057-30a8592c-9ad0-4259-bfa3-770d1e3d2623.png)
+
+```ruby
+ public static void main(String[] args) {
+/*
+     throws：写在方法定义处，表示声明一个异常。告诉调用者，使用本方法可能会有哪些异常。
+     throw ：写在方法内，结束方法。手动抛出异常对象，交给调用者。方法中下面的代码不再执行了。
+
+     需求：
+         定义一个方法求数组的最大值
+*/
+
+     int[] arr = {};
+     int max = 0;
+     try {
+         max = getMax(arr);
+     } catch (NullPointerException e) {
+         System.out.println("空指针异常");
+     } catch (ArrayIndexOutOfBoundsException e) {
+         System.out.println("索引越界异常");
+     }
+
+     System.out.println(max);
+
+ }
+
+ public static int getMax(int[] arr)/* throws NullPointerException,ArrayIndexOutOfBoundsException*/{
+     if(arr == null){
+         //手动创建一个异常对象，并把这个异常交给方法的调用者处理
+         //此时方法就会结束，下面的代码不会再执行了
+        throw new NullPointerException();
+     }
+
+     if(arr.length == 0){
+         //手动创建一个异常对象，并把这个异常交给方法的调用者处理
+         //此时方法就会结束，下面的代码不会再执行了
+         throw new ArrayIndexOutOfBoundsException();
+     }
+
+     System.out.println("看看我执行了吗？");
+     int max = arr[0];
+     for (int i = 1; i < arr.length; i++) {
+         if(arr[i] > max){
+             max = arr[i];
+         }
+     }
+     return max;
+ }
+```
+
+1．虚拟机默认处理异常的方式
+
+把异常信息以红色字体打印在控制台，并结束程序
+
+2．捕获: try...catch
+
+一般用在调用处，能让代码继续往下运行。
+
+3．抛出: throw throws
+
+在方法中，出现异常了。方法就没有继续运行下去的意义了，采取抛出处理。
+让该方法结束运行并告诉调用者出现了问题。
+
+```ruby
+public void setName(String name)  {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new RuntimeException();
+    }
+    this.name = name;
+}
+```
+
+```ruby
+/*
+    需求：
+        键盘录入自己心仪的女朋友姓名和年龄。
+        姓名的长度在 3 - 10之间，
+        年龄的范围为 18 - 40岁,
+        超出这个范围是异常数据不能赋值，需要重新录入,一直录到正确为止。
+    提示：
+        需要考虑用户在键盘录入时的所有情况。
+        比如：录入年龄时超出范围，录入年龄时录入了abc等情况
+*/
+
+
+//1.创建键盘录入的对象
+Scanner sc = new Scanner(System.in);
+//2.创建女朋友的对象
+GirlFriend gf = new GirlFriend();
+while (true) {
+    //3.接收女朋友的姓名
+    try {
+        System.out.println("请输入你心仪的女朋友的名字");
+        String name = sc.nextLine();
+        gf.setName(name);
+        //4.接收女朋友的年龄
+        System.out.println("请输入你心仪的女朋友的年龄");
+        String ageStr = sc.nextLine();
+        int age = Integer.parseInt(ageStr);
+        gf.setAge(age);
+        //如果所有的数据都是正确的，那么跳出循环
+        break;
+    } catch (NumberFormatException e) {
+        System.out.println("年龄的格式有误，请输入数字");
+        //continue;
+    } catch (RuntimeException e) {
+        System.out.println("姓名的长度或者年龄的范围有误");
+        //continue;
+    }
+}
+//5.打印
+System.out.println(gf);
+```
+
+```ruby
+public void setAge(int age) {
+    if(age < 18 || age > 40){
+        throw new RuntimeException();
+    }
+    this.age = age;
+}
+```
+
 
 
 
