@@ -2846,8 +2846,165 @@ System.out.println(f4);//C:\Users\tql\Desktop\a.txt
 | public string getName() |	返回文件的名称，带后缀|
 | public long lastModified() |	返回文件的最后修改时间（时间毫秒值)|
 
+```ruby
+//对一个文件的路径进行判断
+File f1 = new File("D:\\aaa\\a.txt");
+System.out.println(f1.isDirectory());//false
+System.out.println(f1.isFile());//true
+System.out.println(f1.exists());//true
+```
+
+```ruby
+//1.length  返回文件的大小（字节数量）
+//细节1：这个方法只能获取文件的大小，单位是字节
+//如果单位我们要是M，G，可以不断的除以1024
+//细节2：这个方法无法获取文件夹的大小
+//如果我们要获取一个文件夹的大小，需要把这个文件夹里面所有的文件大小都累加在一起。
+
+File f1 = new File("D:\\aaa\\a.txt");
+long len = f1.length();
+System.out.println(len);//3
+
+File f2 = new File("D:\\aaa\\bbb");
+long len2 = f2.length();
+System.out.println(len2);//0
+
+//2.getAbsolutePath 返回文件的绝对路径
+File f3 = new File("D:\\aaa\\a.txt");
+String path1 = f3.getAbsolutePath();
+System.out.println(path1);
+
+File f4 = new File("myFile\\a.txt");
+String path2 = f4.getAbsolutePath();
+System.out.println(path2);  //C:\Users\tql\IdeaProjects\basic-code\myFile\a.txt
+
+//3.getPath 返回定义文件时使用的路径
+File f5 = new File("D:\\aaa\\a.txt");
+String path3 = f5.getPath();
+System.out.println(path3);//D:\aaa\a.txt
+
+File f6 = new File("myFile\\a.txt");
+String path4 = f6.getPath();
+System.out.println(path4);//myFile\a.txt
+
+//4.getName 获取名字
+//细节1：
+//a.txt:
+//      a 文件名
+//      txt 后缀名、扩展名
+//细节2：
+//文件夹：返回的就是文件夹的名字
+File f7 = new File("D:\\aaa\\a.txt");
+String name1 = f7.getName();
+System.out.println(name1);
 
 
+File f8 = new File("D:\\aaa\\bbb");
+String name2 = f8.getName();
+System.out.println(name2);//bbb
+
+//5.lastModified  返回文件的最后修改时间（时间毫秒值）
+File f9 = new File("D:\\aaa\\a.txt");
+long time = f9.lastModified();
+System.out.println(time);//1667380952425
+
+//如何把时间的毫秒值变成字符串表示的时间呢？
+//课堂练习：
+//yyyy年MM月dd日 HH：mm：ss
+Date date = new Date(time);
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+System.out.println(sdf.format(date));
+
+```
+
+### 创建/删除
+
+|方法名称|	说明|
+|---|---|
+|public boolean createNewFile()	|创建一个新的空的文件|
+|public boolean mkdir()|	创建单级文件夹|
+|public boolean mkdirs()	|创建多级文件夹|
+|public boolean delete()	|删除文件、空文件夹|
+
+**delete方法默认只能删除文件和空文件夹，delete方法直接删除不走回收站**
+
+```ruby
+//1.createNewFile 创建一个新的空的文件
+//细节1：如果当前路径表示的文件是不存在的，则创建成功，方法返回true
+//      如果当前路径表示的文件是存在的，则创建失败，方法返回false
+//细节2：如果父级路径是不存在的，那么方法会有异常IOException
+//细节3：createNewFile方法创建的一定是文件，如果路径中不包含后缀名，则创建一个没有后缀的文件
+File f1 = new File("D:\\aaa\\ddd");
+boolean b1 = f1.createNewFile();
+System.out.println(b1);//true
+
+
+//2.mkdir   make Directory，文件夹（目录）
+//细节1：windows当中路径是唯一的，如果当前路径已经存在，则创建失败，返回false
+//细节2：mkdir方法只能创建单级文件夹，无法创建多级文件夹。
+File f2 = new File("D:\\aaa\\aaa\\bbb\\ccc");
+boolean b2 = f2.mkdir();
+System.out.println(b2);
+
+//3.mkdirs   创建多级文件夹
+//细节：既可以创建单级的，又可以创建多级的文件夹
+File f3 = new File("D:\\aaa\\ggg");
+boolean b3 = f3.mkdirs();
+System.out.println(b3);//true
+```
+
+```ruby
+/*
+  public boolean delete()             删除文件、空文件夹
+  细节：
+      如果删除的是文件，则直接删除，不走回收站。
+      如果删除的是空文件夹，则直接删除，不走回收站
+      如果删除的是有内容的文件夹，则删除失败
+*/
+
+
+  //1.创建File对象
+  File f1 = new File("D:\\aaa\\eee");
+  //2.删除
+  boolean b = f1.delete();
+  System.out.println(b);
+```
+
+### 获取/遍历
+
+|方法名称|	说明 |
+|---|---|
+|public static File[] listRoots()                |列出可用的文件系统根|
+|public String[] list()                          |获取当前该路径下所有内容|
+|public String[] list(FilenameFilter filter)     |利用文件名过滤器获取当前该路径下所有内容|
+|（掌握）public File[] listFiles()               |获取当前该路径下所有内容|
+|public File[] listFiles(FileFilter filter)      |利用文件名过滤器获取当前该路径下所有内容|
+|public File[] listFiles(FilenameFilter filter)  |利用文件名过滤器获取当前该路径下所有内容|
+
+
+public File[] listFiles()       获取当前该路径下所有内容
+
+当调用者File表示的路径不存在时，返回null当调用者File表示的路径是文件时，返回null
+
+当调用者File表示的路径是一个空文件夹时，返回一个长度为0的数组
+
+当调用者File表示的路径是一个有内容的文件夹时，将里面所有文件和文件夹的路径放在File数组中返回
+
+当调用者File表示的路径是一个有隐藏文件的文件夹时，将里面所有文件和文件夹的路径放在File数组中返回，包含隐藏文件夹
+
+调用者File表示的路径是需要权限才能访问的文件夹时，返回null
+
+```ruby
+//1.创建File对象
+File f = new File("D:\\aaa");
+//2.listFiles方法
+//作用：获取aaa文件夹里面的所有内容，把所有的内容放到数组中返回
+File[] files = f.listFiles();
+for (File file : files) {
+    //file依次表示aaa文件夹里面的每一个文件或者文件夹
+    System.out.println(file);
+}
+```
 
 
 
