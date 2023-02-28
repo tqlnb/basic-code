@@ -2510,9 +2510,729 @@ try{
 System.out.println("看看我执行了吗？");  //执行了
 ```
 
+#### 自己处理（灵魂四问)
+
+**灵魂一问:如果try中没有遇到问题，怎么执行?**
+
+会把try里面所有的代码全部执行完毕，不会执行catch里面的代码
+
+注意：
+只有当出现了异常才会执行catch里面的代码
+
+
+**灵魂二问:如果try中可能会遇到多个问题，怎么执行?**
+
+ 会写多个catch与之对应
+
+ 细节：
+     如果我们要捕获多个异常，这些异常中如果存在父子关系的话，那么父类一定要写在下面
+
+ 了解性：
+     在JDK7之后，我们可以在catch中同时捕获多个异常，中间用|进行隔开
+     表示如果出现了A异常或者B异常的话，采取同一种处理方案
+
+```ruby
+ //JDK7
+ int[] arr = {1, 2, 3, 4, 5, 6};
+
+ try{
+     System.out.println(arr[10]);//ArrayIndexOutOfBoundsException
+     System.out.println(2/0);//ArithmeticException
+     String s = null;
+     System.out.println(s.equals("abc"));
+ }catch (ArrayIndexOutOfBoundsException | ArithmeticException e){
+     System.out.println("数组越界或者空指针异常");
+ }catch (NullPointerException e){
+     System.out.println("空指针异常");
+ }
+```
+
+
+**灵魂三问:如果try中遇到的问题没有被捕获，怎么执行?**
+
+如果try中遇到的问题没有被捕获，怎么执行？
+
+相当于try...catch的代码白写了，最终还是会交给虚拟机进行处理。
+
+
+**灵魂四问:如果try中遇到了问题，那么try下面的其他代码还会执行吗?**
+
+下面的代码就不会执行了，直接跳转到对应的catch当中，执行catch里面的语句体
+
+但是如果没有对应catch与之匹配，那么还是会交给虚拟机进行处理
+
+Throwable 成员方法
+
+| 方法名称 |	说明 |
+| --- | --- |
+| public string getMessage() |	返回此 throwable的详细消息字符串 |
+| public string tostring() |	返回此可抛出的简短描述 |
+| public voidprintstackTrace() |	把异常的错误信息输出在控制台 |
+
+```ruby
+try {
+    System.out.println(arr[10]);
+} catch (ArrayIndexOutOfBoundsException e) {
+    String message = e.getMessage();
+    System.out.println(message);//Index 10 out of bounds for length 6
+
+    String str = e.toString();
+    System.out.println(str);//java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 6
+
+    e.printStackTrace();
+
+}
+System.out.println("看看我执行了吗？");
+```
 
 
 ### 3.抛出异常
+
+Throw 和 Throws
+
+![image](https://user-images.githubusercontent.com/88382462/221766057-30a8592c-9ad0-4259-bfa3-770d1e3d2623.png)
+
+```ruby
+ public static void main(String[] args) {
+/*
+     throws：写在方法定义处，表示声明一个异常。告诉调用者，使用本方法可能会有哪些异常。
+     throw ：写在方法内，结束方法。手动抛出异常对象，交给调用者。方法中下面的代码不再执行了。
+
+     需求：
+         定义一个方法求数组的最大值
+*/
+
+     int[] arr = {};
+     int max = 0;
+     try {
+         max = getMax(arr);
+     } catch (NullPointerException e) {
+         System.out.println("空指针异常");
+     } catch (ArrayIndexOutOfBoundsException e) {
+         System.out.println("索引越界异常");
+     }
+
+     System.out.println(max);
+
+ }
+
+ public static int getMax(int[] arr)/* throws NullPointerException,ArrayIndexOutOfBoundsException*/{
+     if(arr == null){
+         //手动创建一个异常对象，并把这个异常交给方法的调用者处理
+         //此时方法就会结束，下面的代码不会再执行了
+        throw new NullPointerException();
+     }
+
+     if(arr.length == 0){
+         //手动创建一个异常对象，并把这个异常交给方法的调用者处理
+         //此时方法就会结束，下面的代码不会再执行了
+         throw new ArrayIndexOutOfBoundsException();
+     }
+
+     System.out.println("看看我执行了吗？");
+     int max = arr[0];
+     for (int i = 1; i < arr.length; i++) {
+         if(arr[i] > max){
+             max = arr[i];
+         }
+     }
+     return max;
+ }
+```
+
+1．虚拟机默认处理异常的方式
+
+把异常信息以红色字体打印在控制台，并结束程序
+
+2．捕获: try...catch
+
+一般用在调用处，能让代码继续往下运行。
+
+3．抛出: throw throws
+
+在方法中，出现异常了。方法就没有继续运行下去的意义了，采取抛出处理。
+让该方法结束运行并告诉调用者出现了问题。
+
+```ruby
+public void setName(String name)  {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new RuntimeException();
+    }
+    this.name = name;
+}
+```
+
+```ruby
+/*
+    需求：
+        键盘录入自己心仪的女朋友姓名和年龄。
+        姓名的长度在 3 - 10之间，
+        年龄的范围为 18 - 40岁,
+        超出这个范围是异常数据不能赋值，需要重新录入,一直录到正确为止。
+    提示：
+        需要考虑用户在键盘录入时的所有情况。
+        比如：录入年龄时超出范围，录入年龄时录入了abc等情况
+*/
+
+
+//1.创建键盘录入的对象
+Scanner sc = new Scanner(System.in);
+//2.创建女朋友的对象
+GirlFriend gf = new GirlFriend();
+while (true) {
+    //3.接收女朋友的姓名
+    try {
+        System.out.println("请输入你心仪的女朋友的名字");
+        String name = sc.nextLine();
+        gf.setName(name);
+        //4.接收女朋友的年龄
+        System.out.println("请输入你心仪的女朋友的年龄");
+        String ageStr = sc.nextLine();
+        int age = Integer.parseInt(ageStr);
+        gf.setAge(age);
+        //如果所有的数据都是正确的，那么跳出循环
+        break;
+    } catch (NumberFormatException e) {
+        System.out.println("年龄的格式有误，请输入数字");
+        //continue;
+    } catch (RuntimeException e) {
+        System.out.println("姓名的长度或者年龄的范围有误");
+        //continue;
+    }
+}
+//5.打印
+System.out.println(gf);
+```
+
+```ruby
+public void setAge(int age) {
+    if(age < 18 || age > 40){
+        throw new RuntimeException();
+    }
+    this.age = age;
+}
+public void setName(String name)  {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new RuntimeException();
+    }
+    this.name = name;
+}
+```
+
+### 自定义异常
+
+意义:就是为了让控制台的报错信息更加的见名知意
+
+**写自定义异常步骤**
+
+1.定义异常类
+
+2.写继承关系
+
+3.空参构造
+
+4.带参构造
+
+异常类:
+
+```ruby
+public class NameFormatException extends RuntimeException{
+    //技巧：
+    //NameFormat：当前异常的名字，表示姓名格式化问题
+    //Exception：表示当前类是一个异常类
+
+    // 继承:
+    //运行时：RuntimeException 核心 就表示由于参数错误而导致的问题
+    //编译时：Exception 核心 提醒程序员检查本地信息
+
+
+    public NameFormatException() {
+    }
+
+    public NameFormatException(String message) {
+        super(message);
+    }
+}
+
+public class AgeOutOfBoundsException extends RuntimeException{
+
+    public AgeOutOfBoundsException() {
+    }
+
+    public AgeOutOfBoundsException(String message) {
+        super(message);
+    }
+}
+```
+
+调用:
+
+```ruby
+public void setName(String name) {
+    int len = name.length();
+    if(len < 3 || len > 10){
+        throw new NameFormatException(name + "格式有误，长度应该为：3~10");
+    }
+    this.name = name;
+}
+
+public void setAge(int age) {
+    if(age < 18 || age > 40){
+       throw new AgeOutOfBoundsException(age + "超出了范围");
+    }
+    this.age = age;
+}
+
+catch (NumberFormatException e) {
+    e.printStackTrace();
+} catch (NameFormatException e) {
+    e.printStackTrace();
+}catch (AgeOutOfBoundsException e) {
+    e.printStackTrace();
+}
+```
+
+# File
+
+File对象就表示一个路径，可以是文件的路径、也可以是文件夹的路径
+
+这个路径可以是存在的，也允许是不存在的
+
+## File构造方法:
+
+|方法名称 |	说明 |
+|---|---|
+|public File(string pathname) |	根据文件路径创建文件对象 |
+|public File(string parent，string child) |	根据父路径名字符串和子路径名字符串创建文件对象 |
+|public File(File parent，string child) |	根据父路径对应文件对象和子路径名字符串创建文件对象 |
+
+```ruby
+//1.根据字符串表示的路径，变成File对象
+String str = "C:\\Users\\tql\\Desktop\\a.txt";
+File f1 = new File(str);
+System.out.println(f1);//C:\Users\tql\Desktop\a.txt
+
+//2.父级路径：C:\Users\tql\Desktop
+//子级路径：a.txt
+String parent = "C:\\Users\\tql\\Desktop";
+String child = "a.txt";
+File f2 = new File(parent,child);
+System.out.println(f2);//C:\Users\tql\Desktop\a.txt
+
+File f3 = new File(parent + "\\" + child);
+System.out.println(f3);//C:\Users\tql\Desktop\a.txt
+
+//3.把一个File表示的路径和String表示路径进行拼接
+File parent2 = new File("C:\\Users\\tql\\Desktop");
+String child2 = "a.txt";
+File f4 = new File(parent2,child2);
+System.out.println(f4);//C:\Users\tql\Desktop\a.txt
+```
+
+## File成员方法
+
+### 判断/获取
+
+| 方法名称 |	说明 |
+|---|---|
+| public boolean isDirectory() |	判断此路径名表示的File是否为文件夹 |
+| public boolean isFile() |	判断此路径名表示的File是否为文件 |
+| public boolean exists() |	判断此路径名表示的File是否存在 |
+| public long length() |	返回文件的大小（字节数量)|
+| public string getAbsolutePath() |	返回文件的绝对路径|
+| public string getPath() |	返回定义文件时使用的路径|
+| public string getName() |	返回文件的名称，带后缀|
+| public long lastModified() |	返回文件的最后修改时间（时间毫秒值)|
+
+```ruby
+//对一个文件的路径进行判断
+File f1 = new File("D:\\aaa\\a.txt");
+System.out.println(f1.isDirectory());//false
+System.out.println(f1.isFile());//true
+System.out.println(f1.exists());//true
+```
+
+```ruby
+//1.length  返回文件的大小（字节数量）
+//细节1：这个方法只能获取文件的大小，单位是字节
+//如果单位我们要是M，G，可以不断的除以1024
+//细节2：这个方法无法获取文件夹的大小
+//如果我们要获取一个文件夹的大小，需要把这个文件夹里面所有的文件大小都累加在一起。
+
+File f1 = new File("D:\\aaa\\a.txt");
+long len = f1.length();
+System.out.println(len);//3
+
+File f2 = new File("D:\\aaa\\bbb");
+long len2 = f2.length();
+System.out.println(len2);//0
+
+//2.getAbsolutePath 返回文件的绝对路径
+File f3 = new File("D:\\aaa\\a.txt");
+String path1 = f3.getAbsolutePath();
+System.out.println(path1);
+
+File f4 = new File("myFile\\a.txt");
+String path2 = f4.getAbsolutePath();
+System.out.println(path2);  //C:\Users\tql\IdeaProjects\basic-code\myFile\a.txt
+
+//3.getPath 返回定义文件时使用的路径
+File f5 = new File("D:\\aaa\\a.txt");
+String path3 = f5.getPath();
+System.out.println(path3);//D:\aaa\a.txt
+
+File f6 = new File("myFile\\a.txt");
+String path4 = f6.getPath();
+System.out.println(path4);//myFile\a.txt
+
+//4.getName 获取名字
+//细节1：
+//a.txt:
+//      a 文件名
+//      txt 后缀名、扩展名
+//细节2：
+//文件夹：返回的就是文件夹的名字
+File f7 = new File("D:\\aaa\\a.txt");
+String name1 = f7.getName();
+System.out.println(name1);
+
+
+File f8 = new File("D:\\aaa\\bbb");
+String name2 = f8.getName();
+System.out.println(name2);//bbb
+
+//5.lastModified  返回文件的最后修改时间（时间毫秒值）
+File f9 = new File("D:\\aaa\\a.txt");
+long time = f9.lastModified();
+System.out.println(time);//1667380952425
+
+//如何把时间的毫秒值变成字符串表示的时间呢？
+//课堂练习：
+//yyyy年MM月dd日 HH：mm：ss
+Date date = new Date(time);
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+System.out.println(sdf.format(date));
+
+```
+
+### 创建/删除
+
+|方法名称|	说明|
+|---|---|
+|public boolean createNewFile()	|创建一个新的空的文件|
+|public boolean mkdir()|	创建单级文件夹|
+|public boolean mkdirs()	|创建多级文件夹|
+|public boolean delete()	|删除文件、空文件夹|
+
+**delete方法默认只能删除文件和空文件夹，delete方法直接删除不走回收站**
+
+```ruby
+//1.createNewFile 创建一个新的空的文件
+//细节1：如果当前路径表示的文件是不存在的，则创建成功，方法返回true
+//      如果当前路径表示的文件是存在的，则创建失败，方法返回false
+//细节2：如果父级路径是不存在的，那么方法会有异常IOException
+//细节3：createNewFile方法创建的一定是文件，如果路径中不包含后缀名，则创建一个没有后缀的文件
+File f1 = new File("D:\\aaa\\ddd");
+boolean b1 = f1.createNewFile();
+System.out.println(b1);//true
+
+
+//2.mkdir   make Directory，文件夹（目录）
+//细节1：windows当中路径是唯一的，如果当前路径已经存在，则创建失败，返回false
+//细节2：mkdir方法只能创建单级文件夹，无法创建多级文件夹。
+File f2 = new File("D:\\aaa\\aaa\\bbb\\ccc");
+boolean b2 = f2.mkdir();
+System.out.println(b2);
+
+//3.mkdirs   创建多级文件夹
+//细节：既可以创建单级的，又可以创建多级的文件夹
+File f3 = new File("D:\\aaa\\ggg");
+boolean b3 = f3.mkdirs();
+System.out.println(b3);//true
+```
+
+```ruby
+/*
+  public boolean delete()             删除文件、空文件夹
+  细节：
+      如果删除的是文件，则直接删除，不走回收站。
+      如果删除的是空文件夹，则直接删除，不走回收站
+      如果删除的是有内容的文件夹，则删除失败
+*/
+
+
+  //1.创建File对象
+  File f1 = new File("D:\\aaa\\eee");
+  //2.删除
+  boolean b = f1.delete();
+  System.out.println(b);
+```
+
+### 获取/遍历
+
+|方法名称|	说明 |
+|---|---|
+|public static File[] listRoots()                |列出可用的文件系统根|
+|public String[] list()                          |获取当前该路径下所有内容|
+|public String[] list(FilenameFilter filter)     |利用文件名过滤器获取当前该路径下所有内容|
+|（掌握）public File[] listFiles()               |获取当前该路径下所有内容|
+|public File[] listFiles(FileFilter filter)      |利用文件名过滤器获取当前该路径下所有内容|
+|public File[] listFiles(FilenameFilter filter)  |利用文件名过滤器获取当前该路径下所有内容|
+
+
+public File[] listFiles()       获取当前该路径下所有内容
+
+当调用者File表示的路径不存在时，返回null当调用者File表示的路径是文件时，返回null
+
+当调用者File表示的路径是一个空文件夹时，返回一个长度为0的数组
+
+当调用者File表示的路径是一个有内容的文件夹时，将里面所有文件和文件夹的路径放在File数组中返回
+
+当调用者File表示的路径是一个有隐藏文件的文件夹时，将里面所有文件和文件夹的路径放在File数组中返回，包含隐藏文件夹
+
+调用者File表示的路径是需要权限才能访问的文件夹时，返回null
+
+```ruby
+//1.创建File对象
+File f = new File("D:\\aaa");
+//2.listFiles方法
+//作用：获取aaa文件夹里面的所有内容，把所有的内容放到数组中返回
+File[] files = f.listFiles();
+for (File file : files) {
+    //file依次表示aaa文件夹里面的每一个文件或者文件夹
+    System.out.println(file);
+}
+```
+
+```ruby
+//1.创建File对象
+File f = new File("D:\\aaa");
+//2.需求：打印里面所有的txt文件
+File[] arr = f.listFiles();
+for (File file : arr) {
+    //file依次表示aaa文件夹里面每一个文件或者文件夹的路径
+    if(file.isFile() && file.getName().endsWith(".txt")){
+        System.out.println(file);
+    }
+}
+```
+
+```ruby
+/*
+ public File[] listFiles(FileFilter filter)      利用文件名过滤器获取当前该路径下所有内容
+ public File[] listFiles(FilenameFilter filter)  利用文件名过滤器获取当前该路径下所有内容
+*/
+
+ //创建File对象
+ File f = new File("D:\\aaa");
+ //调用listFiles(FileFilter filter)
+ File[] arr1 = f.listFiles(new FileFilter() {
+     @Override
+     public boolean accept(File pathname) {
+         return pathname.isFile() && pathname.getName().endsWith(".txt");
+     }
+ });
+
+ //调用listFiles(FilenameFilter filter)
+ File[] arr2 = f.listFiles(new FilenameFilter() {
+     @Override
+     public boolean accept(File dir, String name) {
+         File src = new File(dir, name);
+         return src.isFile() && name.endsWith(".txt");
+     }
+ });
+ System.out.println(Arrays.toString(arr2));
+```
+
+## File例程
+
+File递归的套路
+
+1，进入文件夹
+
+2，遍历数组
+
+3，判断
+
+4，判断
+
+1.找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+```ruby
+//需求：在当前模块下的aaa文件夹中创建一个a.txt文件
+
+//1.创建a.txt的父级路径
+File file = new File("myfile\\aaa");
+//2.创建父级路径
+//如果aaa是存在的，那么此时创建失败的。
+//如果aaa是不存在的，那么此时创建成功的。
+file.mkdirs();
+//3.拼接父级路径和子级路径
+File src = new File(file,"a.txt");
+boolean b = src.createNewFile();
+if(b){
+    System.out.println("创建成功");
+}else{
+    System.out.println("创建失败");
+}
+```
+
+```ruby
+/* 需求：
+    找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+
+    套路：
+        1，进入文件夹
+        2，遍历数组
+        3，判断
+        4，判断
+
+    */
+
+    findAVI();
+
+
+public static void findAVI(){
+    //获取本地所有的盘符
+    File[] arr = File.listRoots();
+    for (File f : arr) {
+        findAVI(f);
+    }
+}
+
+public static void findAVI(File src){//"C:\\
+    //1.进入文件夹src
+    File[] files = src.listFiles();
+    //2.遍历数组,依次得到src里面每一个文件或者文件夹
+    if(files != null){
+        for (File file : files) {
+            if(file.isFile()){
+                //3，判断，如果是文件，就可以执行题目的业务逻辑
+                String name = file.getName();
+                if(name.endsWith(".avi")){
+                    System.out.println(file);
+                }
+            }else{
+                //4，判断，如果是文件夹，就可以递归
+                //细节：再次调用本方法的时候，参数一定要是src的次一级路径
+                findAVI(file);
+            }
+
+        }
+    }
+}
+```
+
+2.删除一个多级文件夹
+
+```ruby
+/*
+       删除一个多级文件夹
+       如果我们要删除一个有内容的文件夹
+       1.先删除文件夹里面所有的内容
+       2.再删除自己
+    */
+
+    File file = new File("D:\\aaa\\src");
+    delete(file);
+
+/*
+* 作用：删除src文件夹
+* 参数：要删除的文件夹
+* */
+public static void delete(File src){
+    //1.先删除文件夹里面所有的内容
+    //进入src
+    File[] files = src.listFiles();
+    //遍历
+    for (File file : files) {
+        //判断,如果是文件，删除
+        if(file.isFile()){
+            file.delete();
+        }else {
+            //判断,如果是文件夹，就递归
+            delete(file);
+        }
+    }
+    //2.再删除自己
+    src.delete();
+}
+```
+
+3.统计一个文件夹中每种文件的个数并打印。（考虑子文件夹）
+
+```ruby
+public static void main(String[] args) {
+           /*
+        需求：统计一个文件夹中每种文件的个数并打印。（考虑子文件夹）
+        打印格式如下：
+        txt:3个
+        doc:4个
+        jpg:6个
+
+
+    */
+    File file = new File("G:\英雄联盟");
+    //创建HashMap存文件夹类型和数量
+    HashMap<String , Integer> hm = new HashMap<>();
+    HashMap<String, Integer> hm1 = getCount(file, hm);
+    System.out.println(hm1.toString());
+}
+
+/*
+ * 作用：
+ *       统计一个文件夹中每种文件的个数
+ * 参数：
+ *       要统计的那个文件夹
+ * 返回值：
+ *       用来统计map集合
+ *       键：后缀名 值：次数
+ *
+ *       a.txt
+ *       a.a.txt
+ *       aaa（不需要统计的）
+ *
+ *
+ * */
+public static HashMap<String , Integer> getCount(File file ,HashMap<String , Integer> hm){
+    //进入file文件夹
+    File[] files = file.listFiles();
+    //如果文件夹不为空则遍历文件夹
+    if(files != null) {
+        for (File file1 : files) {
+            if (file1.isFile()) {
+                //判断,如果是文件,取出后缀,注意:"."要用转义的点
+                String[] split = file1.getName().split("\\.");
+                //如果文件是没有后缀的文件,不统计
+                if(split.length >= 2) {
+                    String end = split[split.length - 1];
+                    if (hm.containsKey(end)) {
+                        //键存在
+                        Integer count = hm.get(end);
+                        count++;
+                        hm.put(end, count);
+                    } else {
+                        //键不存在
+                        hm.put(end, 1);
+                    }
+                }
+            } else {
+                //进入下一轮递归
+                getCount(file1, hm);
+            }
+        }
+    }
+    //返回最终的集合
+    return hm;
+}
+```
+
+
+
+
 
 
 
