@@ -3175,7 +3175,7 @@ public static void main(String[] args) {
 
 
     */
-    File file = new File("D:\\3dStar");
+    File file = new File("G:\英雄联盟");
     //创建HashMap存文件夹类型和数量
     HashMap<String , Integer> hm = new HashMap<>();
     HashMap<String, Integer> hm1 = getCount(file, hm);
