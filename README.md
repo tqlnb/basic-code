@@ -3046,6 +3046,193 @@ for (File file : arr) {
  System.out.println(Arrays.toString(arr2));
 ```
 
+## File例程
+
+File递归的套路
+
+1，进入文件夹
+
+2，遍历数组
+
+3，判断
+
+4，判断
+
+1.找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+```ruby
+//需求：在当前模块下的aaa文件夹中创建一个a.txt文件
+
+//1.创建a.txt的父级路径
+File file = new File("myfile\\aaa");
+//2.创建父级路径
+//如果aaa是存在的，那么此时创建失败的。
+//如果aaa是不存在的，那么此时创建成功的。
+file.mkdirs();
+//3.拼接父级路径和子级路径
+File src = new File(file,"a.txt");
+boolean b = src.createNewFile();
+if(b){
+    System.out.println("创建成功");
+}else{
+    System.out.println("创建失败");
+}
+```
+
+```ruby
+/* 需求：
+    找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+
+    套路：
+        1，进入文件夹
+        2，遍历数组
+        3，判断
+        4，判断
+
+    */
+
+    findAVI();
+
+
+public static void findAVI(){
+    //获取本地所有的盘符
+    File[] arr = File.listRoots();
+    for (File f : arr) {
+        findAVI(f);
+    }
+}
+
+public static void findAVI(File src){//"C:\\
+    //1.进入文件夹src
+    File[] files = src.listFiles();
+    //2.遍历数组,依次得到src里面每一个文件或者文件夹
+    if(files != null){
+        for (File file : files) {
+            if(file.isFile()){
+                //3，判断，如果是文件，就可以执行题目的业务逻辑
+                String name = file.getName();
+                if(name.endsWith(".avi")){
+                    System.out.println(file);
+                }
+            }else{
+                //4，判断，如果是文件夹，就可以递归
+                //细节：再次调用本方法的时候，参数一定要是src的次一级路径
+                findAVI(file);
+            }
+
+        }
+    }
+}
+```
+
+2.删除一个多级文件夹
+
+```ruby
+/*
+       删除一个多级文件夹
+       如果我们要删除一个有内容的文件夹
+       1.先删除文件夹里面所有的内容
+       2.再删除自己
+    */
+
+    File file = new File("D:\\aaa\\src");
+    delete(file);
+
+/*
+* 作用：删除src文件夹
+* 参数：要删除的文件夹
+* */
+public static void delete(File src){
+    //1.先删除文件夹里面所有的内容
+    //进入src
+    File[] files = src.listFiles();
+    //遍历
+    for (File file : files) {
+        //判断,如果是文件，删除
+        if(file.isFile()){
+            file.delete();
+        }else {
+            //判断,如果是文件夹，就递归
+            delete(file);
+        }
+    }
+    //2.再删除自己
+    src.delete();
+}
+```
+
+3.统计一个文件夹中每种文件的个数并打印。（考虑子文件夹）
+
+```ruby
+public static void main(String[] args) {
+           /*
+        需求：统计一个文件夹中每种文件的个数并打印。（考虑子文件夹）
+        打印格式如下：
+        txt:3个
+        doc:4个
+        jpg:6个
+
+
+    */
+    File file = new File("D:\\3dStar");
+    //创建HashMap存文件夹类型和数量
+    HashMap<String , Integer> hm = new HashMap<>();
+    HashMap<String, Integer> hm1 = getCount(file, hm);
+    System.out.println(hm1.toString());
+}
+
+/*
+ * 作用：
+ *       统计一个文件夹中每种文件的个数
+ * 参数：
+ *       要统计的那个文件夹
+ * 返回值：
+ *       用来统计map集合
+ *       键：后缀名 值：次数
+ *
+ *       a.txt
+ *       a.a.txt
+ *       aaa（不需要统计的）
+ *
+ *
+ * */
+public static HashMap<String , Integer> getCount(File file ,HashMap<String , Integer> hm){
+    //进入file文件夹
+    File[] files = file.listFiles();
+    //如果文件夹不为空则遍历文件夹
+    if(files != null) {
+        for (File file1 : files) {
+            if (file1.isFile()) {
+                //判断,如果是文件,取出后缀,注意:"."要用转义的点
+                String[] split = file1.getName().split("\\.");
+                //如果文件是没有后缀的文件,不统计
+                if(split.length >= 2) {
+                    String end = split[split.length - 1];
+                    if (hm.containsKey(end)) {
+                        //键存在
+                        Integer count = hm.get(end);
+                        count++;
+                        hm.put(end, count);
+                    } else {
+                        //键不存在
+                        hm.put(end, 1);
+                    }
+                }
+            } else {
+                //进入下一轮递归
+                getCount(file1, hm);
+            }
+        }
+    }
+    //返回最终的集合
+    return hm;
+}
+```
+
+
+
+
 
 
 
