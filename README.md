@@ -3471,6 +3471,12 @@ long end = System.currentTimeMillis();
 System.out.println(end - start);
 ```
 
+FilelnputStream一次读多个字节
+
+注意:一次读一个字节数组的数据，每次读取会尽可能把数组装满
+
+
+
 
 
 
