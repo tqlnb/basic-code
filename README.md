@@ -3231,6 +3231,16 @@ public static HashMap<String , Integer> getCount(File file ,HashMap<String , Int
 ```
 
 
+# IO流
+
+File:表示系统中的文件或者文件夹的路径
+
+注意:File类只能对文件本身进行操作，不能读写文件里面存储的数据。
+
+IO流:用于读写文件中的数据（可以读写文件，或网络中的数据...)
+
+
+
 
 
 
