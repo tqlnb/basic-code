@@ -3475,6 +3475,132 @@ FilelnputStream一次读多个字节
 
 注意:一次读一个字节数组的数据，每次读取会尽可能把数组装满
 
+```ruby
+/*
+*   练习：
+*       文件拷贝
+*       把D:\itheima\movie.mp4 (16.8 MB) 拷贝到当前模块下。
+*
+* */
+
+
+long start = System.currentTimeMillis();
+
+//1.创建对象
+FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+FileOutputStream fos = new FileOutputStream("myio\\copy.mp4");
+//2.拷贝
+int len;
+byte[] bytes = new byte[1024 * 1024 * 5];   //一次拷贝5M大小
+//len是read()返回值,表示往bytes数组拷贝了多少字节数据
+while((len = fis.read(bytes)) != -1){       
+   fos.write(bytes,0,len);
+}
+//3.释放资源
+fos.close();
+fis.close();
+
+long end = System.currentTimeMillis();
+
+System.out.println(end - start);
+```
+
+## try...catch异常处理
+
+```ruby
+/*
+*    利用try...catch...finally捕获拷贝文件中代码出现的异常
+
+* */
+
+ //1.创建对象
+ FileInputStream fis = null;
+ FileOutputStream fos = null;
+ try {
+     fis = new FileInputStream("D:\\itheima\\movie.mp4");
+     fos = new FileOutputStream("myio\\copy.mp4");
+     //2.拷贝
+     int len;
+     byte[] bytes = new byte[1024 * 1024 * 5];
+     while((len = fis.read(bytes)) != -1){
+         fos.write(bytes,0,len);
+     }
+ } catch (IOException e) {
+     //e.printStackTrace();
+ } finally {
+     //3.释放资源
+     if(fos != null){
+         try {
+             fos.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+     if(fis != null){
+         try {
+             fis.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+
+ }
+```
+
+AutoCloseable接口自动关闭
+
+![image](https://user-images.githubusercontent.com/88382462/222066026-dc9ec7ed-d319-4acb-88e3-c5598301f924.png)
+
+
+```ruby
+/*
+ *    JDK7:IO流中捕获异常的写法
+ *
+ *      try后面的小括号中写创建对象的代码，
+ *          注意：只有实现了AutoCloseable接口的类，才能在小括号中创建对象。
+ *     try(){
+ *
+ *     }catch(){
+ *
+ *     }
+ *
+ * */
+try (FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+     FileOutputStream fos = new FileOutputStream("myio\\copy.mp4")) {
+    //2.拷贝
+    int len;
+    byte[] bytes = new byte[1024 * 1024 * 5];
+    while ((len = fis.read(bytes)) != -1) {
+        fos.write(bytes, 0, len);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+}
+```
+
+```ruby
+/*
+ *
+ *    JDK9:IO流中捕获异常的写法
+ *
+ * */
+
+FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+FileOutputStream fos = new FileOutputStream("myio\\copy.mp4");
+
+try (fis;fos) {
+    //2.拷贝
+    int len;
+    byte[] bytes = new byte[1024 * 1024 * 5];
+    while ((len = fis.read(bytes)) != -1) {
+        fos.write(bytes, 0, len);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
 
 
 
