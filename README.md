@@ -3629,6 +3629,21 @@ windows系统默认使用的就是GBK。系统显示:ANSI
 ### GBK
 
 GBK存英文
+![image](https://user-images.githubusercontent.com/88382462/222074106-6aa04ff9-7121-4ab7-af39-3253a5a88b44.png)
+
+GBK存中文
+![image](https://user-images.githubusercontent.com/88382462/222074948-5f1fb3ea-1e3c-4e66-833b-e9974f57c36b.png)
+
+计算机的存储规则(汉字)(GBK)
+
+规则1:汉字两个字节存储
+
+规则2:高位字节二进制一定以1开头，转成十进制之后是一个负数
+
+计算机的存储规则(英文)(GBK)
+
+规则:英文一个字节存储，兼容ASCI1，二进制前面补0
+
 
 
 
