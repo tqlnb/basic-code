@@ -3679,7 +3679,16 @@ utf-8:
 
 一个中文占三个字节，二进制第一位是1，第一个字节转成十进制是负数
 
+![image](https://user-images.githubusercontent.com/88382462/222078556-a9412644-12e1-4d25-9a1d-ea41d48fd6f1.png)
 
+
+![image](https://user-images.githubusercontent.com/88382462/222078312-1e68b5de-495c-45b2-99da-b4c1739cfcf2.png)
+
+如何不产生乱码?
+
+1，不要用字节流读取文本文件
+
+2，编码解码时使用同一个码表，同一个编码方式
 
 
 
