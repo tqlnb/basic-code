@@ -3239,7 +3239,237 @@ File:表示系统中的文件或者文件夹的路径
 
 IO流:用于读写文件中的数据（可以读写文件，或网络中的数据...)
 
+## IO流的分类
 
+![image](https://user-images.githubusercontent.com/88382462/222043508-dbf285fc-e491-4abd-a289-51bd01ce605e.png)
+
+纯文本文件:用windows自带的记事本打开能读懂的文件
+
+**1．什么是IO流?**
+
+存储和读取数据的解决方案  
+
+I: input O: output  
+
+流:像水流一样传输数据
+
+**2．IO流的作用?**
+
+用于读写数据（本地文件，网络)
+
+**3．IO流按照流向可以分类哪两种流?**
+
+输出流:程序 -> 文件
+
+输入流:文件 -> 程序
+
+**4.IO流按照操作文件的类型可以分类哪两种流?**
+
+字节流:可以操作所有类型的文件
+
+字符流:只能操作纯文本文件
+
+**5．什么是纯文本文件?**
+
+用windows系统自带的记事本打开并且能读懂的文件
+
+txt文件，md文件，xml文件，lrc文件等
+
+
+![image](https://user-images.githubusercontent.com/88382462/222044467-2ace8b28-9a68-4075-9734-b445499f5285.png)
+
+## FileOutputStream/字节输出流
+
+```ruby
+/*
+      字节输出流的细节：
+          1.创建字节输出流对象
+                细节1：参数是字符串表示的路径或者是File对象都是可以的
+                细节2：如果文件不存在会创建一个新的文件，但是要保证父级路径是存在的。
+                细节3：如果文件已经存在，则会清空文件
+          2.写数据
+                细节：write方法的参数是整数，但是实际上写到本地文件中的是整数在ASCII上对应的字符
+                ‘9’
+                ‘7’
+          3.释放资源
+                每次使用完流之后都要释放资源
+
+*/
+    //1.创建对象
+    FileOutputStream fos = new FileOutputStream("day28-code/src/a.txt");
+    //2.写出数据
+    fos.write(57);
+    fos.write(56);
+    //3.释放资源
+    fos.close();
+
+}
+```
+
+**1.创建字节输出流对象**
+
+细节1:参数是字符串表示的路径或者File对象都是可以的
+
+细节2:如果文件不存在会创建一个新的文件，但是要保证父级路径是存在的。
+
+细节3:如果文件已经存在，则会清空文件
+
+**2.写数据**
+
+细节: write方法的参数是整数，但是实际上写到本地文件中的是整数在ASCII上对应的字符
+
+**3.释放资源**
+
+细节:每次使用完流之后都要释放资源
+
+### FileOutputStream写数据的三种方式
+
+|方法名称	| 说明 |
+|---|---|
+|void write(int b) |	一次写一个字节数据 |
+|void write(byte[]b) |	一次写一个字节数组数据 |
+|void write(byte[] b， int off， int len) |	一次写一个字节数组的部分数据 |
+
+```ruby
+/*
+   void write(int b)                       一次写一个字节数据
+   void write(byte[] b)                    一次写一个字节数组数据
+   void write(byte[] b, int off, int len)  一次写一个字节数组的部分数据
+   参数一：
+        数组
+   参数二：
+        起始索引  0
+   参数三：
+        个数      3
+*/
+
+
+//1.创建对象
+FileOutputStream fos = new FileOutputStream("myio\\a.txt");
+//2.写出数据
+//fos.write(97); // a
+//fos.write(98); // b
+byte[] bytes = {97, 98, 99, 100, 101};
+/* fos.write(bytes);*/
+
+fos.write(bytes,1,2);// b c
+//3.释放资源
+fos.close();
+```
+
+**换行和续写**
+
+```ruby
+/*
+    换行写：
+        再次写出一个换行符就可以了
+        windows： \r\n
+        Linux:    \n
+        Mac:      \r
+    细节：
+        在windows操作系统当中，java对回车换行进行了优化。
+        虽然完整的是\r\n，但是我们写其中一个\r或者\n，
+        java也可以实现换行，因为java在底层会补全。
+    建议：
+        不要省略，还是写全了。
+
+
+    续写：
+        如果想要续写，打开续写开关即可
+        开关位置：创建对象的第二个参数
+        默认false：表示关闭续写，此时创建对象会清空文件
+        手动传递true：表示打开续写，此时创建对象不会清空文件
+
+*/
+
+//1.创建对象
+FileOutputStream fos = new FileOutputStream("myio\\a.txt",true);
+//2.写出数据
+String str = "kankelaoyezuishuai";
+byte[] bytes1 = str.getBytes();
+fos.write(bytes1);
+
+//再次写出一个换行符就可以了
+String wrap = "\r\n";
+byte[] bytes2 = wrap.getBytes();
+fos.write(bytes2);
+
+String str2 = "666";
+byte[] bytes3 = str2.getBytes();
+fos.write(bytes3);
+
+//3.释放资源
+fos.close();
+```
+
+**1. FileoutputStream的作用**
+
+可以把程序中的数据写到本地文件上，是字节流的基本流。
+
+**2．书写步骤**
+
+创建对象，写出数据，释放资源
+
+**3．三步操作的细节**
+
+创建对象:文件存在、文件不存在、追加写入
+
+写出数据:写出整数、写出字节数组、换行写
+
+释放资源:关闭通道
+
+## FileInputStream/字节输入流
+
+FilelnputStream书写细节
+
+1.创建字节输入流对象
+
+细节1:如果文件不存在，就直接报错。
+
+2.读取数据
+
+细节1:一次读一个字节，读出来的是数据在ASCII上对应的数字
+
+细节2:读到文件末尾了, read方法返回-1。
+
+3.释放资源
+
+细节1:每次使用完流必须要释放资源。
+
+```ruby
+/*
+*   练习：
+*       文件拷贝
+*       把D:\itheima\movie.mp4拷贝到当前模块下。
+*
+*   注意：
+*       选择一个比较小的文件，不要太大。大文件拷贝我们下一个视频会说。
+*
+*   课堂练习：
+*       要求统计一下拷贝时间，单位毫秒
+* */
+
+long start = System.currentTimeMillis();
+
+//1.创建对象
+FileInputStream fis = new FileInputStream("F:\\BaiduNetdiskDownload\\day28-IO（字节流&字符流）\\资料\\文件3.xlsx");
+FileOutputStream fos = new FileOutputStream("day28-code\\copy.xlsx");
+//2.拷贝
+//核心思想：边读边写
+int b;
+while((b = fis.read()) != -1){
+    fos.write(b);
+}
+//3.释放资源
+//规则：先开的最后关闭
+fos.close();
+fis.close();
+
+long end = System.currentTimeMillis();
+
+//看看运行了多少毫秒
+System.out.println(end - start);
+```
 
 
 
