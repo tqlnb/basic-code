@@ -3900,8 +3900,177 @@ fw.close();
 往纯文本文件中写出数据
 
 
+## 练习
 
+拷贝文件夹
 
+```ruby
+/*
+* 作用:拷贝文件夹
+* 参数1:数据源
+* 参数2:目的地
+*
+* */
+private static void copyDir(File src, File dest) throws IOException {
+    dest.mkdirs();
+    //递归
+    //1.进入数据源
+    File[] files = src.listFiles();
+    //2.遍历数组
+    if(files != null) {
+        for (File file : files) {
+            if (file.isFile()) {
+                //3.判断文件:拷贝
+                FileInputStream fis = new FileInputStream(file);
+                FileOutputStream fos = new FileOutputStream(new File(dest , file.getName()));
+                byte[] bytes = new byte[1024];
+                int len;
+
+                while ((len = fis.read()) != -1){
+                    fos.write(bytes , 0 , len);
+                }
+                fos.close();
+                fis.close();
+            }
+            if (file.isDirectory()){
+                //4.判断文件夹:递归
+                copyDir(file , new File(dest , file.getName()));
+            }
+        }
+    }
+}
+```
+
+加密/解密
+
+```ruby
+/*
+    为了保证文件的安全性，就需要对原始文件进行加密存储，再使用的时候再对其进行解密处理。
+    加密原理：
+        对原始文件中的每一个字节数据进行更改，然后将更改以后的数据存储到新的文件中。
+    解密原理：
+        读取加密之后的文件，按照加密的规则反向操作，变成原始文件。
+
+     ^ : 异或
+         两边相同：false
+         两边不同：true
+
+         0：false
+         1：true
+
+       100:1100100
+       10: 1010
+
+       1100100
+     ^ 0001010
+     __________
+       1101110
+     ^ 0001010
+     __________
+       1100100
+*/
+```
+
+```ruby
+public static void encryptionAndReduction(File src, File dest) throws IOException {
+        //原始文件
+        FileInputStream fis = new FileInputStream(src);
+        //关联文件
+        FileOutputStream fos = new FileOutputStream(dest);
+        //加密 / 解密 将原始文件和目标文件路径更改即可加/解密
+        int b;
+        while ((b = fis.read()) != -1) {
+            fos.write(b ^ 2);
+        }
+        //4.释放资源
+        fos.close();
+        fis.close();
+    }
+```
+
+数据排序(字符流)
+
+```ruby
+/*
+    文本文件中有以下的数据：
+        2-1-9-4-7-8
+    将文件中的数据进行排序，变成以下的数据：
+        1-2-4-7-8-9
+*/
+
+//1.读取数据
+FileReader fr = new FileReader("myio\\a.txt");
+StringBuilder sb = new StringBuilder();
+int ch;
+while((ch = fr.read()) != -1){
+    sb.append((char)ch);
+}
+fr.close();
+System.out.println(sb);
+//2.排序
+String str = sb.toString();
+String[] arrStr = str.split("-");//2-1-9-4-7-8
+
+ArrayList<Integer> list = new ArrayList<>();
+for (String s : arrStr) {
+    int i = Integer.parseInt(s);
+    list.add(i);
+}
+Collections.sort(list);
+System.out.println(list);
+//3.写出
+FileWriter fw = new FileWriter("myio\\a.txt");
+for (int i = 0; i < list.size(); i++) {
+    if(i == list.size() - 1){
+        fw.write(list.get(i) + "");
+    }else{
+        fw.write(list.get(i) + "-");
+    }
+}
+fw.close();
+```
+
+简化写法:使用了Stream流和Arrays的replace
+
+```ruby
+/*
+    文本文件中有以下的数据：
+        2-1-9-4-7-8
+    将文件中的数据进行排序，变成以下的数据：
+        1-2-4-7-8-9
+   细节1：
+        文件中的数据不要换行
+    细节2:
+        bom头
+*/
+//1.读取数据
+FileReader fr = new FileReader("myio\\a.txt");
+StringBuilder sb = new StringBuilder();
+int ch;
+while((ch = fr.read()) != -1){
+    sb.append((char)ch);
+}
+fr.close();
+System.out.println(sb);
+//2.排序
+Integer[] arr = Arrays.stream(sb.toString()
+        .split("-"))
+        .map(Integer::parseInt)
+        .sorted()
+        .toArray(Integer[]::new);
+//3.写出
+FileWriter fw = new FileWriter("myio\\a.txt");
+String s = Arrays.toString(arr).replace(", ","-");
+String result = s.substring(1, s.length() - 1);
+fw.write(result);
+fw.close();
+```
+
+## 缓冲流
+
+![image](https://user-images.githubusercontent.com/88382462/222373230-b90f8685-4d1a-4449-a8a1-b619ffaf4457.png)
+
+![image](https://user-images.githubusercontent.com/88382462/222386508-b42de499-b926-4cc1-964c-ade2cbdcf124.png)
 
 
 
