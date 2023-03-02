@@ -4072,9 +4072,124 @@ fw.close();
 
 ![image](https://user-images.githubusercontent.com/88382462/222386508-b42de499-b926-4cc1-964c-ade2cbdcf124.png)
 
+### 字节缓冲流
+
+```ruby
+/*
+*   需求：
+*       利用字节缓冲流拷贝文件
+*
+*   字节缓冲输入流的构造方法：
+*           public BufferedInputStream(InputStream is)
+*
+*    字节缓冲输出流的构造方法：
+*           public BufferedOutputStream(OutputStream os)
+* */
+//1.创建缓冲流的对象
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("myio\\a.txt"));
+BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("myio\\a.txt"));
+//2.循环读取并写到目的地
+int b;
+while ((b = bis.read()) != -1) {
+   bos.write(b);
+}
+//3.释放资源
+bos.close();
+bis.close(); 
+```
+
+一次读写多个字节
+
+```ruby
+//1.创建缓冲流的对象
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("myio\\a.txt"));
+BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("myio\\copy2.txt"));
+//2.拷贝（一次读写多个字节）
+byte[] bytes = new byte[1024];
+int len;
+while((len = bis.read(bytes)) != -1){
+    bos.write(bytes,0,len);
+}
+//3.释放资源
+bos.close();
+bis.close();
+```
+
+字节缓冲流提高速度的原理
+![image](https://user-images.githubusercontent.com/88382462/222393617-331e28be-5225-4413-8bc4-71917dec6969.png)
+
+### 字符缓冲流
+
+**字符缓冲流特有方法**
+
+字符缓冲输入流特有方法:
+
+|public string readLine()|读取一行数据，如果没有数据可读了，会返回null|
+
+字符缓冲输出流特有方法
+
+|public void newLine()|public void newLine()|
 
 
+```ruby
+/*
+ *   字符缓冲输入流：
+ *      构造方法：
+ *           public BufferedReader(Reader r)
+ *      特有方法：
+ *           public String readLine()   读一整行
+ *
+ * */
 
+//1.创建字符缓冲输入流的对象
+BufferedReader br = new BufferedReader(new FileReader("myio\\a.txt"));
+//2.读取数据
+//细节：
+//readLine方法在读取的时候，一次读一整行，遇到回车换行结束
+//        但是他不会把回车换行读到内存当中
+String line;
+while ((( line = br.readLine()) != null)){
+    System.out.println(line);
+}
+
+//3.释放资源
+br.close();
+```
+
+```ruby
+//1.创建字符缓冲输出流的对象 // 续写开关(写在writer里面)
+BufferedWriter bw = new BufferedWriter(new FileWriter("b.txt",true));
+//2.写出数据
+bw.write("123");
+bw.newLine();
+bw.write("456");
+bw.newLine();
+//3.释放资源
+bw.close();
+```
+
+### 总结
+**1．缓冲流有几种?**
+
+字节缓冲输入流:BufferedlnputStream
+
+字节缓冲输出流:BufferedOutputStream字符缓冲输入流:BufferedReader
+
+字符缓冲输出流:Bufferedwriter
+
+**2.缓冲流为什么能提高性能?**
+
+缓冲流自带长度为8192的缓冲区
+
+可以显著提高字节流的读写性能
+
+●对于字符流提升不明显，对于字符缓冲流而言关键点是两个特有的方法
+
+**3.字符缓冲流两个特有的方法是什么?**
+
+字符缓冲输入流BufferedReader: readLine ( )
+
+字符缓冲输出流BufferedWriter: newLine ( )
 
 
 
