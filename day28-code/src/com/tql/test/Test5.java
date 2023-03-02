@@ -1,8 +1,10 @@
-package com.tql.mytest;
+package com.tql.test;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class Test02 {
+public class Test5 {
     public static void main(String[] args) throws IOException {
         /*
             为了保证文件的安全性，就需要对原始文件进行加密存储，再使用的时候再对其进行解密处理。
@@ -31,27 +33,16 @@ public class Test02 {
                1100100
 
         */
+        FileInputStream fis = new FileInputStream("D:\\aaa\\b.txt");
+        FileOutputStream fos = new FileOutputStream("D:\\aaa\\c.txt");
 
-
-
-
-    }
-
-
-    public static void encryptionAndReduction(File src, File dest) throws IOException {
-        //原始文件
-        FileInputStream fis = new FileInputStream(src);
-        //关联文件
-        FileOutputStream fos = new FileOutputStream(dest);
-        //加密 / 解密 将原始文件和目标文件路径更改即可加/解密
         int b;
-        while ((b = fis.read()) != -1) {
-            fos.write(b ^ 2);
+        while ((b = fis.read()) != -1){
+            fos.write(b ^ 100);
         }
-        //4.释放资源
+
         fos.close();
         fis.close();
+
     }
-
-
 }

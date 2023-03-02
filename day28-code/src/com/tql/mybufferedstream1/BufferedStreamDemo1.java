@@ -19,8 +19,8 @@ public class BufferedStreamDemo1 {
 
 
         //1.创建缓冲流的对象
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream("myio\\a.txt"));
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("myio\\a.txt"));
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream("day28-code\\aaa.txt"));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("day28-code\\bb.txt"));
         //2.循环读取并写到目的地
         int b;
         while ((b = bis.read()) != -1) {

@@ -31,7 +31,5 @@ public class BufferedStreamDemo2 {
         bis.close();
 
 
-
-
     }
 }
