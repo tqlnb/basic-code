@@ -3231,6 +3231,1079 @@ public static HashMap<String , Integer> getCount(File file ,HashMap<String , Int
 ```
 
 
+# IO流
+
+File:表示系统中的文件或者文件夹的路径
+
+注意:File类只能对文件本身进行操作，不能读写文件里面存储的数据。
+
+IO流:用于读写文件中的数据（可以读写文件，或网络中的数据...)
+
+## IO流的分类
+
+![image](https://user-images.githubusercontent.com/88382462/222043508-dbf285fc-e491-4abd-a289-51bd01ce605e.png)
+
+纯文本文件:用windows自带的记事本打开能读懂的文件
+
+**1．什么是IO流?**
+
+存储和读取数据的解决方案  
+
+I: input O: output  
+
+流:像水流一样传输数据
+
+**2．IO流的作用?**
+
+用于读写数据（本地文件，网络)
+
+**3．IO流按照流向可以分类哪两种流?**
+
+输出流:程序 -> 文件
+
+输入流:文件 -> 程序
+
+**4.IO流按照操作文件的类型可以分类哪两种流?**
+
+字节流:可以操作所有类型的文件
+
+字符流:只能操作纯文本文件
+
+**5．什么是纯文本文件?**
+
+用windows系统自带的记事本打开并且能读懂的文件
+
+txt文件，md文件，xml文件，lrc文件等
+
+
+![image](https://user-images.githubusercontent.com/88382462/222044467-2ace8b28-9a68-4075-9734-b445499f5285.png)
+
+## FileOutputStream/字节输出流
+
+```ruby
+/*
+      字节输出流的细节：
+          1.创建字节输出流对象
+                细节1：参数是字符串表示的路径或者是File对象都是可以的
+                细节2：如果文件不存在会创建一个新的文件，但是要保证父级路径是存在的。
+                细节3：如果文件已经存在，则会清空文件
+          2.写数据
+                细节：write方法的参数是整数，但是实际上写到本地文件中的是整数在ASCII上对应的字符
+                ‘9’
+                ‘7’
+          3.释放资源
+                每次使用完流之后都要释放资源
+
+*/
+    //1.创建对象
+    FileOutputStream fos = new FileOutputStream("day28-code/src/a.txt");
+    //2.写出数据
+    fos.write(57);
+    fos.write(56);
+    //3.释放资源
+    fos.close();
+
+}
+```
+
+**1.创建字节输出流对象**
+
+细节1:参数是字符串表示的路径或者File对象都是可以的
+
+细节2:如果文件不存在会创建一个新的文件，但是要保证父级路径是存在的。
+
+细节3:如果文件已经存在，则会清空文件
+
+**2.写数据**
+
+细节: write方法的参数是整数，但是实际上写到本地文件中的是整数在ASCII上对应的字符
+
+**3.释放资源**
+
+细节:每次使用完流之后都要释放资源
+
+### FileOutputStream写数据的三种方式
+
+|方法名称	| 说明 |
+|---|---|
+|void write(int b) |	一次写一个字节数据 |
+|void write(byte[]b) |	一次写一个字节数组数据 |
+|void write(byte[] b， int off， int len) |	一次写一个字节数组的部分数据 |
+
+```ruby
+/*
+   void write(int b)                       一次写一个字节数据
+   void write(byte[] b)                    一次写一个字节数组数据
+   void write(byte[] b, int off, int len)  一次写一个字节数组的部分数据
+   参数一：
+        数组
+   参数二：
+        起始索引  0
+   参数三：
+        个数      3
+*/
+
+
+//1.创建对象
+FileOutputStream fos = new FileOutputStream("myio\\a.txt");
+//2.写出数据
+//fos.write(97); // a
+//fos.write(98); // b
+byte[] bytes = {97, 98, 99, 100, 101};
+/* fos.write(bytes);*/
+
+fos.write(bytes,1,2);// b c
+//3.释放资源
+fos.close();
+```
+
+**换行和续写**
+
+```ruby
+/*
+    换行写：
+        再次写出一个换行符就可以了
+        windows： \r\n
+        Linux:    \n
+        Mac:      \r
+    细节：
+        在windows操作系统当中，java对回车换行进行了优化。
+        虽然完整的是\r\n，但是我们写其中一个\r或者\n，
+        java也可以实现换行，因为java在底层会补全。
+    建议：
+        不要省略，还是写全了。
+
+
+    续写：
+        如果想要续写，打开续写开关即可
+        开关位置：创建对象的第二个参数
+        默认false：表示关闭续写，此时创建对象会清空文件
+        手动传递true：表示打开续写，此时创建对象不会清空文件
+
+*/
+
+//1.创建对象
+FileOutputStream fos = new FileOutputStream("myio\\a.txt",true);
+//2.写出数据
+String str = "kankelaoyezuishuai";
+byte[] bytes1 = str.getBytes();
+fos.write(bytes1);
+
+//再次写出一个换行符就可以了
+String wrap = "\r\n";
+byte[] bytes2 = wrap.getBytes();
+fos.write(bytes2);
+
+String str2 = "666";
+byte[] bytes3 = str2.getBytes();
+fos.write(bytes3);
+
+//3.释放资源
+fos.close();
+```
+
+**1. FileoutputStream的作用**
+
+可以把程序中的数据写到本地文件上，是字节流的基本流。
+
+**2．书写步骤**
+
+创建对象，写出数据，释放资源
+
+**3．三步操作的细节**
+
+创建对象:文件存在、文件不存在、追加写入
+
+写出数据:写出整数、写出字节数组、换行写
+
+释放资源:关闭通道
+
+## FileInputStream/字节输入流
+
+FilelnputStream书写细节
+
+1.创建字节输入流对象
+
+细节1:如果文件不存在，就直接报错。
+
+2.读取数据
+
+细节1:一次读一个字节，读出来的是数据在ASCII上对应的数字
+
+细节2:读到文件末尾了, read方法返回-1。
+
+3.释放资源
+
+细节1:每次使用完流必须要释放资源。
+
+```ruby
+/*
+*   练习：
+*       文件拷贝
+*       把D:\itheima\movie.mp4拷贝到当前模块下。
+*
+*   注意：
+*       选择一个比较小的文件，不要太大。大文件拷贝我们下一个视频会说。
+*
+*   课堂练习：
+*       要求统计一下拷贝时间，单位毫秒
+* */
+
+long start = System.currentTimeMillis();
+
+//1.创建对象
+FileInputStream fis = new FileInputStream("F:\\BaiduNetdiskDownload\\day28-IO（字节流&字符流）\\资料\\文件3.xlsx");
+FileOutputStream fos = new FileOutputStream("day28-code\\copy.xlsx");
+//2.拷贝
+//核心思想：边读边写
+int b;
+while((b = fis.read()) != -1){
+    fos.write(b);
+}
+//3.释放资源
+//规则：先开的最后关闭
+fos.close();
+fis.close();
+
+long end = System.currentTimeMillis();
+
+//看看运行了多少毫秒
+System.out.println(end - start);
+```
+
+FilelnputStream一次读多个字节
+
+注意:一次读一个字节数组的数据，每次读取会尽可能把数组装满
+
+```ruby
+/*
+*   练习：
+*       文件拷贝
+*       把D:\itheima\movie.mp4 (16.8 MB) 拷贝到当前模块下。
+*
+* */
+
+
+long start = System.currentTimeMillis();
+
+//1.创建对象
+FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+FileOutputStream fos = new FileOutputStream("myio\\copy.mp4");
+//2.拷贝
+int len;
+byte[] bytes = new byte[1024 * 1024 * 5];   //一次拷贝5M大小
+//len是read()返回值,表示往bytes数组拷贝了多少字节数据
+while((len = fis.read(bytes)) != -1){       
+   fos.write(bytes,0,len);
+}
+//3.释放资源
+fos.close();
+fis.close();
+
+long end = System.currentTimeMillis();
+
+System.out.println(end - start);
+```
+
+## try...catch异常处理
+
+```ruby
+/*
+*    利用try...catch...finally捕获拷贝文件中代码出现的异常
+
+* */
+
+ //1.创建对象
+ FileInputStream fis = null;
+ FileOutputStream fos = null;
+ try {
+     fis = new FileInputStream("D:\\itheima\\movie.mp4");
+     fos = new FileOutputStream("myio\\copy.mp4");
+     //2.拷贝
+     int len;
+     byte[] bytes = new byte[1024 * 1024 * 5];
+     while((len = fis.read(bytes)) != -1){
+         fos.write(bytes,0,len);
+     }
+ } catch (IOException e) {
+     //e.printStackTrace();
+ } finally {
+     //3.释放资源
+     if(fos != null){
+         try {
+             fos.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+     if(fis != null){
+         try {
+             fis.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     }
+
+ }
+```
+
+AutoCloseable接口自动关闭
+
+![image](https://user-images.githubusercontent.com/88382462/222066026-dc9ec7ed-d319-4acb-88e3-c5598301f924.png)
+
+
+```ruby
+/*
+ *    JDK7:IO流中捕获异常的写法
+ *
+ *      try后面的小括号中写创建对象的代码，
+ *          注意：只有实现了AutoCloseable接口的类，才能在小括号中创建对象。
+ *     try(){
+ *
+ *     }catch(){
+ *
+ *     }
+ *
+ * */
+try (FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+     FileOutputStream fos = new FileOutputStream("myio\\copy.mp4")) {
+    //2.拷贝
+    int len;
+    byte[] bytes = new byte[1024 * 1024 * 5];
+    while ((len = fis.read(bytes)) != -1) {
+        fos.write(bytes, 0, len);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+}
+```
+
+```ruby
+/*
+ *
+ *    JDK9:IO流中捕获异常的写法
+ *
+ * */
+
+FileInputStream fis = new FileInputStream("D:\\itheima\\movie.mp4");
+FileOutputStream fos = new FileOutputStream("myio\\copy.mp4");
+
+try (fis;fos) {
+    //2.拷贝
+    int len;
+    byte[] bytes = new byte[1024 * 1024 * 5];
+    while ((len = fis.read(bytes)) != -1) {
+        fos.write(bytes, 0, len);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+## 字符集
+
+ASCII存英文
+![image](https://user-images.githubusercontent.com/88382462/222073243-ba1c090a-ad52-4c9a-b530-0c8659e7f089.png)
+
+
+
+计算机存储规则
+
+1. GB2312字符集:1980年发布，1981年5月1日实施的简体中文汉字编码国家标准。
+收录7445个图形字符，其中包括6763个简体汉字
+
+2. BIG5字符集:台湾地区繁体中文标准字符集，共收录13053个中文字，1984年实施。
+
+3.GBK字符集:2000年3月17日发布，收录21003个汉字。
+包含国家标准GB13000-1中的全部中日韩汉字，和BIG5编码中的所有汉字。
+
+windows系统默认使用的就是GBK。系统显示:ANSI
+
+4. Unicode字符集︰国际标准字符集，它将世界各种语言的每个字符定义一个唯一的编码，以满足跨语言、跨平台的
+文本信息转换。
+
+4. Unicode字符集︰国际标准字符集，它将世界各种语言的每个字符定义一个唯一的编码，以满足跨语言、跨平台的
+文本信息转换。
+
+### GBK
+
+GBK存英文
+![image](https://user-images.githubusercontent.com/88382462/222074106-6aa04ff9-7121-4ab7-af39-3253a5a88b44.png)
+
+GBK存中文
+![image](https://user-images.githubusercontent.com/88382462/222074948-5f1fb3ea-1e3c-4e66-833b-e9974f57c36b.png)
+
+计算机的存储规则(汉字)(GBK)
+
+规则1:汉字两个字节存储
+
+规则2:高位字节二进制一定以1开头，转成十进制之后是一个负数
+
+计算机的存储规则(英文)(GBK)
+
+规则:英文一个字节存储，兼容ASCI1，二进制前面补0
+
+```
+1．在计算机中，任意数据都是以二进制的形式来存储的
+2．计算机中最小的存储单元是一个字节
+3. ASCII字符集中，一个英文占一个字节
+4．简体中文版windows，默认使用GBK字符集
+5. GBK字符集完全兼容ASCI字符集
+一个英文占一个字节，二进制第一位是0
+一个中文占两个字节，二进制高位字节的第一位是1
+```
+
+### Unicode
+
+```
+研发方:统一码联盟（也叫Unicode组织)总部位置:美国加州
+研发时间:1990年
+发布时间:1994年发布1.0版本，期间不断添加新的文字，
+最新的版本是2022年9月13日发布的15.0版本。
+联盟组成:世界各地主要的电脑制造商、软件开发商、数据库开发商、政府部门、研究机构、国际机构、及个人组成
+```
+utf-32 和 utf-16:
+
+![image](https://user-images.githubusercontent.com/88382462/222076303-87e26462-9f15-4cfb-8b27-f94b2e56d0ae.png)
+
+utf-8:
+
+![image](https://user-images.githubusercontent.com/88382462/222076447-ebd26958-8f6d-45f5-b69f-c256890a09f8.png)
+
+![image](https://user-images.githubusercontent.com/88382462/222076896-153d6648-87fe-4b3d-81c1-8ca0a7c5a511.png)
+
+1. Unicode字符集的UTF-8编码格式
+
+一个英文占一个字节，二进制第一位是0，转成十进制是正数
+
+一个中文占三个字节，二进制第一位是1，第一个字节转成十进制是负数
+
+![image](https://user-images.githubusercontent.com/88382462/222078556-a9412644-12e1-4d25-9a1d-ea41d48fd6f1.png)
+
+
+![image](https://user-images.githubusercontent.com/88382462/222078312-1e68b5de-495c-45b2-99da-b4c1739cfcf2.png)
+
+如何不产生乱码?
+
+1，不要用字节流读取文本文件
+
+2，编码解码时使用同一个码表，同一个编码方式
+
+## 编码和解码
+
+Java中编码的方式
+
+|String类中的方法	| 说明|
+|---|---|
+|public byte[] getBytes()	| 使用默认方式进行编码|
+|public byte[] getBytes(string charsetName)	| 使用指定方式进行编码|
+
+Java中解码的方式
+
+|string类中的方法	|说明|
+|---|---|
+|string(byte[] bytes)	|使用默认方式进行解码|
+|string(byte[]bytes，string charsetName)	|使用指定方式进行解码|
+
+```ruby
+ //1.编码
+String str = "ai你哟";
+byte[] bytes1 = str.getBytes();
+System.out.println(Arrays.toString(bytes1));
+
+byte[] bytes2 = str.getBytes("GBK");
+System.out.println(Arrays.toString(bytes2));
+
+
+//2.解码
+String str2 = new String(bytes1);
+System.out.println(str2);
+
+String str3 = new String(bytes1,"GBK");
+System.out.println(str3);
+```
+
+## 字符流
+
+**字符流的底层其实就是字节流**
+
+字符流 = 字节流 + 字符集
+
+**特点**
+
+输入流:一次读一个字节，遇到中文时，一次读多个字节
+
+输出流:底层会把数据按照指定的编码方式进行编码，变成字节再写到文件中
+
+**使用场景**
+
+对于纯文本文件进行读写操作
+
+### FileReader
+
+1.创建对象
+
+|构造方法	|说明|
+|---|---|
+|public FileReader(File file)|	创建字符输入流关联本地文件|
+|public FileReader(String pathname)	|创建字符输入流关联本地文件|
+
+2.读取数据
+
+|成员方法|	说明|
+|---|---|
+|public int read()|		读取数据，读到末尾返回-1|
+|public int read(char[]buffer) | 读取多个数据，读到末尾返回-1|
+
+细节1:按字节进行读取y遇到中文，一次读多个字节，读取后解码，返回一个整数
+
+细节2:读到文件末尾了，read方法返回-1。
+
+3.释放资源
+
+
+```ruby
+//1.创建对象并关联本地文件
+FileReader fr = new FileReader("day28-code\\b.txt");
+//2.读取数据 read()
+//字符流的底层也是字节流，默认也是一个字节一个字节的读取的。
+//如果遇到中文就会一次读取多个，GBK一次读两个字节，UTF-8一次读三个字节
+
+//read（）细节：
+//1.read():默认也是一个字节一个字节的读取的,如果遇到中文就会一次读取多个
+//2.在读取之后，方法的底层还会进行解码并转成十进制。
+//  最终把这个十进制作为返回值
+//  这个十进制的数据也表示在字符集上的数字
+//  英文：文件里面二进制数据 0110 0001
+//          read方法进行读取，解码并转成十进制97
+//  中文：文件里面的二进制数据 11100110 10110001 10001001
+//          read方法进行读取，解码并转成十进制27721
+
+// 我想看到中文汉字，就是把这些十进制数据，再进行强转就可以了
+
+int ch;
+while((ch = fr.read()) != -1){
+    System.out.print((char)ch);
+}
+
+//3.释放资源
+fr.close();
+```
+
+```ruby
+//1.创建对象
+FileReader fr = new FileReader("day28-code/b.txt");
+//2.读取数据
+char[] chars = new char[2];
+int len;
+//read(chars)：读取数据，解码，强转三步合并了，把强转之后的字符放到数组当中
+//空参的read + 强转类型转换
+while((len = fr.read(chars)) != -1){
+    //把数组中的数据变成字符串再进行打印
+    System.out.print(new String(chars,0,len));
+}
+//3.释放资源
+fr.close();
+```
+
+### FileWriter/字符输出流
+
+1.构造方法
+
+|构造方法	|说明|
+|---|---|
+|public Filewriter(File file)	|创建字符输出流关联本地文件|
+|public Filewriter(string pathname)	|创建字符输出流关联本地文件|
+|public Filewriter(File file,boolean append)	|创建字符输出流关联本地文件，续写|
+|public Filewriter(string pathname,boolean append)	|创建字符输出流关联本地文件，续写|
+
+2.成员方法
+
+|成员方法	|说明|
+|---|---|
+|void write(int c)	|写出一个字符|
+|void write(string str)	|写出一个字符串|
+|void write(String str， int off，int len)	|写出一个字符串的一部分|
+|void write(char[]cbuf)	|写出一个字符数组|
+|void write(char[] cbuf，int off，int len)	|写出字符数组的一部分|
+
+FileWriter书写细节
+
+I.创建字符输出流对象
+
+细节1:参数是字符串表示的路径或者File对象都是可以的
+
+细节2:如果文件不存在会创建一个新的文件，但是要保证父级路径是存在的
+
+细节3:如果文件已经存在，则会清空文件，如果不想清空可以打开续写开关
+
+II.写数据
+
+细节:如果write方法的参数是整数，但是实际上写到本地文件中的是整数在字符集上对应的字符
+
+III.释放资源
+
+细节:每次使用完流之后都要释放资源
+
+```ruby
+FileWriter fw = new FileWriter("myio\\a.txt",true);
+
+fw.write(25105);
+fw.write("你好威啊???");
+char[] chars = {'a','b','c','我'};
+fw.write(chars);
+
+fw.close();        FileWriter fw = new FileWriter("myio\\a.txt",true);
+
+fw.write(25105);
+fw.write("你好威啊???");
+char[] chars = {'a','b','c','我'};
+fw.write(chars);
+
+fw.close();
+```
+
+字符流原理解析
+
+**创建字符输入流对象**
+
+底层︰关联文件，并创建缓冲区（长度为8192的字节数组)
+
+**读取数据**
+
+底层:1.判断缓冲区中是否有数据可以读取
+
+2.缓冲区没有数据:就从文件中获取数据，装到缓冲区中，每次尽可能装满缓冲区
+如果文件中也没有数据了，返回-1
+
+3.缓冲区有数据:就从缓冲区中读取。
+
+**空参的read方法**:一次读取一个字节，遇到中文一次读多个字节，把字节解码并转成十进制返回
+
+**有参的read方法**:把读取字节，解码，强转三步合并了，强转之后的字符放到数组中
+
+字符流有缓冲区
+
+![image](https://user-images.githubusercontent.com/88382462/222093459-105581cd-7869-486d-ae5c-530b078b46d6.png)
+
+字符流和字节流的使用场景
+
+字节流:
+
+拷贝任意类型的文件
+
+字符流:
+
+读取纯文本文件中的数据
+
+往纯文本文件中写出数据
+
+
+## 练习
+
+拷贝文件夹
+
+```ruby
+/*
+* 作用:拷贝文件夹
+* 参数1:数据源
+* 参数2:目的地
+*
+* */
+private static void copyDir(File src, File dest) throws IOException {
+    dest.mkdirs();
+    //递归
+    //1.进入数据源
+    File[] files = src.listFiles();
+    //2.遍历数组
+    if(files != null) {
+        for (File file : files) {
+            if (file.isFile()) {
+                //3.判断文件:拷贝
+                FileInputStream fis = new FileInputStream(file);
+                FileOutputStream fos = new FileOutputStream(new File(dest , file.getName()));
+                byte[] bytes = new byte[1024];
+                int len;
+
+                while ((len = fis.read()) != -1){
+                    fos.write(bytes , 0 , len);
+                }
+                fos.close();
+                fis.close();
+            }
+            if (file.isDirectory()){
+                //4.判断文件夹:递归
+                copyDir(file , new File(dest , file.getName()));
+            }
+        }
+    }
+}
+```
+
+加密/解密
+
+```ruby
+/*
+    为了保证文件的安全性，就需要对原始文件进行加密存储，再使用的时候再对其进行解密处理。
+    加密原理：
+        对原始文件中的每一个字节数据进行更改，然后将更改以后的数据存储到新的文件中。
+    解密原理：
+        读取加密之后的文件，按照加密的规则反向操作，变成原始文件。
+
+     ^ : 异或
+         两边相同：false
+         两边不同：true
+
+         0：false
+         1：true
+
+       100:1100100
+       10: 1010
+
+       1100100
+     ^ 0001010
+     __________
+       1101110
+     ^ 0001010
+     __________
+       1100100
+*/
+```
+
+```ruby
+public static void encryptionAndReduction(File src, File dest) throws IOException {
+        //原始文件
+        FileInputStream fis = new FileInputStream(src);
+        //关联文件
+        FileOutputStream fos = new FileOutputStream(dest);
+        //加密 / 解密 将原始文件和目标文件路径更改即可加/解密
+        int b;
+        while ((b = fis.read()) != -1) {
+            fos.write(b ^ 2);
+        }
+        //4.释放资源
+        fos.close();
+        fis.close();
+    }
+```
+
+数据排序(字符流)
+
+```ruby
+/*
+    文本文件中有以下的数据：
+        2-1-9-4-7-8
+    将文件中的数据进行排序，变成以下的数据：
+        1-2-4-7-8-9
+*/
+
+//1.读取数据
+FileReader fr = new FileReader("myio\\a.txt");
+StringBuilder sb = new StringBuilder();
+int ch;
+while((ch = fr.read()) != -1){
+    sb.append((char)ch);
+}
+fr.close();
+System.out.println(sb);
+//2.排序
+String str = sb.toString();
+String[] arrStr = str.split("-");//2-1-9-4-7-8
+
+ArrayList<Integer> list = new ArrayList<>();
+for (String s : arrStr) {
+    int i = Integer.parseInt(s);
+    list.add(i);
+}
+Collections.sort(list);
+System.out.println(list);
+//3.写出
+FileWriter fw = new FileWriter("myio\\a.txt");
+for (int i = 0; i < list.size(); i++) {
+    if(i == list.size() - 1){
+        fw.write(list.get(i) + "");
+    }else{
+        fw.write(list.get(i) + "-");
+    }
+}
+fw.close();
+```
+
+简化写法:使用了Stream流和Arrays的replace
+
+```ruby
+/*
+    文本文件中有以下的数据：
+        2-1-9-4-7-8
+    将文件中的数据进行排序，变成以下的数据：
+        1-2-4-7-8-9
+   细节1：
+        文件中的数据不要换行
+    细节2:
+        bom头
+*/
+//1.读取数据
+FileReader fr = new FileReader("myio\\a.txt");
+StringBuilder sb = new StringBuilder();
+int ch;
+while((ch = fr.read()) != -1){
+    sb.append((char)ch);
+}
+fr.close();
+System.out.println(sb);
+//2.排序
+Integer[] arr = Arrays.stream(sb.toString()
+        .split("-"))
+        .map(Integer::parseInt)
+        .sorted()
+        .toArray(Integer[]::new);
+//3.写出
+FileWriter fw = new FileWriter("myio\\a.txt");
+String s = Arrays.toString(arr).replace(", ","-");
+String result = s.substring(1, s.length() - 1);
+fw.write(result);
+fw.close();
+```
+
+## 缓冲流
+
+![image](https://user-images.githubusercontent.com/88382462/222373230-b90f8685-4d1a-4449-a8a1-b619ffaf4457.png)
+
+![image](https://user-images.githubusercontent.com/88382462/222386508-b42de499-b926-4cc1-964c-ade2cbdcf124.png)
+
+### 字节缓冲流
+
+```ruby
+/*
+*   需求：
+*       利用字节缓冲流拷贝文件
+*
+*   字节缓冲输入流的构造方法：
+*           public BufferedInputStream(InputStream is)
+*
+*    字节缓冲输出流的构造方法：
+*           public BufferedOutputStream(OutputStream os)
+* */
+//1.创建缓冲流的对象
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("myio\\a.txt"));
+BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("myio\\a.txt"));
+//2.循环读取并写到目的地
+int b;
+while ((b = bis.read()) != -1) {
+   bos.write(b);
+}
+//3.释放资源
+bos.close();
+bis.close(); 
+```
+
+一次读写多个字节
+
+```ruby
+//1.创建缓冲流的对象
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("myio\\a.txt"));
+BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("myio\\copy2.txt"));
+//2.拷贝（一次读写多个字节）
+byte[] bytes = new byte[1024];
+int len;
+while((len = bis.read(bytes)) != -1){
+    bos.write(bytes,0,len);
+}
+//3.释放资源
+bos.close();
+bis.close();
+```
+
+字节缓冲流提高速度的原理
+![image](https://user-images.githubusercontent.com/88382462/222393617-331e28be-5225-4413-8bc4-71917dec6969.png)
+
+### 字符缓冲流
+
+**字符缓冲流特有方法**
+
+字符缓冲输入流特有方法:
+
+|public string readLine()|读取一行数据，如果没有数据可读了，会返回null|
+
+字符缓冲输出流特有方法
+
+|public void newLine()|public void newLine()|
+
+
+```ruby
+/*
+ *   字符缓冲输入流：
+ *      构造方法：
+ *           public BufferedReader(Reader r)
+ *      特有方法：
+ *           public String readLine()   读一整行
+ *
+ * */
+
+//1.创建字符缓冲输入流的对象
+BufferedReader br = new BufferedReader(new FileReader("myio\\a.txt"));
+//2.读取数据
+//细节：
+//readLine方法在读取的时候，一次读一整行，遇到回车换行结束
+//        但是他不会把回车换行读到内存当中
+String line;
+while ((( line = br.readLine()) != null)){
+    System.out.println(line);
+}
+
+//3.释放资源
+br.close();
+```
+
+```ruby
+//1.创建字符缓冲输出流的对象 // 续写开关(写在writer里面)
+BufferedWriter bw = new BufferedWriter(new FileWriter("b.txt",true));
+//2.写出数据
+bw.write("123");
+bw.newLine();
+bw.write("456");
+bw.newLine();
+//3.释放资源
+bw.close();
+```
+
+### 总结
+**1．缓冲流有几种?**
+
+字节缓冲输入流:BufferedlnputStream
+
+字节缓冲输出流:BufferedOutputStream字符缓冲输入流:BufferedReader
+
+字符缓冲输出流:Bufferedwriter
+
+**2.缓冲流为什么能提高性能?**
+
+缓冲流自带长度为8192的缓冲区
+
+可以显著提高字节流的读写性能
+
+●对于字符流提升不明显，对于字符缓冲流而言关键点是两个特有的方法
+
+**3.字符缓冲流两个特有的方法是什么?**
+
+字符缓冲输入流BufferedReader: readLine ( )
+
+字符缓冲输出流BufferedWriter: newLine ( )
+
+### 练习
+
+```ruby
+/*
+        需求：把《出师表》的文章顺序进行恢复到一个新文件中。
+    */
+
+//1.读取数据
+BufferedReader br = new BufferedReader(new FileReader("myio\\csb.txt"));
+String line;
+ArrayList<String> list = new ArrayList<>();
+while((line = br.readLine()) != null){
+   list.add(line);
+}
+br.close();
+
+//2.排序
+//排序规则：按照每一行前面的序号进行排列
+Collections.sort(list, new Comparator<String>() {
+    @Override
+    public int compare(String o1, String o2) {
+        //获取o1和o2的序号
+        int i1 = Integer.parseInt(o1.split("\\.")[0]);
+        int i2 = Integer.parseInt(o2.split("\\.")[0]);
+        return i1 - i2;
+    }
+});
+
+//3.写出
+BufferedWriter bw = new BufferedWriter(new FileWriter("myio\\result.txt"));
+for (String str : list) {
+    bw.write(str);
+    bw.newLine();
+}
+bw.close();
+```
+
+使用TreeMap简化上面代码
+
+```ruby
+    /*
+        需求：把《出师表》的文章顺序进行恢复到一个新文件中。
+    */
+
+//1.读取数据
+BufferedReader br = new BufferedReader(new FileReader("myio\\csb.txt"));
+String line;
+TreeMap<Integer,String> tm = new TreeMap<>();
+while((line = br.readLine()) != null){
+    String[] arr = line.split("\\.");
+    //0：序号  1 ：内容
+    tm.put(Integer.parseInt(arr[0]),line);
+}
+br.close();
+
+//2.写出数据
+BufferedWriter bw = new BufferedWriter(new FileWriter("myio\\result2.txt"));
+Set<Map.Entry<Integer, String>> entries = tm.entrySet();
+for (Map.Entry<Integer, String> entry : entries) {
+    String value = entry.getValue();
+    bw.write(value);
+    bw.newLine();
+}
+bw.close();
+```
+
+```ruby
+/*
+        实现一个验证程序运行次数的小程序，要求如下：
+        1.当程序运行超过3次时给出提示:本软件只能免费使用3次,欢迎您注册会员后继续使用~
+        2.程序运行演示如下:
+            第一次运行控制台输出: 欢迎使用本软件,第1次使用免费~
+            第二次运行控制台输出: 欢迎使用本软件,第2次使用免费~
+            第三次运行控制台输出: 欢迎使用本软件,第3次使用免费~
+            第四次及之后运行控制台输出:本软件只能免费使用3次,欢迎您注册会员后继续使用~
+
+   */
+
+//1.把文件中的数字读取到内存中
+//原则：
+//IO：随用随创建
+//    什么时候不用什么时候关闭
+BufferedReader br = new BufferedReader(new FileReader("myio\\count.txt"));
+String line = br.readLine();
+br.close();
+
+System.out.println(line);//null
+int count = Integer.parseInt(line);
+//表示当前软件又运行了一次
+count++;//1
+//2.判断
+if(count <= 3){
+    System.out.println("欢迎使用本软件,第"+count+"次使用免费~");
+}else{
+    System.out.println("本软件只能免费使用3次,欢迎您注册会员后继续使用~");
+}
+BufferedWriter bw = new BufferedWriter(new FileWriter("myio\\count.txt"));
+//3.把当前自增之后的count写出到文件当中
+bw.write(count + ""); //97 + ""
+bw.close();
+```
+
+**IO流：随用随创建,什么时候不用什么时候关闭,**因为创建时可能会清空原来的文件,没有关闭则会保持占用.
+
+
+
+
+
+
+
+
+
+
 
 
 
