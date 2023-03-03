@@ -4344,10 +4344,98 @@ br.close();
 
 ```
 
+**1．转换流的名字是什么?**
+
+字符转换输入流:InputStreamReader
+
+字符转换输出流:OutputStreamWriter
+
+**2．转换流的作用是什么?**
+
+指定字符集读写数据(JDK11之后已淘汰)
+
+字节流想要使用字符流中的方法了
+
+## 序列化流
+
+写出/读入对象
+
+构造方法
+
+public objectoutputstream(outputstream out)  把基本流包装成高级流
+
+成员方法
+
+public final void writeobject(object obj)  把对象序列化（写出）到文件中去
+
+```ruby
+/*
+*
+* Serializable接口里面是没有抽象方法，标记型接口
+* 一旦实现了这个接口，那么就表示当前的Student类可以被序列化
+* 理解：
+*       一个物品的合格证
+* */
+public class Student implements Serializable {
+
+//1.创建对象
+Student stu = new Student("zhangsan",23);
+
+//2.创建序列化流的对象/对象操作输出流
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("myio\\a.txt"));
+
+//3.写出数据
+oos.writeObject(stu);
+
+//4.释放资源
+oos.close();
+```
 
 
+利用反序列化流/对象操作输入流:把文件中中的对象读到程序当中
 
+构造方法：
+    public ObjectInputStream(InputStream out)         把基本流变成高级流
 
+成员方法：
+    public Object readObject()                        把序列化到本地文件中的对象，读取到程序中来
+
+```ruby
+//1.创建反序列化流的对象
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream("myio\\a.txt"));
+
+//2.读取数据
+Student o = (Student) ois.readObject();
+
+//3.打印对象
+System.out.println(o);
+
+//4.释放资源
+ois.close();
+```
+
+```ruby
+//transient：瞬态关键字
+//作用：不会把当前属性序列化到本地文件当中
+private transient String address;
+```
+
+## 序列化流/反序列化流的细节汇总
+
+1.使用序列化流将对象写到文件时，需要让Javabean类实现Serializable接口 
+否则，会出现NotSerializableException异常
+
+2.序列化流写到文件中的数据是不能修改的，一旦修改就无法再次读回来了
+
+3.序列化对象后，修改了Javabean类，再次反序列化，会不会有问题?
+
+会出问题，会抛出InvalidClassException异常
+
+解决方案:给Javabean类添加serialVersionUID（序列号、版本号)
+
+4.如果一个对象中的某个成员变量的值不想被序列化，又该如何实现呢?
+
+解决方案:给该成员变量加transient关键字修饰，该关键字标记的成员变量不参与序列化过程
 
 
 
