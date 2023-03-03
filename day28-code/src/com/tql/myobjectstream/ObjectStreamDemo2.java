@@ -3,8 +3,6 @@ package com.tql.myobjectstream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.security.Security;
-import java.util.Arrays;
 
 public class ObjectStreamDemo2 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -20,7 +18,7 @@ public class ObjectStreamDemo2 {
 
 
         //1.创建反序列化流的对象
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("myio\\a.txt"));
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("day28-code\\a.txt"));
 
         //2.读取数据
         Student o = (Student) ois.readObject();

@@ -21,10 +21,10 @@ public class ObjectStreamDemo1 {
 
 
         //1.创建对象
-        Student stu = new Student("zhangsan",23);
+        Student stu = new Student("zhangsan",23,"南京");
 
         //2.创建序列化流的对象/对象操作输出流
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("myio\\a.txt"));
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("day28-code\\a.txt"));
 
         //3.写出数据
         oos.writeObject(stu);
