@@ -4437,6 +4437,89 @@ private transient String address;
 
 解决方案:给该成员变量加transient关键字修饰，该关键字标记的成员变量不参与序列化过程
 
+```ruby
+/*需求：
+    将多个自定义对象序列化到文件中，但是对象的个数不确定，该如何操作呢？(用集合)
+*/
+
+//1.序列化多个对象
+Student s1 = new Student("zhangsan",23,"南京");
+Student s2 = new Student("lisi",24,"重庆");
+Student s3 = new Student("wangwu",25,"北京");
+
+ArrayList<Student> list = new ArrayList<>();
+list.add(s1);
+list.add(s2);
+list.add(s3);
+
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("day28-code\\a.txt"));
+oos.writeObject(list);
+
+oos.close();
+```
+
+```ruby
+//1.创建反序列化流的对象
+ ObjectInputStream ois = new ObjectInputStream(new FileInputStream("day28-code\\a.txt"));
+
+ //2.读取数据
+ ArrayList<Student> list = (ArrayList<Student>) ois.readObject();
+
+ for (Student student : list) {
+     System.out.println(student);
+ }
+
+ //3.释放资源
+ ois.close();
+```
+
+## 打印流
+
+分类:打印流一般是指:PrintStream,PrintWriter两个类
+
+特点1:打印流只操作文件目的地，不操作数据源
+
+特点2:特有的写出方法可以实现，数据原样写出
+
+例如:打印:97  文件中:97 
+打印: true 文件中: true
+
+特点3:特有的写出方法，可以实现自动刷新，自动换行
+
+打印一次数据=写出＋换行＋刷新
+
+### 字节打印流
+
+构造方法:
+
+|  public PrintStream(OutputStream/File/String)          |  关联字节输出流/文件/文件路径|
+|  public PrintStream(String fileName, Charset charset)   | 指定字符编码|
+|  public PrintStream(OutputStreamout, boolean autoFlush) | 自动刷新|
+|  public PrintStream(OutputStream out, boolean autoFlush, String encoding) |   指定字符编码且自动刷新|
+
+字节流底层没有缓冲区，开不开自动刷新都一样
+
+成员方法：
+
+|  public void write(int b)            |常规方法：规则跟之前一样，将指定的字节写出|
+|  public void println(Xxx xx)         |特有方法：打印任意数据，自动刷新，自动换行|
+|  public void print(Xxx xx)           |特有方法：打印任意数据，不换行|
+|  public void printf(String format, Object... args)   |特有方法：带有占位符的打印语句，不换行|
+
+```ruby
+//1.创建字节打印流的对象
+PrintStream ps = new PrintStream(new FileOutputStream("myio\\a.txt"), true, Charset.forName("UTF-8"));
+//2.写出数据
+ps.println(97);//写出 + 自动刷新 + 自动换行
+ps.print(true);
+ps.println();
+ps.printf("%s爱上了%s","阿珍","阿强");
+//3.释放资源
+ps.close();
+```
+
+
+
 
 
 
