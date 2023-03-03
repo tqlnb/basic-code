@@ -4295,19 +4295,524 @@ bw.close();
 
 **IO流：随用随创建,什么时候不用什么时候关闭,**因为创建时可能会清空原来的文件,没有关闭则会保持占用.
 
+## 转换流
+
+![image](https://user-images.githubusercontent.com/88382462/222624401-a7614452-741d-4a2f-81e7-92b1358dbaae.png)
+
+字节流想要使用字符流里的方法
+
+指定字符编码读取数据
+
+```ruby
+FileReader fr = new FileReader("day29-code/gbkfile.txt", Charset.forName("GBK"));
+
+int ch;
+while ((ch = fr.read()) != -1){
+    System.out.print((char)ch);
+}
+```
+
+```ruby
+/*
+    将本地文件中的GBK文件，转成UTF-8
+*/
+
+FileReader fr = new FileReader("myio\\b.txt", Charset.forName("GBK"));
+FileWriter fw = new FileWriter("myio\\e.txt",Charset.forName("UTF-8"));
+int b;
+while ((b = fr.read()) != -1){
+    fw.write(b);
+}
+fw.close();
+fr.close();
+```
+
+```ruby
+/*
+     利用字节流读取文件中的数据，每次读一整行，而且不能出现乱码
+
+     //1.字节流在读取中文的时候，是会出现乱码的，但是字符流可以搞定
+     //2.字节流里面是没有读一整行的方法的，只有字符缓冲流才能搞定
+ */
+
+BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("myio\\a.txt")));
+String line;
+while ((line = br.readLine()) != null){
+    System.out.println(line);
+}
+br.close();
+
+```
+
+**1．转换流的名字是什么?**
+
+字符转换输入流:InputStreamReader
+
+字符转换输出流:OutputStreamWriter
+
+**2．转换流的作用是什么?**
+
+指定字符集读写数据(JDK11之后已淘汰)
+
+字节流想要使用字符流中的方法了
+
+## 序列化流
+
+写出/读入对象
+
+构造方法
+
+public objectoutputstream(outputstream out)  把基本流包装成高级流
+
+成员方法
+
+public final void writeobject(object obj)  把对象序列化（写出）到文件中去
+
+```ruby
+/*
+*
+* Serializable接口里面是没有抽象方法，标记型接口
+* 一旦实现了这个接口，那么就表示当前的Student类可以被序列化
+* 理解：
+*       一个物品的合格证
+* */
+public class Student implements Serializable {
+
+//1.创建对象
+Student stu = new Student("zhangsan",23);
+
+//2.创建序列化流的对象/对象操作输出流
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("myio\\a.txt"));
+
+//3.写出数据
+oos.writeObject(stu);
+
+//4.释放资源
+oos.close();
+```
 
 
+利用反序列化流/对象操作输入流:把文件中中的对象读到程序当中
+
+构造方法：
+    public ObjectInputStream(InputStream out)         把基本流变成高级流
+
+成员方法：
+    public Object readObject()                        把序列化到本地文件中的对象，读取到程序中来
+
+```ruby
+//1.创建反序列化流的对象
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream("myio\\a.txt"));
+
+//2.读取数据
+Student o = (Student) ois.readObject();
+
+//3.打印对象
+System.out.println(o);
+
+//4.释放资源
+ois.close();
+```
+
+```ruby
+//transient：瞬态关键字
+//作用：不会把当前属性序列化到本地文件当中
+private transient String address;
+```
+
+## 序列化流/反序列化流的细节汇总
+
+1.使用序列化流将对象写到文件时，需要让Javabean类实现Serializable接口 
+否则，会出现NotSerializableException异常
+
+2.序列化流写到文件中的数据是不能修改的，一旦修改就无法再次读回来了
+
+3.序列化对象后，修改了Javabean类，再次反序列化，会不会有问题?
+
+会出问题，会抛出InvalidClassException异常
+
+解决方案:给Javabean类添加serialVersionUID（序列号、版本号)
+
+4.如果一个对象中的某个成员变量的值不想被序列化，又该如何实现呢?
+
+解决方案:给该成员变量加transient关键字修饰，该关键字标记的成员变量不参与序列化过程
+
+```ruby
+/*需求：
+    将多个自定义对象序列化到文件中，但是对象的个数不确定，该如何操作呢？(用集合)
+*/
+
+//1.序列化多个对象
+Student s1 = new Student("zhangsan",23,"南京");
+Student s2 = new Student("lisi",24,"重庆");
+Student s3 = new Student("wangwu",25,"北京");
+
+ArrayList<Student> list = new ArrayList<>();
+list.add(s1);
+list.add(s2);
+list.add(s3);
+
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("day28-code\\a.txt"));
+oos.writeObject(list);
+
+oos.close();
+```
+
+```ruby
+//1.创建反序列化流的对象
+ ObjectInputStream ois = new ObjectInputStream(new FileInputStream("day28-code\\a.txt"));
+
+ //2.读取数据
+ ArrayList<Student> list = (ArrayList<Student>) ois.readObject();
+
+ for (Student student : list) {
+     System.out.println(student);
+ }
+
+ //3.释放资源
+ ois.close();
+```
+
+## 打印流
+
+分类:打印流一般是指:PrintStream,PrintWriter两个类
+
+特点1:打印流只操作文件目的地，不操作数据源
+
+特点2:特有的写出方法可以实现，数据原样写出
+
+例如:打印:97  文件中:97 
+打印: true 文件中: true
+
+特点3:特有的写出方法，可以实现自动刷新，自动换行
+
+打印一次数据=写出＋换行＋刷新
+
+### 字节打印流
+
+构造方法:
+
+|  public PrintStream(OutputStream/File/String)          |  关联字节输出流/文件/文件路径|
+|  public PrintStream(String fileName, Charset charset)   | 指定字符编码|
+|  public PrintStream(OutputStreamout, boolean autoFlush) | 自动刷新|
+|  public PrintStream(OutputStream out, boolean autoFlush, String encoding) |   指定字符编码且自动刷新|
+
+字节流底层没有缓冲区，开不开自动刷新都一样
+
+成员方法：
+
+|  public void write(int b)            |常规方法：规则跟之前一样，将指定的字节写出|
+|  public void println(Xxx xx)         |特有方法：打印任意数据，自动刷新，自动换行|
+|  public void print(Xxx xx)           |特有方法：打印任意数据，不换行|
+|  public void printf(String format, Object... args)   |特有方法：带有占位符的打印语句，不换行|
+
+```ruby
+//1.创建字节打印流的对象
+PrintStream ps = new PrintStream(new FileOutputStream("myio\\a.txt"), true, Charset.forName("UTF-8"));
+//2.写出数据
+ps.println(97);//写出 + 自动刷新 + 自动换行
+ps.print(true);
+ps.println();
+ps.printf("%s爱上了%s","阿珍","阿强");
+//3.释放资源
+ps.close();
+```
+
+### 字符打印流
+
+![image](https://user-images.githubusercontent.com/88382462/222643036-cdef6ea5-10ad-40b4-8c0d-113cc7d07259.png)
+
+构造方法
+
+ |  public PrintWriter(Write/File/String)           | 关联字节输出流/文件/文件路径|
+ |  public PrintWriter(String fileName, Charset charset)   | 指定字符编码|
+ |  public PrintWriter(Write, boolean autoFlush) | 自动刷新|
+ |  public PrintWriter(Write out, boolean autoFlush, String encoding)    |指定字符编码且自动刷新|
+
+字符流底层有缓冲区，想要自动刷新需要开启
+
+成员方法：
+
+ |  public void write(int b)            |常规方法：规则跟之前一样，将指定的字节写出|
+ |  public void println(Xxx xx)         |特有方法：打印任意数据，自动刷新，自动换行|
+ |  public void print(Xxx xx)           |特有方法：打印任意数据，不换行|
+ |  public void printf(String format, Object... args)   |特有方法：带有占位符的打印语句，不换行|
 
 
+```ruby
+//1.创建字符打印流的对象
+PrintWriter pw = new PrintWriter(new FileWriter("myio\\a.txt"),true);
+
+//2.写出数据
+pw.println("今天你终于叫我名字了，虽然叫错了，但是没关系，我马上改");
+pw.print("你好你好");
+pw.printf("%s爱上了%s","阿珍","阿强");
+//3.释放资源
+pw.close();
+```
+
+System.out.print的原理: 使用打印流:
+
+```ruby
+/*
+*       打印流的应用场景
+* */
+
+//获取打印流的对象，此打印流在虚拟机启动的时候，由虚拟机创建，默认指向控制台
+//特殊的打印流，系统中的标准输出流,是不能关闭，在系统中是唯一的。
+PrintStream ps = System.out;
+
+//调用打印流中的方法println
+//写出数据，自动换行，自动刷新
+ps.println("123");
+
+//ps.close();
+
+ps.println("你好你好");
+
+System.out.println("456");
+```
+
+**打印流有几种?各有什么特点?**
+
+有字节打印流和字符打印流两种
+
+**打印流不操作数据源，只能操作目的地**
+
+字节打印流:默认自动刷新，特有的println自动换行
+
+字符打印流:自动刷新需要开启，特有的println自动换行
 
 
+## 压缩流/解压流
+
+![image](https://user-images.githubusercontent.com/88382462/222645673-a7b7d147-addd-4078-b862-34d8f85cb9b7.png)
+
+```ruby
+//定义一个方法用来解压
+public static void unzip(File src,File dest) throws IOException {
+    //解压的本质：把压缩包里面的每一个文件或者文件夹读取出来，按照层级拷贝到目的地当中
+    //创建一个解压缩流用来读取压缩包中的数据
+    ZipInputStream zip = new ZipInputStream(new FileInputStream(src));
+    //要先获取到压缩包里面的每一个zipentry对象
+    //表示当前在压缩包中获取到的文件或者文件夹
+    ZipEntry entry;
+    while((entry = zip.getNextEntry()) != null){
+        System.out.println(entry);
+        if(entry.isDirectory()){
+            //文件夹：需要在目的地dest处创建一个同样的文件夹
+            File file = new File(dest,entry.toString());
+            file.mkdirs();
+        }else{
+            //文件：需要读取到压缩包中的文件，并把他存放到目的地dest文件夹中（按照层级目录进行存放）
+            FileOutputStream fos = new FileOutputStream(new File(dest,entry.toString()));
+            int b;
+            while((b = zip.read()) != -1){
+                //写到目的地
+                fos.write(b);
+            }
+            fos.close();
+            //表示在压缩包中的一个文件处理完毕了。
+            zip.closeEntry();
+        }
+    }
+
+    zip.close();
+}
+```
+
+压缩单个文件
+
+```ruby
+/*
+*   作用：压缩
+*   参数一：表示要压缩的文件
+*   参数二：表示压缩包的位置
+* */
+public static void toZip(File src,File dest) throws IOException {
+    //1.创建压缩流关联压缩包
+    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(new File(dest,"tql.zip")));
+    //2.创建ZipEntry对象，表示压缩包里面的每一个文件和文件夹
+    //参数：压缩包里面的路径
+    ZipEntry entry = new ZipEntry("aaa\\bbb\\a.txt");
+    //3.把ZipEntry对象放到压缩包当中
+    zos.putNextEntry(entry);
+    //4.把src文件中的数据写到压缩包当中
+    FileInputStream fis = new FileInputStream(src);
+    int b;
+    while((b = fis.read()) != -1){
+        zos.write(b);
+    }
+    zos.closeEntry();
+    zos.close();
+}
+```
+
+```ruby
+public static void main(String[] args) throws IOException {
+    /*
+     *   压缩流
+     *      需求：
+     *          把D:\\aaa文件夹压缩成一个压缩包
+     * */
 
 
+    //1.创建File对象表示要压缩的文件夹
+    File src = new File("D:\\aaa");
+    //2.创建File对象表示压缩包放在哪里（压缩包的父级路径）
+    File destParent = src.getParentFile();//D:\\
+    //3.创建File对象表示压缩包的路径
+    File dest = new File(destParent,src.getName() + ".zip");
+    //4.创建压缩流关联压缩包
+    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(dest));
+    //5.获取src里面的每一个文件，变成ZipEntry对象，放入到压缩包当中
+    toZip(src,zos,src.getName());//aaa
+    //6.释放资源
+    zos.close();
+}
+
+/*
+*   作用：获取src里面的每一个文件，变成ZipEntry对象，放入到压缩包当中
+*   参数一：数据源
+*   参数二：压缩流
+*   参数三：压缩包内部的路径
+* */
+public static void toZip(File src,ZipOutputStream zos,String name) throws IOException {
+    //1.进入src文件夹
+    File[] files = src.listFiles();
+    //2.遍历数组
+    for (File file : files) {
+        if(file.isFile()){
+            //3.判断-文件，变成ZipEntry对象，放入到压缩包当中
+            ZipEntry entry = new ZipEntry(name + "\\" + file.getName());//aaa\\no1\\a.txt
+            zos.putNextEntry(entry);
+            //读取文件中的数据，写到压缩包
+            FileInputStream fis = new FileInputStream(file);
+            int b;
+            while((b = fis.read()) != -1){
+                zos.write(b);
+            }
+            fis.close();
+            zos.closeEntry();
+        }else{
+            //4.判断-文件夹，递归
+            toZip(file,zos,name + "\\" + file.getName());
+            //     no1            aaa   \\   no1
+        }
+    }
+}
+```
+
+## Commons-io
+
+Commons-io是apache开源基金组织提供的一组有关IO操作的开源工具包。
+
+作用:提高IO流的开发效率。
+
+![image](https://user-images.githubusercontent.com/88382462/222667859-dcad521b-9c2c-413e-b799-455d656f9a5e.png)
+
+Commons-io使用步骤
+
+在项目中创建一个文件夹:lib
+
+将jar包复制粘贴到lib文件夹
+
+右键点击jar包，选择Add as Library ->点击OK
+
+在类中导包使用
+
+Commons-io 常见方法:
+
+|FileUtils类（文件/文件夹相关）		|说明|
+|---|---|
+|static void copyFile(File srcFile，File destFile)		|复制文件|
+|static void copyDirectory(File srcDir，File destDir)		|复制文件夹|
+|static void copyDirectoryToDirectory(File srcDir，File destDir)		|复制文件夹|
+|static void deleteDirectory(File directory)		|删除文件夹|
+|static 	void cleanDirectory(File directory)	|清空文件夹|
+|static 	String readFileTostring(File file，Charset encoding)	|读取文件中的数据变成成字符串|
+|static 	void write(File file，CharSequence data，string encoding)	|写出数据|
 
 
+|IoUtils类（流相关相关）	|说明|
+|---|---|
+|public static int copy(Inputstream input，outputstream output)	|复制文件|
+|public static int copyLarge(Reader input,Writer output)	|复制大文件|
+|public static String readLines(Reader input)	|读取数据|
+|public static void write(String data，outputStream output)	|写出数据|
 
+```ruby
+File src = new File("myio\\a.txt");
+File dest = new File("myio\\copy.txt");
+FileUtils.copyFile(src,dest);
 
+File src = new File("D:\\aaa");
+File dest = new File("D:\\bbb");
+FileUtils.copyDirectoryToDirectory(src,dest);
 
+File src = new File("D:\\bbb");
+FileUtils.cleanDirectory(src);
+```
+
+## HuTool工具包
+
+![image](https://user-images.githubusercontent.com/88382462/222671737-4aff5792-d720-4cc0-973d-34bb55fb2c71.png)
+
+|相关类|	说明|
+|---|---|
+|Ioutil	|流操作工具类|
+|Fileutil	|文件读写和操作的工具类|
+|FileTypeUtil	|文件类型判断工具类|
+|watchMonitor	|目录、文件监听|
+|classPathResource	|针对ClassPath中资源的访问封装|
+|FileReader	|封装文件读取|
+|Filewriter	|封装文件写入|
+
+官网：
+	https://hutool.cn/
+API文档：
+	https://apidoc.gitee.com/dromara/hutool/
+中文使用文档：
+	https://hutool.cn/docs/#/
+
+```ruby
+/*
+    FileUtil类:
+            file：根据参数创建一个file对象
+            touch：根据参数创建文件
+
+            writeLines：把集合中的数据写出到文件中，覆盖模式。
+            appendLines：把集合中的数据写出到文件中，续写模式。
+            readLines：指定字符编码，把文件中的数据，读到集合中。
+            readUtf8Lines：按照UTF-8的形式，把文件中的数据，读到集合中
+
+            copy：拷贝文件或者文件夹
+*/
+
+    File file1 = FileUtil.file("D:\\", "aaa", "bbb", "a.txt");
+    System.out.println(file1);//D:\aaa\bbb\a.txt
+
+    File touch = FileUtil.touch(file1);
+    System.out.println(touch);
+
+    ArrayList<String> list = new ArrayList<>();
+    list.add("aaa");
+    list.add("aaa");
+    list.add("aaa");
+
+    File file2 = FileUtil.writeLines(list, "D:\\a.txt", "UTF-8");
+    System.out.println(file2);
+
+    ArrayList<String> list1 = new ArrayList<>();
+    list.add("aaa");
+    list.add("aaa");
+    list.add("aaa");
+    File file3 = FileUtil.appendLines(list1, "D:\\a.txt", "UTF-8");
+    System.out.println(file3);
+
+    List<String> list2 = FileUtil.readLines("D:\\a.txt", "UTF-8");
+    System.out.println(list);
+```
 
 
 
