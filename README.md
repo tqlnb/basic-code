@@ -4754,10 +4754,65 @@ File src = new File("D:\\bbb");
 FileUtils.cleanDirectory(src);
 ```
 
+## HuTool工具包
 
+![image](https://user-images.githubusercontent.com/88382462/222671737-4aff5792-d720-4cc0-973d-34bb55fb2c71.png)
 
+|相关类|	说明|
+|---|---|
+|Ioutil	|流操作工具类|
+|Fileutil	|文件读写和操作的工具类|
+|FileTypeUtil	|文件类型判断工具类|
+|watchMonitor	|目录、文件监听|
+|classPathResource	|针对ClassPath中资源的访问封装|
+|FileReader	|封装文件读取|
+|Filewriter	|封装文件写入|
 
+官网：
+	https://hutool.cn/
+API文档：
+	https://apidoc.gitee.com/dromara/hutool/
+中文使用文档：
+	https://hutool.cn/docs/#/
 
+```ruby
+/*
+    FileUtil类:
+            file：根据参数创建一个file对象
+            touch：根据参数创建文件
+
+            writeLines：把集合中的数据写出到文件中，覆盖模式。
+            appendLines：把集合中的数据写出到文件中，续写模式。
+            readLines：指定字符编码，把文件中的数据，读到集合中。
+            readUtf8Lines：按照UTF-8的形式，把文件中的数据，读到集合中
+
+            copy：拷贝文件或者文件夹
+*/
+
+    File file1 = FileUtil.file("D:\\", "aaa", "bbb", "a.txt");
+    System.out.println(file1);//D:\aaa\bbb\a.txt
+
+    File touch = FileUtil.touch(file1);
+    System.out.println(touch);
+
+    ArrayList<String> list = new ArrayList<>();
+    list.add("aaa");
+    list.add("aaa");
+    list.add("aaa");
+
+    File file2 = FileUtil.writeLines(list, "D:\\a.txt", "UTF-8");
+    System.out.println(file2);
+
+    ArrayList<String> list1 = new ArrayList<>();
+    list.add("aaa");
+    list.add("aaa");
+    list.add("aaa");
+    File file3 = FileUtil.appendLines(list1, "D:\\a.txt", "UTF-8");
+    System.out.println(file3);
+
+    List<String> list2 = FileUtil.readLines("D:\\a.txt", "UTF-8");
+    System.out.println(list);
+```
 
 
 
