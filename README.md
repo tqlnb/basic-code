@@ -4312,6 +4312,37 @@ while ((ch = fr.read()) != -1){
 }
 ```
 
+```ruby
+/*
+    将本地文件中的GBK文件，转成UTF-8
+*/
+
+FileReader fr = new FileReader("myio\\b.txt", Charset.forName("GBK"));
+FileWriter fw = new FileWriter("myio\\e.txt",Charset.forName("UTF-8"));
+int b;
+while ((b = fr.read()) != -1){
+    fw.write(b);
+}
+fw.close();
+fr.close();
+```
+
+```ruby
+/*
+     利用字节流读取文件中的数据，每次读一整行，而且不能出现乱码
+
+     //1.字节流在读取中文的时候，是会出现乱码的，但是字符流可以搞定
+     //2.字节流里面是没有读一整行的方法的，只有字符缓冲流才能搞定
+ */
+
+BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("myio\\a.txt")));
+String line;
+while ((line = br.readLine()) != null){
+    System.out.println(line);
+}
+br.close();
+
+```
 
 
 
