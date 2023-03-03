@@ -4621,7 +4621,87 @@ public static void unzip(File src,File dest) throws IOException {
 }
 ```
 
+压缩单个文件
 
+```ruby
+/*
+*   作用：压缩
+*   参数一：表示要压缩的文件
+*   参数二：表示压缩包的位置
+* */
+public static void toZip(File src,File dest) throws IOException {
+    //1.创建压缩流关联压缩包
+    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(new File(dest,"tql.zip")));
+    //2.创建ZipEntry对象，表示压缩包里面的每一个文件和文件夹
+    //参数：压缩包里面的路径
+    ZipEntry entry = new ZipEntry("aaa\\bbb\\a.txt");
+    //3.把ZipEntry对象放到压缩包当中
+    zos.putNextEntry(entry);
+    //4.把src文件中的数据写到压缩包当中
+    FileInputStream fis = new FileInputStream(src);
+    int b;
+    while((b = fis.read()) != -1){
+        zos.write(b);
+    }
+    zos.closeEntry();
+    zos.close();
+}
+```
+
+```ruby
+public static void main(String[] args) throws IOException {
+    /*
+     *   压缩流
+     *      需求：
+     *          把D:\\aaa文件夹压缩成一个压缩包
+     * */
+
+
+    //1.创建File对象表示要压缩的文件夹
+    File src = new File("D:\\aaa");
+    //2.创建File对象表示压缩包放在哪里（压缩包的父级路径）
+    File destParent = src.getParentFile();//D:\\
+    //3.创建File对象表示压缩包的路径
+    File dest = new File(destParent,src.getName() + ".zip");
+    //4.创建压缩流关联压缩包
+    ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(dest));
+    //5.获取src里面的每一个文件，变成ZipEntry对象，放入到压缩包当中
+    toZip(src,zos,src.getName());//aaa
+    //6.释放资源
+    zos.close();
+}
+
+/*
+*   作用：获取src里面的每一个文件，变成ZipEntry对象，放入到压缩包当中
+*   参数一：数据源
+*   参数二：压缩流
+*   参数三：压缩包内部的路径
+* */
+public static void toZip(File src,ZipOutputStream zos,String name) throws IOException {
+    //1.进入src文件夹
+    File[] files = src.listFiles();
+    //2.遍历数组
+    for (File file : files) {
+        if(file.isFile()){
+            //3.判断-文件，变成ZipEntry对象，放入到压缩包当中
+            ZipEntry entry = new ZipEntry(name + "\\" + file.getName());//aaa\\no1\\a.txt
+            zos.putNextEntry(entry);
+            //读取文件中的数据，写到压缩包
+            FileInputStream fis = new FileInputStream(file);
+            int b;
+            while((b = fis.read()) != -1){
+                zos.write(b);
+            }
+            fis.close();
+            zos.closeEntry();
+        }else{
+            //4.判断-文件夹，递归
+            toZip(file,zos,name + "\\" + file.getName());
+            //     no1            aaa   \\   no1
+        }
+    }
+}
+```
 
 
 
