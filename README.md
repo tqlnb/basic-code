@@ -4295,8 +4295,22 @@ bw.close();
 
 **IO流：随用随创建,什么时候不用什么时候关闭,**因为创建时可能会清空原来的文件,没有关闭则会保持占用.
 
+## 转换流
 
+![image](https://user-images.githubusercontent.com/88382462/222624401-a7614452-741d-4a2f-81e7-92b1358dbaae.png)
 
+字节流想要使用字符流里的方法
+
+指定字符编码读取数据
+
+```ruby
+FileReader fr = new FileReader("day29-code/gbkfile.txt", Charset.forName("GBK"));
+
+int ch;
+while ((ch = fr.read()) != -1){
+    System.out.print((char)ch);
+}
+```
 
 
 
