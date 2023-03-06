@@ -4814,5 +4814,45 @@ API文档：
     System.out.println(list);
 ```
 
+## 练习
+
+网络爬虫获取假数据
+
+爬取数据
+```ruby
+   /*
+    *   爬取网络中的数据,返回字符串
+    *   形参:网址
+    *   返回值:爬取到的数据
+    *
+    *
+    * */
+    public static String webCrawler(String net) throws IOException {
+        //定义SringBulider拼接爬取到的数据
+        StringBuilder sb = new StringBuilder();
+        //创建一个URL对象
+        URL url = new URL(net);
+        //连接上这个网址
+        URLConnection conn = url.openConnection();
+        //读取数据
+        InputStreamReader isr = new InputStreamReader(conn.getInputStream());
+        int ch;
+        while ((ch = isr.read()) != -1){
+            sb.append((char)ch);
+        }
+        //释放资源
+        isr.close();
+        return sb.toString();
+    }
+```
+
+
+
+
+
+
+
+
+
 
 
