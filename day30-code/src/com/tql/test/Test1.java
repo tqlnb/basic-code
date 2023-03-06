@@ -1,11 +1,15 @@
 package com.tql.test;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +37,6 @@ public class Test1 {
         ArrayList<String> boyNameTempList = getData(boyNameStr , "([\\u4E00-\\u9FA5]{2})(、|。)",1);
         ArrayList<String> girlNameTempList = getData(girlNameStr , "(.. ){4}..",0);
 
-        System.out.println(familyNameTempList);
 
 
         //处理数据
@@ -65,8 +68,16 @@ public class Test1 {
         }
 
         //生成数据
+        ArrayList<String> list = getInfos(familyNameList, boyNameList, girlNameList, 70, 30);
+        Collections.shuffle(list);
 
-
+        //写出数据
+        BufferedWriter bw =new BufferedWriter(new FileWriter("day30-code\\name.txt"));
+        for (String str : list) {
+            bw.write(str);
+            bw.newLine();
+        }
+        bw.close();
 
     }
 
@@ -77,7 +88,7 @@ public class Test1 {
     *  参数二:
     *       正则表达式
     * 参数三:
-    *       获取的是第几组数据
+    *       获取的是第几组数据 (1-第一组,2-第二组,0-全部数据)
     *
     * 返回值:
     *       想要的数据
@@ -121,4 +132,57 @@ public class Test1 {
         isr.close();
         return sb.toString();
     }
+
+    /*
+    * 作用:
+    *       获取男生女生的信息:张三-男-23
+    *       参数一:装着姓氏的集合;
+    *       参数二:装着男生名字的集合
+    *       参数三:装着女生名字的集合
+    *       参数四:男生的个数
+    *       参数五:女生的个数
+    *
+    *
+    * */
+    public static ArrayList<String> getInfos(ArrayList<String> familyNameList,ArrayList<String> boyNameList, ArrayList<String> girlNameList,int boyCount , int girlCount){
+        //生成不重复的名字
+        HashSet<String> boyhs = new HashSet<>();
+        while (boyhs.size() != boyCount) {
+            //随机
+            Collections.shuffle(familyNameList);
+            Collections.shuffle(boyNameList);
+
+            boyhs.add(familyNameList.get(0) + boyNameList.get(0));
+        }
+
+        HashSet<String> girlhs = new HashSet<>();
+        while (girlhs.size() != girlCount) {
+            //随机
+            Collections.shuffle(familyNameList);
+            Collections.shuffle(girlNameList);
+
+            girlhs.add(familyNameList.get(0) + girlNameList.get(0));
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+
+        Random r = new Random();
+
+        for (String boyName : boyhs) {
+            //boyName表示每一个男生的名字
+            //18-27
+            int age = r.nextInt(10) + 18;
+            list.add(boyName + "-男-" + age);
+        }
+
+        for (String girlName : girlhs) {
+            //boyName表示每一个男生的名字
+            //18-27
+            int age = r.nextInt(10) + 18;
+            list.add(girlName + "-女-" + age);
+        }
+
+        return list;
+    }
+
 }
