@@ -4820,31 +4820,89 @@ API文档：
 
 爬取数据
 ```ruby
-   /*
-    *   爬取网络中的数据,返回字符串
-    *   形参:网址
-    *   返回值:爬取到的数据
-    *
-    *
-    * */
-    public static String webCrawler(String net) throws IOException {
-        //定义SringBulider拼接爬取到的数据
-        StringBuilder sb = new StringBuilder();
-        //创建一个URL对象
-        URL url = new URL(net);
-        //连接上这个网址
-        URLConnection conn = url.openConnection();
-        //读取数据
-        InputStreamReader isr = new InputStreamReader(conn.getInputStream());
-        int ch;
-        while ((ch = isr.read()) != -1){
-            sb.append((char)ch);
-        }
-        //释放资源
-        isr.close();
-        return sb.toString();
-    }
+/*
+*   爬取网络中的数据,返回字符串
+*   形参:网址
+*   返回值:爬取到的数据
+*
+*
+* */
+public static String webCrawler(String net) throws IOException {
+	//定义SringBulider拼接爬取到的数据
+	StringBuilder sb = new StringBuilder();
+	//创建一个URL对象
+	URL url = new URL(net);
+	//连接上这个网址
+	URLConnection conn = url.openConnection();
+	//读取数据
+	InputStreamReader isr = new InputStreamReader(conn.getInputStream());
+	int ch;
+	while ((ch = isr.read()) != -1){
+		sb.append((char)ch);
+	}
+	//释放资源
+	isr.close();
+	return sb.toString();
+}
 ```
+
+根据正则表达式处理数据
+
+```ruby
+/*
+* 作用:根据正则表达式获取里面符合规则的数据
+* 参数一:
+*       完整的字符串
+*  参数二:
+*       正则表达式
+* 参数三:
+*       获取的是第几组数据
+*
+* 返回值:
+*       想要的数据
+*
+* */
+private static ArrayList<String> getData(String str, String regex , int index) {
+		//创建集合存取数据
+		ArrayList<String> list = new ArrayList<>();
+		//根据正则表达式获取数据
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(str);
+		while (matcher.find()) {
+				String group = matcher.group(index);
+				list.add(group);
+		}
+		return list;
+}
+```
+
+利用糊涂包简化代码
+
+```ruby
+//1.定义网址
+...
+//2.爬取数据
+String familyNameStr = HttpUtil.get(familyNameNet);
+String boyNameStr = HttpUtil.get(boyNameNet);
+String girlNameStr = HttpUtil.get(girlNameNet);
+
+//3.利用正则表达式获取数据
+List<String> familyNameTempList = ReUtil.findAll( "(.{4})(，|。)", familyNameStr , 1);
+List<String> boyNameTempList = ReUtil.findAll( "([\\u4E00-\\u9FA5]{2})(、|。)", boyNameStr , 1);
+List<String> girlNameTempList = ReUtil.findAll("(.. ){4}..", girlNameStr, 0);
+
+//4.处理数据
+...
+
+//5.生成数据
+//生成数据
+//糊涂包的相对路径不是相对于当前项目而言的,而是相对于class文件而言的
+ArrayList<String> list = getInfos(familyNameList, boyNameList, girlNameList, 70, 30);
+Collections.shuffle(list);
+
+FileUtil.writeLines(list , "names.txt", StandardCharsets.UTF_8);
+```
+
 
 
 
