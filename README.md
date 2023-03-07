@@ -4963,7 +4963,7 @@ fos.close();
 
 load读取
 
-```ruby
+```java
 //1.创建集合
 Properties prop = new Properties();
 //2.读取本地Properties文件里面的数据
