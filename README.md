@@ -4903,8 +4903,281 @@ Collections.shuffle(list);
 FileUtil.writeLines(list , "names.txt", StandardCharsets.UTF_8);
 ```
 
+# 配置文件
+
+好处1:可以把软件的设置永久化存储
+
+好处2:如果我们要修改参数，不需要改动代码，直接修改配置文件就可以了
+
+## properties配置文件
+
+properties是一个双列集合集合，拥有Map集合所有的特点。
+
+重点∶有一些特有的方法，可以把集合中的数据，按照键值对的形式写到配置文件当中。
+
+也可以把配置文件中的数据，读取到集合中来。
+
+```ruby
+//1.创建集合的对象
+Properties prop = new Properties();
+
+//2.添加数据
+//细节：虽然我们可以往Properties当中添加任意的数据类型，但是一般只会往里面添加字符串类型的数据
+prop.put("aaa","111");
+prop.put("bbb","222");
+prop.put("ccc","333");
+prop.put("ddd","444");
+
+//3.遍历集合
+Set<Object> keys = prop.keySet();
+for (Object key : keys) {
+	Object value = prop.get(key);
+	System.out.println(key + "=" + value);
+}
+
+Set<Map.Entry<Object, Object>> entries = prop.entrySet();
+for (Map.Entry<Object, Object> entry : entries) {
+	Object key = entry.getKey();
+	Object value = entry.getValue();
+	System.out.println(key + "=" + value);
+}
+```
+
+store保存
+
+```ruby
+//1.创建集合
+Properties prop = new Properties();
+
+//2.添加数据
+prop.put("aaa","bbb");
+prop.put("bbb","ccc");
+prop.put("ddd","eee");
+prop.put("fff","iii");
+
+//3.把集合中的数据以键值对的形式写到本地文件当中
+FileOutputStream fos = new FileOutputStream("day30-code\\a.properties");
+prop.store(fos,"test");
+fos.close();
+```
+
+load读取
+
+```java
+//1.创建集合
+Properties prop = new Properties();
+//2.读取本地Properties文件里面的数据
+FileInputStream fis = new FileInputStream("day30-code\\a.properties");
+prop.load(fis);
+fis.close();
+
+//3.打印集合
+System.out.println(prop);
+```
+
+# 多线程
+
+1．什么是多线程?
+
+有了多线程，我们就可以让程序同时做多件事情
+
+2．多线程的作用?
+
+提高效率
+
+3．多线程的应用场景?
+
+只要你想让多个事情同时运行就需要用到多线程
+
+比如:软件中的耗时操作、所有的聊天软件、所有的服务器
+
+## 并发和并行
+
+并发:在同一时刻，有多个指令在单个CPU上交替执行
+
+并行:在同一时刻，有多个指令在多个CPu上同时执行
+
+## 多线程的实现方式
+
+1.继承Thread类的方式进行实现
+
+2.实现Runnable接口的方式进行实现
+
+3.利用Callable接口和Future接口方式实现
+
+```ruby
+/*
+* 多线程的第一种启动方式：
+*   1. 自己定义一个类继承Thread
+*   2. 重写run方法
+*   3. 创建子类的对象，并启动线程
+* */
 
 
+MyThread t1 = new MyThread();
+MyThread t2 = new MyThread();
+
+t1.setName("线程1");
+t2.setName("线程2");
+
+t1.start();
+t2.start();
+
+public class MyThread extends Thread{
+
+    @Override
+    public void run() {
+        //书写线程要执行代码
+        for (int i = 0; i < 100; i++) {
+            System.out.println(getName() + "HelloWorld");
+        }
+    }
+}
+```
+
+```ruby
+/*
+ * 多线程的第二种启动方式：
+ *   1.自己定义一个类实现Runnable接口
+ *   2.重写里面的run方法
+ *   3.创建自己的类的对象
+ *   4.创建一个Thread类的对象，并开启线程
+ * */
+
+
+//创建MyRun的对象
+//表示多线程要执行的任务
+MyRun mr = new MyRun();
+
+//创建线程对象
+Thread t1 = new Thread(mr);
+Thread t2 = new Thread(mr);
+
+//给线程设置名字
+t1.setName("线程1");
+t2.setName("线程2");
+
+
+//开启线程
+t1.start();
+t2.start();
+	
+public class MyRun implements Runnable{
+
+    @Override
+    public void run() {
+        //书写线程要执行的代码
+        for (int i = 0; i < 100; i++) {
+            //获取到当前线程的对象
+            /*Thread t = Thread.currentThread();
+            System.out.println(t.getName() + "HelloWorld!");*/
+            System.out.println(Thread.currentThread().getName() + "HelloWorld!");
+        }
+    }
+}
+	
+```
+
+```ruby
+/*
+*   多线程的第三种实现方式：
+*       特点：可以获取到多线程运行的结果
+*
+*       1. 创建一个类MyCallable实现Callable接口
+*       2. 重写call （是有返回值的，表示多线程运行的结果）
+*
+*       3. 创建MyCallable的对象（表示多线程要执行的任务）
+*       4. 创建FutureTask的对象（作用管理多线程运行的结果）
+*       5. 创建Thread类的对象，并启动（表示线程）
+* */
+
+//创建MyCallable的对象（表示多线程要执行的任务）
+MyCallable mc = new MyCallable();
+//创建FutureTask的对象（作用管理多线程运行的结果）
+FutureTask<Integer> ft = new FutureTask<>(mc);
+//创建线程的对象
+Thread t1 = new Thread(ft);
+//启动线程
+t1.start();
+
+//获取多线程运行的结果
+Integer result = ft.get();
+System.out.println(result);
+
+		
+public class MyCallable implements Callable<Integer> {
+
+    @Override
+    public Integer call() throws Exception {
+        //求1~100之间的和
+        int sum = 0;
+        for (int i = 1; i <= 100; i++) {
+            sum = sum + i;
+        }
+        return sum;
+    }
+}
+```
++ 三种实现方式的对比
+  + 实现Runnable、Callable接口
+    + 好处: 扩展性强，实现该接口的同时还可以继承其他的类
+    + 缺点: 编程相对复杂，不能直接使用Thread类中的方法
+  + 继承Thread类
+    + 好处: 编程比较简单，可以直接使用Thread类中的方法
+    + 缺点: 可以扩展性较差，不能再继承其他的类
+
+## 成员方法
+
+| 方法名                        | 说明                 |
+  | -------------------------- | ------------------ |
+  | void  setName(String name) | 将此线程的名称更改为等于参数name |
+  | String  getName()          | 返回此线程的名称           |
+  | Thread  currentThread()    | 返回对当前正在执行的线程对象的引用  |
+ | static void sleep(long millis) | 使当前正在执行的线程停留（暂停执行）指定的毫秒数 |
+  | final int getPriority()                 | 返回此线程的优先级                         |
+  | final void setPriority(int newPriority) | 更改此线程的优先级线程默认优先级是5；线程优先级的范围是：1-10 |
+| void setDaemon(boolean on) | 将此线程标记为守护线程，当运行的线程都是守护线程时，Java虚拟机将退出 |
+|public static void yield()| 出让线程/礼让线程|
+|public static void join() |插入线程/插队线程|
+
+- name细节：
+	- 1、如果我们没有给线程设置名字，线程也是有默认的名字的
+			- 格式：Thread-X（X序号，从0开始的）
+	- 2、如果我们要给线程设置名字，可以用set方法进行设置，也可以构造方法设置
+
+```ruby
+//1.创建线程的对象
+MyThread t1 = new MyThread("飞机");
+MyThread t2 = new MyThread("坦克");
+
+//2.开启线程
+t1.start();
+t2.start();
+```
+
+- currentThread细节：
+	- 当JVM虚拟机启动之后，会自动的启动多条线程
+	- 其中有一条线程就叫做main线程
+	- 他的作用就是去调用main方法，并执行里面的代码
+	- 在以前，我们写的所有的代码，其实都是运行在main线程当中
+
+```ruby
+//哪条线程执行到这个方法，此时获取的就是哪条线程的对象
+Thread t = Thread.currentThread();
+String name = t.getName();
+System.out.println(name);//main
+```
+
+- 细节：
+	- 1、哪条线程执行到这个方法，那么哪条线程就会在这里停留对应的时间
+	- 2、方法的参数：就表示睡眠的时间，单位毫秒
+	- 3、当时间到了之后，线程会自动的醒来，继续执行下面的其他代码
+
+```ruby
+System.out.println("11111111111");
+Thread.sleep(5000);
+System.out.println("22222222222");
+```
 
 
 
