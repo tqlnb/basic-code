@@ -5118,8 +5118,66 @@ public class MyCallable implements Callable<Integer> {
     }
 }
 ```
++ 三种实现方式的对比
+  + 实现Runnable、Callable接口
+    + 好处: 扩展性强，实现该接口的同时还可以继承其他的类
+    + 缺点: 编程相对复杂，不能直接使用Thread类中的方法
+  + 继承Thread类
+    + 好处: 编程比较简单，可以直接使用Thread类中的方法
+    + 缺点: 可以扩展性较差，不能再继承其他的类
 
-> https://github.com/tqlnb/basic-code/commit/4eadc89ed7b2d20986f4c8b94ff47598c2086799
+## 成员方法
+
+| 方法名                        | 说明                 |
+  | -------------------------- | ------------------ |
+  | void  setName(String name) | 将此线程的名称更改为等于参数name |
+  | String  getName()          | 返回此线程的名称           |
+  | Thread  currentThread()    | 返回对当前正在执行的线程对象的引用  |
+ | static void sleep(long millis) | 使当前正在执行的线程停留（暂停执行）指定的毫秒数 |
+  | final int getPriority()                 | 返回此线程的优先级                         |
+  | final void setPriority(int newPriority) | 更改此线程的优先级线程默认优先级是5；线程优先级的范围是：1-10 |
+| void setDaemon(boolean on) | 将此线程标记为守护线程，当运行的线程都是守护线程时，Java虚拟机将退出 |
+|public static void yield()| 出让线程/礼让线程|
+|public static void join() |插入线程/插队线程|
+
+- name细节：
+	- 1、如果我们没有给线程设置名字，线程也是有默认的名字的
+			- 格式：Thread-X（X序号，从0开始的）
+	- 2、如果我们要给线程设置名字，可以用set方法进行设置，也可以构造方法设置
+
+```ruby
+//1.创建线程的对象
+MyThread t1 = new MyThread("飞机");
+MyThread t2 = new MyThread("坦克");
+
+//2.开启线程
+t1.start();
+t2.start();
+```
+
+- currentThread细节：
+	- 当JVM虚拟机启动之后，会自动的启动多条线程
+	- 其中有一条线程就叫做main线程
+	- 他的作用就是去调用main方法，并执行里面的代码
+	- 在以前，我们写的所有的代码，其实都是运行在main线程当中
+
+```ruby
+//哪条线程执行到这个方法，此时获取的就是哪条线程的对象
+Thread t = Thread.currentThread();
+String name = t.getName();
+System.out.println(name);//main
+```
+
+- 细节：
+	- 1、哪条线程执行到这个方法，那么哪条线程就会在这里停留对应的时间
+	- 2、方法的参数：就表示睡眠的时间，单位毫秒
+	- 3、当时间到了之后，线程会自动的醒来，继续执行下面的其他代码
+
+```ruby
+System.out.println("11111111111");
+Thread.sleep(5000);
+System.out.println("22222222222");
+```
 
 
 
