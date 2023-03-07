@@ -4903,6 +4903,81 @@ Collections.shuffle(list);
 FileUtil.writeLines(list , "names.txt", StandardCharsets.UTF_8);
 ```
 
+# 配置文件
+
+好处1:可以把软件的设置永久化存储
+
+好处2:如果我们要修改参数，不需要改动代码，直接修改配置文件就可以了
+
+## properties配置文件
+
+properties是一个双列集合集合，拥有Map集合所有的特点。
+
+重点∶有一些特有的方法，可以把集合中的数据，按照键值对的形式写到配置文件当中。
+
+也可以把配置文件中的数据，读取到集合中来。
+
+```ruby
+//1.创建集合的对象
+Properties prop = new Properties();
+
+//2.添加数据
+//细节：虽然我们可以往Properties当中添加任意的数据类型，但是一般只会往里面添加字符串类型的数据
+prop.put("aaa","111");
+prop.put("bbb","222");
+prop.put("ccc","333");
+prop.put("ddd","444");
+
+//3.遍历集合
+Set<Object> keys = prop.keySet();
+for (Object key : keys) {
+	Object value = prop.get(key);
+	System.out.println(key + "=" + value);
+}
+
+Set<Map.Entry<Object, Object>> entries = prop.entrySet();
+for (Map.Entry<Object, Object> entry : entries) {
+	Object key = entry.getKey();
+	Object value = entry.getValue();
+	System.out.println(key + "=" + value);
+}
+```
+
+store保存
+
+```ruby
+//1.创建集合
+Properties prop = new Properties();
+
+//2.添加数据
+prop.put("aaa","bbb");
+prop.put("bbb","ccc");
+prop.put("ddd","eee");
+prop.put("fff","iii");
+
+//3.把集合中的数据以键值对的形式写到本地文件当中
+FileOutputStream fos = new FileOutputStream("day30-code\\a.properties");
+prop.store(fos,"test");
+fos.close();
+```
+
+load读取
+
+```ruby
+//1.创建集合
+Properties prop = new Properties();
+//2.读取本地Properties文件里面的数据
+FileInputStream fis = new FileInputStream("day30-code\\a.properties");
+prop.load(fis);
+fis.close();
+
+//3.打印集合
+System.out.println(prop);
+```
+
+
+
+
 
 
 
