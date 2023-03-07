@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
+import java.util.Properties;
 import java.util.Random;
 
 public class GameJFrame extends JFrame implements KeyListener, ActionListener {
@@ -65,7 +66,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
     JMenuItem loadItem3 = new JMenuItem("读档3(空)");
     JMenuItem loadItem4 = new JMenuItem("读档4(空)");
 
-    JMenuItem accountItem = new JMenuItem("公众号");
+    JMenuItem accountItem = new JMenuItem("作者信息");
 
 
     //创建随机对象
@@ -472,25 +473,25 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             //直接关闭虚拟机即可
             System.exit(0);
         } else if (obj == accountItem) {
-            System.out.println("公众号");
-            //创建一个弹框对象
-            JDialog jDialog = new JDialog();
-            //创建一个管理图片的容器对象JLabel
-            JLabel jLabel = new JLabel(new ImageIcon("puzzlegame\\image\\about.png"));
-            //设置位置和宽高
-            jLabel.setBounds(0, 0, 258, 258);
-            //把图片添加到弹框当中
-            jDialog.getContentPane().add(jLabel);
-            //给弹框设置大小
-            jDialog.setSize(344, 344);
-            //让弹框置顶
-            jDialog.setAlwaysOnTop(true);
-            //让弹框居中
-            jDialog.setLocationRelativeTo(null);
-            //弹框不关闭则无法操作下面的界面
-            jDialog.setModal(true);
-            //让弹框显示出来
-            jDialog.setVisible(true);
+            System.out.println("作者信息");
+
+            //读取配置文件中的信息
+            //1.创建集合
+            Properties prop = new Properties();
+            //2.读取数据
+            try {
+                FileInputStream fis = new FileInputStream("puzzlegame\\game.properties");
+                prop.load(fis);
+                fis.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            //获取图片路径
+            String path = (String) prop.get("account");
+
+            showJDialog(path);
+
         } else if (obj == girl) {
             System.out.println("girl");
             //下列代码重复了，自己思考一下，能否抽取成一个方法呢？
@@ -578,6 +579,37 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             //重新刷新界面加载游戏
             initImage();
 
+        }
+    }
+
+    //创建一个弹框对象
+    JDialog jDialog = new JDialog();
+    //展示弹框
+    public void showJDialog(String filepath) {
+        if(!jDialog.isVisible()){
+            JLabel jLabel = null;
+            //判断传递的字符串是否是一个路径，且必须以jpg或者png结尾
+            //如果满足，则当做图片处理
+            //如果不满足，则当做普通字符串处理
+            if(new File(filepath).exists() && (filepath.endsWith(".png")||filepath.endsWith(".jpg") )){
+                jLabel = new JLabel(new ImageIcon(filepath));
+            }else{
+                jLabel = new JLabel(filepath);
+            }
+            //设置位置和宽高
+            jLabel.setBounds(0, 0, 258, 258);
+            //把图片添加到弹框当中
+            jDialog.getContentPane().add(jLabel);
+            //给弹框设置大小
+            jDialog.setSize(344, 344);
+            //让弹框置顶
+            jDialog.setAlwaysOnTop(true);
+            //让弹框居中
+            jDialog.setLocationRelativeTo(null);
+            //弹框不关闭则无法操作下面的界面
+            jDialog.setModal(true);
+            //让弹框显示出来
+            jDialog.setVisible(true);
         }
     }
 }
