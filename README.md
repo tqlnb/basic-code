@@ -5862,14 +5862,106 @@ public class Test {
   }
   ```
 
+## 线程池
+
+**线程池的设计思路 :**
+
+	1. 准备一个任务容器
+	2. 一次性启动多个(2个)消费者线程
+	3. 刚开始任务容器是空的，所以线程都在wait
+	4. 直到一个外部线程向这个任务容器中扔了一个"任务"，就会有一个消费者线程被唤醒
+	5. 这个消费者线程取出"任务"，并且执行这个任务，执行完毕后，继续等待下一次任务的到来
 
 
+JDK对线程池也进行了相关的实现，在真实企业开发中我们也很少去自定义线程池，而是使用JDK中自带的线程池。
+
+我们可以使用Executors中所提供的**静态**方法来创建线程池
+
+	static ExecutorService newCachedThreadPool()   创建一个默认的线程池
+	static newFixedThreadPool(int nThreads)	    创建一个指定最多线程数量的线程池
+
+```ruby
+/*
+		public static ExecutorService newCachedThreadPool()             创建一个没有上限的线程池
+		public static ExecutorService newFixedThreadPool (int nThreads) 创建有上限的线程池
+*/
 
 
+		//1.获取线程池对象
+		ExecutorService pool1 = Executors.newFixedThreadPool(3);
+		//2.提交任务
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
 
 
+		//3.销毁线程池
+		//pool1.shutdown();
+```
+
+- 线程池主要核心原理
+	- 创建一个池子，池子中是空的
+	- 提交任务时，池子会创建新的线程对象，任务执行完毕，线程归还给池子
+	- 下回再次提交任务时，不需要创建新的线程，直接复用已有的线程即可
+	- 但是如果提交任务时，池子中没有空闲线程，也无法创建新的线程，任务就会排队等待
+
+![image](https://user-images.githubusercontent.com/88382462/223653709-d26271db-0c5f-44f6-b0d0-5214fa125729.png)
+
+![1591165506516](https://user-images.githubusercontent.com/88382462/223649611-03547f68-e430-4a2e-87e3-4311bdcb2fb5.png)
+
+**线程池-非默认任务拒绝策略**
+
+RejectedExecutionHandler是jdk提供的一个任务拒绝策略接口，它下面存在4个子类。
+
+```java
+ThreadPoolExecutor.AbortPolicy: 		    丢弃任务并抛出RejectedExecutionException异常。是默认的策略。
+ThreadPoolExecutor.DiscardPolicy： 		   丢弃任务，但是不抛出异常 这是不推荐的做法。
+ThreadPoolExecutor.DiscardOldestPolicy：    抛弃队列中等待最久的任务 然后把当前任务加入队列中。
+ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线程池直接执行。
+```
+
+注：明确线程池对多可执行的任务数 = 队列容量 + 最大线程数
+
+```ruby
+/*
+		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor
+		(核心线程数量,最大线程数量,空闲线程最大存活时间,任务队列,创建线程工厂,任务的拒绝策略);
+
+		参数一：核心线程数量              不能小于0
+		参数二：最大线程数                不能小于0，最大数量 >= 核心线程数量
+		参数三：空闲线程最大存活时间       不能小于0
+		参数四：时间单位                  用TimeUnit指定
+		参数五：任务队列                  不能为null
+		参数六：创建线程工厂              不能为null
+		参数七：任务的拒绝策略             不能为null
+*/
+
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(
+						3,  //核心线程数量，不能小于0
+						6,  //最大线程数，不能小于0，最大数量 >= 核心线程数量
+						60,//空闲线程最大存活时间
+						TimeUnit.SECONDS,//时间单位
+						new ArrayBlockingQueue<>(3),//任务队列
+						Executors.defaultThreadFactory(),//创建线程工厂
+						new ThreadPoolExecutor.AbortPolicy()//任务的拒绝策略
+		);
+```
+
+- 自定义线程池小结
+	- 创建一个空的池子
+	- 有任务提交时，线程池会创建线程去执行任务，执行完毕归还线程
+	- 不断的提交任务，会有以下三个临界点:
+		- 当核心线程满时，再提交任务就会排队
+		- 当核心线程满，队伍满时，会创建临时线程
+		- 当核心线程满，队伍满，临时线程满时，会触发任务拒绝策略
 
 
+**线程池多大合适?**
+
+![image](https://user-images.githubusercontent.com/88382462/223656635-11a18469-ce60-4090-95a8-38afbde257e7.png)
 
 
 
