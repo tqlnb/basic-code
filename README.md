@@ -5140,6 +5140,7 @@ public class MyCallable implements Callable<Integer> {
 |public static void yield()| 出让线程/礼让线程|
 |public static void join() |插入线程/插队线程|
 
+### name
 - name细节：
 	- 1、如果我们没有给线程设置名字，线程也是有默认的名字的
 			- 格式：Thread-X（X序号，从0开始的）
@@ -5155,6 +5156,8 @@ t1.start();
 t2.start();
 ```
 
+### currentThread
+
 - currentThread细节：
 	- 当JVM虚拟机启动之后，会自动的启动多条线程
 	- 其中有一条线程就叫做main线程
@@ -5167,8 +5170,9 @@ Thread t = Thread.currentThread();
 String name = t.getName();
 System.out.println(name);//main
 ```
+### sleep
 
-- 细节：
+- sleep细节：
 	- 1、哪条线程执行到这个方法，那么哪条线程就会在这里停留对应的时间
 	- 2、方法的参数：就表示睡眠的时间，单位毫秒
 	- 3、当时间到了之后，线程会自动的醒来，继续执行下面的其他代码
@@ -5178,6 +5182,863 @@ System.out.println("11111111111");
 Thread.sleep(5000);
 System.out.println("22222222222");
 ```
+### 线程优先级
+
+```ruby
+//创建线程要执行的参数对象
+MyRunnable mr = new MyRunnable();
+//创建线程对象
+Thread t1 = new Thread(mr,"飞机");
+Thread t2 = new Thread(mr,"坦克");
+
+t1.setPriority(1);
+t2.setPriority(10);
+
+t1.start();
+t2.start();
+```
+
+### 守护线程
+
+- 细节：
+	- 当其他的非守护线程执行完毕之后，守护线程会陆续结束
+- 通俗易懂：
+	- 当女神线程结束了，那么备胎也没有存在的必要了
+
+
+```ruby
+MyThread1 t1 = new MyThread1();
+MyThread2 t2 = new MyThread2();
+
+t1.setName("女神");
+t2.setName("备胎");
+
+//把第二个线程设置为守护线程（备胎线程）
+t2.setDaemon(true);
+
+t1.start();
+t2.start();
+```
+
+### 出让线程和插入线程
+
+出让线程:尽可能让结果均匀
+
+```ruby
+public void run() {//"飞机"  "坦克"
+	for (int i = 1; i <= 100; i++) {
+
+		System.out.println(getName() + "@" + i);
+		//表示出让当前CPU的执行权
+		Thread.yield();
+	}
+}
+```
+
+插入线程:把这个线程插入到当前线程之前
+
+```ruby
+MyThread t = new MyThread();
+t.setName("土豆");
+t.start();
+
+//表示把t这个线程，插入到当前线程之前。
+//t:土豆
+//当前线程: main线程
+t.join();
+
+//执行在main线程当中的
+for (int i = 0; i < 10; i++) {
+	System.out.println("main线程" + i);
+}
+```
+
+## 线程生命周期
+
+![image](https://user-images.githubusercontent.com/88382462/223608801-1b8bb065-b960-4f33-9b08-03525f8ab253.png)
+
+## 线程安全的问题和线程同步
+
+### 卖票
+
+- 案例需求
+
+  某电影院目前正在上映国产大片，共有100张票，而它有3个窗口卖票，请设计一个程序模拟该电影院卖票
+
+- 实现步骤
+
+  - 定义一个类SellTicket实现Runnable接口，里面定义一个成员变量：private int tickets = 100;
+
+  - 在SellTicket类中重写run()方法实现卖票，代码步骤如下
+
+  - 判断票数大于0，就卖票，并告知是哪个窗口卖的
+  - 卖了票之后，总票数要减1
+  - 票卖没了，线程停止
+  - 定义一个测试类SellTicketDemo，里面有main方法，代码步骤如下
+  - 创建SellTicket类的对象
+  - 创建三个Thread类的对象，把SellTicket对象作为构造方法的参数，并给出对应的窗口名称
+  - 启动线程
+
+- 代码实现
+
+  ```java
+  public class SellTicket implements Runnable {
+      private int tickets = 100;
+      //在SellTicket类中重写run()方法实现卖票，代码步骤如下
+      @Override
+      public void run() {
+          while (true) {
+              if(ticket <= 0){
+                      //卖完了
+                      break;
+                  }else{
+                      try {
+                          Thread.sleep(100);
+                      } catch (InterruptedException e) {
+                          e.printStackTrace();
+                      }
+                      ticket--;
+                      System.out.println(Thread.currentThread().getName() + "在卖票,还剩下" + ticket + "张票");
+                  }
+          }
+      }
+  }
+  public class SellTicketDemo {
+      public static void main(String[] args) {
+          //创建SellTicket类的对象
+          SellTicket st = new SellTicket();
+          //创建三个Thread类的对象，把SellTicket对象作为构造方法的参数，并给出对应的窗口名称
+          Thread t1 = new Thread(st,"窗口1");
+          Thread t2 = new Thread(st,"窗口2");
+          Thread t3 = new Thread(st,"窗口3");
+          //启动线程
+          t1.start();
+          t2.start();
+          t3.start();
+      }
+  }
+  ```
+
+
+### 卖票案例的问题
+
+- 卖票出现了问题
+
+  - 相同的票出现了多次
+
+  - 出现了负数的票
+
+- 问题产生原因
+
+  线程执行的随机性导致的,可能在卖票过程中丢失cpu的执行权,导致出现问题
+
+
+### 同步代码块解决数据安全问题
+
+- 安全问题出现的条件
+
+  - 是多线程环境
+
+  - 有共享数据
+
+  - 有多条语句操作共享数据
+
+- 如何解决多线程安全问题呢?
+
+  - 基本思想：让程序没有安全问题的环境
+
+- 怎么实现呢?
+
+  - 把多条语句操作共享数据的代码给锁起来，让任意时刻只能有一个线程执行即可
+
+  - Java提供了同步代码块的方式来解决
+
+- 同步代码块格式：
+
+  ```java
+  synchronized(任意对象) { 
+  	多条语句操作共享数据的代码 
+  }
+  ```
+
+  synchronized(任意对象)：就相当于给代码加锁了，任意对象就可以看成是一把锁
+
+- 同步的好处和弊端  
+
+  - 好处：解决了多线程的数据安全问题
+
+  - 弊端：当线程很多时，因为每个线程都会去判断同步上的锁，这是很耗费资源的，无形中会降低程序的运行效率
+
+- 代码演示
+
+```ruby
+public void run() {
+	  while (true) {
+		  synchronized (obj) { // 对可能有安全问题的代码加锁,多个线程必须使用同一把锁
+			  //t1进来后，就会把这段代码给锁起来
+			  if (tickets > 0) {
+				  try {
+					  Thread.sleep(100);
+					  //t1休息100毫秒
+				  } catch (InterruptedException e) {
+					  e.printStackTrace();
+				  }
+				  //窗口1正在出售第100张票
+				  System.out.println(Thread.currentThread().getName() + "正在出售第" + tickets + "张票");
+				  tickets--; //tickets = 99;
+			  }
+		  }
+		  //t1出来了，这段代码的锁就被释放了
+	  }
+  }
+```
+
+### 同步方法解决数据安全问题
+
+- 同步方法的格式
+
+  同步方法：就是把synchronized关键字加到方法上
+
+  ```java
+  修饰符 synchronized 返回值类型 方法名(方法参数) { 
+  	方法体；
+  }
+  ```
+
+  同步方法的锁对象是什么呢?
+
+  ​	this
+
+- 静态同步方法
+
+  同步静态方法：就是把synchronized关键字加到静态方法上
+
+  ```java
+  修饰符 static synchronized 返回值类型 方法名(方法参数) { 
+  	方法体；
+  }
+  ```
+
+  同步静态方法的锁对象是什么呢?
+
+  ​	类名.class
+
+```ruby
+int ticket = 0;
+@Override
+public void run() {
+	//1.循环
+	while (true) {
+		//2.同步代码块（同步方法）
+		if (method()) break;
+	}
+}
+//this
+private synchronized boolean method() {
+	//3.判断共享数据是否到了末尾，如果到了末尾
+	if (ticket == 100) {
+		return true;
+	} else {
+		//4.判断共享数据是否到了末尾，如果没有到末尾
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		ticket++;
+		System.out.println(Thread.currentThread().getName() + "在卖第" + ticket + "张票！！！");
+	}
+	return false;
+}
+
+/*
+   需求：
+		某电影院目前正在上映国产大片，共有100张票，而它有3个窗口卖票，请设计一个程序模拟该电影院卖票
+		利用同步方法完成
+		技巧：同步代码块
+*/
+
+MyRunnable mr = new MyRunnable();
+Thread t1 = new Thread(mr);
+Thread t2 = new Thread(mr);
+Thread t3 = new Thread(mr);
+t1.setName("窗口1");
+t2.setName("窗口2");
+t3.setName("窗口3");
+t1.start();
+t2.start();
+t3.start();
+```
+
+StringBulider是线程不安全的如果要在多线程中使用,使用StringBuffer
+
+### Lock锁
+虽然我们可以理解同步代码块和同步方法的锁对象问题，但是我们并没有直接看到在哪里加上了锁，在哪里释放了锁，为了更清晰的表达如何加锁和释放锁，JDK5以后提供了一个新的锁对象Lock
+Lock是接口不能直接实例化，这里采用它的实现类ReentrantLock来实例化
+- ReentrantLock构造方法
+  | 方法名             | 说明                   |
+  | --------------- | -------------------- |
+  | ReentrantLock() | 创建一个ReentrantLock的实例 |
+- 加锁解锁方法
+  | 方法名           | 说明   |
+  | ------------- | ---- |
+  | void lock()   | 获得锁  |
+  | void unlock() | 释放锁  |
+- 代码演示
+  ```java
+  public class Ticket implements Runnable {
+      //票的数量
+      private int ticket = 100;
+      private Object obj = new Object();
+      private ReentrantLock lock = new ReentrantLock();
+      @Override
+      public void run() {
+          while (true) {
+              //synchronized (obj){//多个线程必须使用同一把锁.
+              try {
+			  	  //上锁
+                  lock.lock();
+                  if (ticket <= 0) {
+                      //卖完了
+                      break;
+                  } else {
+                      Thread.sleep(100);
+                      ticket--;
+                      System.out.println(Thread.currentThread().getName() + "在卖票,还剩下" + ticket + "张票");
+                  }
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              } finally {
+			  	  //开锁
+                  lock.unlock();
+              }
+              // }
+          }
+      }
+  }
+  public class Demo {
+      public static void main(String[] args) {
+          Ticket ticket = new Ticket();
+          Thread t1 = new Thread(ticket);
+          Thread t2 = new Thread(ticket);
+          Thread t3 = new Thread(ticket);
+          t1.setName("窗口一");
+          t2.setName("窗口二");
+          t3.setName("窗口三");
+          t1.start();
+          t2.start();
+          t3.start();
+      }
+  }
+  ```
+
+### 2.6死锁
+
++ 概述
+
+  线程死锁是指由于两个或者多个线程互相持有对方所需要的资源，导致这些线程处于等待状态，无法前往执行
+
++ 什么情况下会产生死锁
+
+  1. 资源有限
+  2. 同步嵌套
+
++ 代码演示
+
+  ```java
+  public class Demo {
+      public static void main(String[] args) {
+          Object objA = new Object();
+          Object objB = new Object();
+          new Thread(()->{
+              while(true){
+                  synchronized (objA){
+                      //线程一
+                      synchronized (objB){
+                          System.out.println("小康同学正在走路");
+                      }
+                  }
+              }
+          }).start();
+          new Thread(()->{
+              while(true){
+                  synchronized (objB){
+                      //线程二
+                      synchronized (objA){
+                          System.out.println("小薇同学正在走路");
+                      }
+                  }
+              }
+          }).start();
+      }
+  }
+  ```
+
+## 生产者消费者
+
+### 生产者和消费者模式概述【应用】
+
+- 概述
+
+  生产者消费者模式是一个十分经典的多线程协作的模式，弄懂生产者消费者问题能够让我们对多线程编程的理解更加深刻。
+
+  所谓生产者消费者问题，实际上主要是包含了两类线程：
+
+  ​	一类是生产者线程用于生产数据
+
+  ​	一类是消费者线程用于消费数据
+
+  为了解耦生产者和消费者的关系，通常会采用共享的数据区域，就像是一个仓库
+
+  生产者生产数据之后直接放置在共享数据区中，并不需要关心消费者的行为
+
+  消费者只需要从共享数据区中去获取数据，并不需要关心生产者的行为
+
+- Object类的等待和唤醒方法
+
+  | 方法名              | 说明                                       |
+  | ---------------- | ---------------------------------------- |
+  | void wait()      | 导致当前线程等待，直到另一个线程调用该对象的 notify()方法或 notifyAll()方法 |
+  | void notify()    | 唤醒正在等待对象监视器的单个线程                         |
+  | void notifyAll() | 唤醒正在等待对象监视器的所有线程                         |
+
+
+- 消费者等待:
+![image](https://user-images.githubusercontent.com/88382462/223616106-43c45fef-6542-41f2-8809-0d5149e2fbf3.png)
+
+- 生产者等待
+![image](https://user-images.githubusercontent.com/88382462/223616291-46e7c7d3-b3de-4f50-870b-f39a0f67ed7c.png)
+
+厨师
+```ruby
+public class Cook extends Thread{
+    @Override
+    public void run() {
+        /*
+        * 1.循环
+        * 2.同步代码块
+        * 3.判断共享数据是否到了末尾(到了末尾)
+        * 4.判断共享数据是否到了末尾(没到末尾,执行核心逻辑)
+        *
+        * */
+        while (true){
+            synchronized (Desk.lock){
+                if(Desk.count == 0){
+                    //3.判断共享数据是否到了末尾(到了末尾)
+                    break;
+                }else {
+                    //4.判断共享数据是否到了末尾(没到末尾,执行核心逻辑)
+                    if(Desk.foodFlag == 1){
+                        //等待
+                        try {
+                            Desk.lock.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                        //做
+                        System.out.println("做一碗饭");
+                        //改变桌子状态
+                        Desk.foodFlag = 1;
+                        //唤醒消费者
+                        Desk.lock.notifyAll();
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+吃货
+
+```ruby
+public class Foodie extends Thread{
+    @Override
+    public void run() {
+        while (true){
+            synchronized (Desk.lock){
+                if(Desk.count == 0 ){
+                    //3.判断共享数据是否到了末尾(到了末尾)
+                    break;
+                }else {
+                    //4.判断共享数据是否到了末尾(没到末尾,执行核心逻辑)
+                    //判断桌子上是否有面条
+
+                    if(Desk.foodFlag == 0){
+                        //没有,等待
+                        try {
+                            Desk.lock.wait();
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        //有,开吃
+                        //吃的总数减一
+                        Desk.count -- ;
+                        System.out.println("吃,还能再吃"+Desk.count+"碗");
+                        //吃完唤醒厨师继续做
+                        Desk.lock.notifyAll();
+                        //改变桌子的状态
+                        Desk.foodFlag = 0;
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+桌子
+```ruby
+public class Desk {
+    /*
+    * 作用:控制生产者和消费者执行
+    * */
+    public static int foodFlag = 0;
+
+    //总个数
+    public static int count = 10 ;
+
+    //锁对象
+    public static Object lock = new Object();
+}
+```
+
+测试类
+
+```ruby
+public class Test {
+    public static void main(String[] args) {
+
+        //创建线程对象
+        Cook cook = new Cook();
+        Foodie foodie = new Foodie();
+
+        //开启线程
+        cook.start();
+        foodie.start();
+    }
+}
+```
+
+### 阻塞队列基本使用
+
++ 阻塞队列继承结构
+
+  ![06_阻塞队列继承结构](https://user-images.githubusercontent.com/88382462/223385070-95b33f4b-28ed-4dde-9773-0456ea56d426.png)
+
+
++ 常见BlockingQueue:
+
+   ArrayBlockingQueue: 底层是数组,有界
+
+   LinkedBlockingQueue: 底层是链表,无界.但不是真正的无界,最大为int的最大值
+
++ BlockingQueue的核心方法:
+
+   put(anObject): 将参数放入队列,如果放不进去会阻塞
+
+   take(): 取出第一个数据,取不到会阻塞
+
++ 代码示例
+
+  ```java
+  public class Demo02 {
+      public static void main(String[] args) throws Exception {
+          // 创建阻塞队列的对象,容量为 1
+          ArrayBlockingQueue<String> arrayBlockingQueue = new ArrayBlockingQueue<>(1);
+          // 存储元素
+          arrayBlockingQueue.put("汉堡包");
+          // 取元素
+          System.out.println(arrayBlockingQueue.take());
+          System.out.println(arrayBlockingQueue.take()); // 取不到会阻塞
+          System.out.println("程序结束了");
+      }
+  }
+  ```
+
+### 阻塞队列实现等待唤醒机制
+
++ 案例需求
+
+  + 生产者类(Cooker)：实现Runnable接口，重写run()方法，设置线程任务
+
+      1.构造方法中接收一个阻塞队列对象
+
+      2.在run方法中循环向阻塞队列中添加包子
+
+      3.打印添加结果
+
+  + 消费者类(Foodie)：实现Runnable接口，重写run()方法，设置线程任务
+
+       1.构造方法中接收一个阻塞队列对象
+
+       2.在run方法中循环获取阻塞队列中的包子
+
+       3.打印获取结果
+
+  + 测试类(Demo)：里面有main方法，main方法中的代码步骤如下
+
+      创建阻塞队列对象
+
+      创建生产者线程和消费者线程对象,构造方法中传入阻塞队列对象
+
+      分别开启两个线程
+
++ 代码实现
+
+  ```java
+  public class Cooker extends Thread {
+  
+      private ArrayBlockingQueue<String> bd;
+  
+      public Cooker(ArrayBlockingQueue<String> bd) {
+          this.bd = bd;
+      }
+  //    生产者步骤：
+  //            1，判断桌子上是否有汉堡包
+  //    如果有就等待，如果没有才生产。
+  //            2，把汉堡包放在桌子上。
+  //            3，叫醒等待的消费者开吃。
+  
+      @Override
+      public void run() {
+          while (true) {
+              try {
+                  bd.put("汉堡包");
+                  System.out.println("厨师放入一个汉堡包");
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+  }
+  
+  public class Foodie extends Thread {
+      private ArrayBlockingQueue<String> bd;
+  
+      public Foodie(ArrayBlockingQueue<String> bd) {
+          this.bd = bd;
+      }
+  
+      @Override
+      public void run() {
+  //        1，判断桌子上是否有汉堡包。
+  //        2，如果没有就等待。
+  //        3，如果有就开吃
+  //        4，吃完之后，桌子上的汉堡包就没有了
+  //                叫醒等待的生产者继续生产
+  //        汉堡包的总数量减一
+  
+          //套路:
+          //1. while(true)死循环
+          //2. synchronized 锁,锁对象要唯一
+          //3. 判断,共享数据是否结束. 结束
+          //4. 判断,共享数据是否结束. 没有结束
+          while (true) {
+              try {
+                  String take = bd.take();
+                  System.out.println("吃货将" + take + "拿出来吃了");
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+          }
+  
+      }
+  }
+  
+  public class Demo {
+      public static void main(String[] args) {
+          ArrayBlockingQueue<String> bd = new ArrayBlockingQueue<>(1);
+  
+          Foodie f = new Foodie(bd);
+          Cooker c = new Cooker(bd);
+  
+          f.start();
+          c.start();
+      }
+  }
+  ```
+
+## 线程池
+
+**线程池的设计思路 :**
+
+	1. 准备一个任务容器
+	2. 一次性启动多个(2个)消费者线程
+	3. 刚开始任务容器是空的，所以线程都在wait
+	4. 直到一个外部线程向这个任务容器中扔了一个"任务"，就会有一个消费者线程被唤醒
+	5. 这个消费者线程取出"任务"，并且执行这个任务，执行完毕后，继续等待下一次任务的到来
+
+
+JDK对线程池也进行了相关的实现，在真实企业开发中我们也很少去自定义线程池，而是使用JDK中自带的线程池。
+
+我们可以使用Executors中所提供的**静态**方法来创建线程池
+
+	static ExecutorService newCachedThreadPool()   创建一个默认的线程池
+	static newFixedThreadPool(int nThreads)	    创建一个指定最多线程数量的线程池
+
+```ruby
+/*
+		public static ExecutorService newCachedThreadPool()             创建一个没有上限的线程池
+		public static ExecutorService newFixedThreadPool (int nThreads) 创建有上限的线程池
+*/
+
+
+		//1.获取线程池对象
+		ExecutorService pool1 = Executors.newFixedThreadPool(3);
+		//2.提交任务
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+		pool1.submit(new MyRunnable());
+
+
+		//3.销毁线程池
+		//pool1.shutdown();
+```
+
+- 线程池主要核心原理
+	- 创建一个池子，池子中是空的
+	- 提交任务时，池子会创建新的线程对象，任务执行完毕，线程归还给池子
+	- 下回再次提交任务时，不需要创建新的线程，直接复用已有的线程即可
+	- 但是如果提交任务时，池子中没有空闲线程，也无法创建新的线程，任务就会排队等待
+
+![image](https://user-images.githubusercontent.com/88382462/223653709-d26271db-0c5f-44f6-b0d0-5214fa125729.png)
+
+![1591165506516](https://user-images.githubusercontent.com/88382462/223649611-03547f68-e430-4a2e-87e3-4311bdcb2fb5.png)
+
+**线程池-非默认任务拒绝策略**
+
+RejectedExecutionHandler是jdk提供的一个任务拒绝策略接口，它下面存在4个子类。
+
+```java
+ThreadPoolExecutor.AbortPolicy: 		    丢弃任务并抛出RejectedExecutionException异常。是默认的策略。
+ThreadPoolExecutor.DiscardPolicy： 		   丢弃任务，但是不抛出异常 这是不推荐的做法。
+ThreadPoolExecutor.DiscardOldestPolicy：    抛弃队列中等待最久的任务 然后把当前任务加入队列中。
+ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线程池直接执行。
+```
+
+注：明确线程池对多可执行的任务数 = 队列容量 + 最大线程数
+
+```ruby
+/*
+		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor
+		(核心线程数量,最大线程数量,空闲线程最大存活时间,任务队列,创建线程工厂,任务的拒绝策略);
+
+		参数一：核心线程数量              不能小于0
+		参数二：最大线程数                不能小于0，最大数量 >= 核心线程数量
+		参数三：空闲线程最大存活时间       不能小于0
+		参数四：时间单位                  用TimeUnit指定
+		参数五：任务队列                  不能为null
+		参数六：创建线程工厂              不能为null
+		参数七：任务的拒绝策略             不能为null
+*/
+
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(
+						3,  //核心线程数量，不能小于0
+						6,  //最大线程数，不能小于0，最大数量 >= 核心线程数量
+						60,//空闲线程最大存活时间
+						TimeUnit.SECONDS,//时间单位
+						new ArrayBlockingQueue<>(3),//任务队列
+						Executors.defaultThreadFactory(),//创建线程工厂
+						new ThreadPoolExecutor.AbortPolicy()//任务的拒绝策略
+		);
+```
+
+- 自定义线程池小结
+	- 创建一个空的池子
+	- 有任务提交时，线程池会创建线程去执行任务，执行完毕归还线程
+	- 不断的提交任务，会有以下三个临界点:
+		- 当核心线程满时，再提交任务就会排队
+		- 当核心线程满，队伍满时，会创建临时线程
+		- 当核心线程满，队伍满，临时线程满时，会触发任务拒绝策略
+
+
+**线程池多大合适?**
+
+![image](https://user-images.githubusercontent.com/88382462/223656635-11a18469-ce60-4090-95a8-38afbde257e7.png)
+
+
+# 网络编程
+
+- 什么是网络编程?
+	- 在网络通信协议下，不同计算机上运行的程序，进行的数据传输。
+	- 应用场景:即时通信、网游对战、金融证券、国际贸易、邮件、等等。不管是什么场景，都是计算机跟计算机之间通过网络进行数据传输。
+	- Java中可以使用java.net包下的技术轻松开发出常见的网络应用程序。
+
+## 常见软件架构:BS/CS
+
+![image](https://user-images.githubusercontent.com/88382462/223662154-b294ce6d-d976-42e8-a9a4-9d11a09fcb84.png)
+
+	- BS架构的优缺点
+		- 不需要开发客户端，只需要页面＋+服务端
+		- 用户不需要下载，打开浏览器就能使用
+		- 如果应用过大，用户体验受到影响
+
+	- CS架构优缺点
+		- 画面可以做的非常精美，用户体验好
+		- 需要开发客户端，也需要开发服务端
+		- 用户需要下载和更新的时候太麻烦
+
+## 网络编程三要素
+- IP
+	- 设备在网络中的地址，是唯一的标识。
+- 端口号
+	- 应用程序在设备中唯一的标识。
+- 协议
+	- 数据在网络中传输的规则，常见的协议有UDP、TCP、http、https、ftp
+
+
+### IP
+
+全称:Internet Protocol，是互联网协议地址，也称IP地址。是分配给上网设备的数字标签。
+
+通俗理解:上网设备在网络中的地址，是唯一的
+
+常见的IP分类为:lPv4、IPv6
+
+**IPV4**
+
+![image](https://user-images.githubusercontent.com/88382462/223665304-e5e9c82e-be86-49a5-a050-013302cef8e6.png)
+
+**IPV6**
+
+全称:Internet Protocol version 6，互联网通信协议第六版。
+
+由于互联网的蓬勃发展，IP地址的需求量愈来愈大，而IPv4的模式下IP的总数是有限的。采用128位地址长度，分成8组。
+
+![image](https://user-images.githubusercontent.com/88382462/223665907-371fec67-ba83-4382-9603-967dcde92c94.png)
+
+- IPv4的地址分类形式
+	- 公网地址(万维网使用)和私有地址(局域网使用)。
+	- 192.168.开头的就是私有址址，范围即为192.168.0.0--192.168.255.255，专门为组织机构内部使用，以此节省IP
+
+-特殊IP地址
+	- 127.0.0.1 也可以是localhost: 是回送地址也称本地回环地址，也称本机IP，永远只会寻找当前所在本机。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
