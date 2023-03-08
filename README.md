@@ -5971,7 +5971,7 @@ ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线�
 	- 应用场景:即时通信、网游对战、金融证券、国际贸易、邮件、等等。不管是什么场景，都是计算机跟计算机之间通过网络进行数据传输。
 	- Java中可以使用java.net包下的技术轻松开发出常见的网络应用程序。
 
-常见软件架构:BS/CS
+## 常见软件架构:BS/CS
 
 ![image](https://user-images.githubusercontent.com/88382462/223662154-b294ce6d-d976-42e8-a9a4-9d11a09fcb84.png)
 
@@ -5984,6 +5984,61 @@ ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线�
 		- 画面可以做的非常精美，用户体验好
 		- 需要开发客户端，也需要开发服务端
 		- 用户需要下载和更新的时候太麻烦
+
+## 网络编程三要素
+- IP
+	- 设备在网络中的地址，是唯一的标识。
+- 端口号
+	- 应用程序在设备中唯一的标识。
+- 协议
+	- 数据在网络中传输的规则，常见的协议有UDP、TCP、http、https、ftp
+
+
+### IP
+
+全称:Internet Protocol，是互联网协议地址，也称IP地址。是分配给上网设备的数字标签。
+
+通俗理解:上网设备在网络中的地址，是唯一的
+
+常见的IP分类为:lPv4、IPv6
+
+**IPV4**
+
+![image](https://user-images.githubusercontent.com/88382462/223665304-e5e9c82e-be86-49a5-a050-013302cef8e6.png)
+
+**IPV6**
+
+全称:Internet Protocol version 6，互联网通信协议第六版。
+
+由于互联网的蓬勃发展，IP地址的需求量愈来愈大，而IPv4的模式下IP的总数是有限的。采用128位地址长度，分成8组。
+
+![image](https://user-images.githubusercontent.com/88382462/223665907-371fec67-ba83-4382-9603-967dcde92c94.png)
+
+- IPv4的地址分类形式
+	- 公网地址(万维网使用)和私有地址(局域网使用)。
+	- 192.168.开头的就是私有址址，范围即为192.168.0.0--192.168.255.255，专门为组织机构内部使用，以此节省IP
+
+-特殊IP地址
+	- 127.0.0.1 也可以是localhost: 是回送地址也称本地回环地址，也称本机IP，永远只会寻找当前所在本机。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
