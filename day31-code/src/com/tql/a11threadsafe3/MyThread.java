@@ -26,7 +26,6 @@ public class MyThread extends Thread{
                     ticket++;
                     System.out.println(getName() + "在卖第" + ticket + "张票！！！");
                 }
-                //  }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
