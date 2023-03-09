@@ -6022,22 +6022,524 @@ ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线�
 	- 127.0.0.1 也可以是localhost: 是回送地址也称本地回环地址，也称本机IP，永远只会寻找当前所在本机。
 
 
+## InetAddress
+
+InetAddress：此类表示Internet协议（IP）地址
+
+- 相关方法
+
+  | 方法名                                    | 说明                                                         |
+  | ----------------------------------------- | ------------------------------------------------------------ |
+  | static InetAddress getByName(String host) | 确定主机名称的IP地址。主机名称可以是机器名称，也可以是IP地址 |
+  | String getHostName()                      | 获取此IP地址的主机名                                         |
+  | String getHostAddress()                   | 返回文本显示中的IP地址字符串                                 |
+
+
+## 端口号
+
+应用程序在设备中唯一的标识。
+
+端口号:由两个字节表示的整数，取值范围:0~65535
+
+其中0~1023之间的端口号用于一些知名的网络服务或者应用。我们自己使用1024以上的端口号就可以了。
+
+注意:一个端口号只能被一个应用程序使用。
+
+## 协议
+
+  - 计算机网络中，连接和通信的规则被称为网络通信协议
+	
+	![image](https://user-images.githubusercontent.com/88382462/223924971-e1337887-f24b-4c21-baab-80e0955d6a2e.png)
+
+	![image](https://user-images.githubusercontent.com/88382462/223925342-8149cb59-5ef2-4257-bce6-9dd4169707a6.png)
+
+
+- UDP协议
+
+  - 用户数据报协议(User Datagram Protocol)
+  - UDP是无连接通信协议，即在数据传输时，数据的发送端和接收端不建立逻辑连接。简单来说，当一台计算机向另外一台计算机发送数据时，发送端不会确认接收端是否存在，就会发出数据，同样接收端在收到数据时，也不会向发送端反馈是否收到数据。
+  - 由于使用UDP协议消耗系统资源小，通信效率高，所以通常都会用于音频、视频和普通数据的传输
+  - 例如视频会议通常采用UDP协议，因为这种情况即使偶尔丢失一两个数据包，也不会对接收结果产生太大影响。但是在使用UDP协议传送数据时，由于UDP的面向无连接性，不能保证数据的完整性，因此在传输重要数据时不建议使用UDP协议
+
+- TCP协议
+
+  - 传输控制协议 (Transmission Control Protocol)
+
+  - TCP协议是面向连接的通信协议，即传输数据之前，在发送端和接收端建立逻辑连接，然后再传输数据，它提供了两台计算机之间可靠无差错的数据传输。在TCP连接中必须要明确客户端与服务器端，由客户端向服务端发出连接请求，每次连接的创建都需要经过“三次握手”
+
+## UDP通信
+
+- UDP通信程序(发送数据)
+	- 找快递公司 			 ---->  创建发送端的DatagramSocket对象
+	- 打包礼物					----> 	数据打包(DatagramPacket)
+	- 快递公司发送包裹	---->		发送数据
+	- 付钱走人					---->		释放资源
+
+
+- UDP通信程序(接收数据)
+	- 找快递公司							---->		创建接收端的DatagramSocket对象
+	- 接收箱子							---->		 接收打包好的数据
+	- 从箱子里面获取礼物		---->			解析数据包
+	- 签收走人						---->			 释放资源
+
+
+- UDP发送端
+
+```ruby
+//发送数据
+
+//1.创建DatagramSocket对象(快递公司)
+//细节：
+//绑定端口，以后我们就是通过这个端口往外发送
+//空参：所有可用的端口中随机一个进行使用(发送端口)
+//有参：指定端口号进行绑定
+DatagramSocket ds = new DatagramSocket();
+
+//2.打包数据
+String str = "你好威啊！！！";
+byte[] bytes = str.getBytes();
+InetAddress address = InetAddress.getByName("127.0.0.1");
+int port = 10086;	//发送到的目标的端口,传入DatagramPacket
+
+DatagramPacket dp = new DatagramPacket(bytes,bytes.length,address,port);
+
+//3.发送数据
+ds.send(dp);
+
+//4.释放资源
+ds.close();
+```
+
+UDP接收端
+
+```ruby
+//接收数据
+
+//1.创建DatagramSocket对象（快递公司）
+//细节：
+//在接收的时候，一定要绑定端口
+//而且绑定的端口一定要跟发送的端口保持一致
+DatagramSocket ds = new DatagramSocket(10086);
+
+//2.接收数据包
+byte[] bytes = new byte[1024];
+DatagramPacket dp = new DatagramPacket(bytes,bytes.length);
+
+//该方法是阻塞的
+//程序执行到这一步的时候，会在这里死等
+//等发送端发送消息
+System.out.println(11111);
+ds.receive(dp);
+System.out.println(2222);
+
+//3.解析数据包
+byte[] data = dp.getData();
+int len = dp.getLength();
+InetAddress address = dp.getAddress();
+int port = dp.getPort();
+
+System.out.println("接收到数据" + new String(data,0,len));
+System.out.println("该数据是从" + address + "这台电脑中的" + port + "这个端口发出的");
+
+//4.释放资源
+ds.close();
+```
+
+**UDP三种通讯方式**
+
+- 单播
+
+  单播用于两个主机之间的端对端通信
+
+- 组播
+
+  组播用于对一组特定的主机进行通信
+
+- 广播
+
+  广播用于一个主机对整个局域网上所有主机上的数据通信
+
+
+- 实现步骤
+
+  - 发送端
+    1. 创建发送端的Socket对象(MulticastSocket)
+    2. 创建数据，并把数据打包(MulticastSocket)
+    3. 调用DatagramSocket对象的方法发送数据(在单播中,这里是发给指定IP的电脑但是在组播当中,这里是发给组播地址)
+    4. 释放资源
+  - 接收端
+    1. 创建接收端Socket对象(MulticastSocket)
+    2. 创建一个箱子,用于接收数据
+    3. 把当前计算机绑定一个组播地址
+    4. 将数据接收到箱子中
+    5. 解析数据包,并打印数据
+    6. 释放资源
+
+- 代码实现
+
+  ```java
+  // 发送端
+  public class ClinetDemo {
+      public static void main(String[] args) throws IOException {
+          // 1. 创建发送端的Socket对象(DatagramSocket)
+          MulticastSocket ds = new MulticastSocket();
+          String s = "hello 组播";
+          byte[] bytes = s.getBytes();
+          InetAddress address = InetAddress.getByName("224.0.1.0");
+          int port = 10000;
+          // 2. 创建数据，并把数据打包(DatagramPacket)
+          DatagramPacket dp = new DatagramPacket(bytes,bytes.length,address,port);
+          // 3. 调用DatagramSocket对象的方法发送数据(在单播中,这里是发给指定IP的电脑但是在组播当中,这里是发给组播地址)
+          ds.send(dp);
+          // 4. 释放资源
+          ds.close();
+      }
+  }
+  // 接收端
+  public class ServerDemo {
+      public static void main(String[] args) throws IOException {
+          // 1. 创建接收端Socket对象(MulticastSocket)
+          MulticastSocket ms = new MulticastSocket(10000);
+          // 2. 创建一个箱子,用于接收数据
+          DatagramPacket dp = new DatagramPacket(new byte[1024],1024);
+          // 3. 把当前计算机绑定一个组播地址,表示添加到这一组中.
+          ms.joinGroup(InetAddress.getByName("224.0.1.0"));
+          // 4. 将数据接收到箱子中
+          ms.receive(dp);
+          // 5. 解析数据包,并打印数据
+          byte[] data = dp.getData();
+          int length = dp.getLength();
+          System.out.println(new String(data,0,length));
+          // 6. 释放资源
+          ms.close();
+      }
+  }
+  ```
+
+## TCP通信
+
+![image](https://user-images.githubusercontent.com/88382462/223953286-ff4198a4-1201-46bc-90bf-40b2d00b3610.png)
+
+
+- Java中的TCP通信
+
+  - Java对基于TCP协议的的网络提供了良好的封装，使用Socket对象来代表两端的通信端口，并通过Socket产生IO流来进行网络通信。
+  - Java为客户端提供了Socket类，为服务器端提供了ServerSocket类
+
+- 构造方法
+
+  | 方法名                               | 说明                                           |
+  | ------------------------------------ | ---------------------------------------------- |
+  | Socket(InetAddress address,int port) | 创建流套接字并将其连接到指定IP指定端口号       |
+  | Socket(String host, int port)        | 创建流套接字并将其连接到指定主机上的指定端口号 |
+
+- 相关方法
+
+  | 方法名                         | 说明                 |
+  | ------------------------------ | -------------------- |
+  | InputStream  getInputStream()  | 返回此套接字的输入流 |
+  | OutputStream getOutputStream() | 返回此套接字的输出流 |
+
+发送端:
+
+```ruby
+public class Client {
+    public static void main(String[] args) throws IOException {
+        //TCP协议，发送数据
+
+        //1.创建Socket对象
+        //细节：在创建对象的同时会连接服务端
+        //      如果连接不上，代码会报错
+        Socket socket = new Socket("127.0.0.1",10000);
+
+
+        //2.可以从连接通道中获取输出流
+        OutputStream os = socket.getOutputStream();
+        //写出数据
+        os.write("你好你好".getBytes());//12字节
+
+        //3.释放资源
+        os.close();
+        socket.close();
+
+    }
+}
+```
+
+接收端:
+
+```ruby
+public class Server {
+    public static void main(String[] args) throws IOException {
+        //TCP协议，接收数据
+
+        //1.创建对象ServerSocker
+        ServerSocket ss = new ServerSocket(10000);
+
+        //2.监听客户端的链接
+        Socket socket = ss.accept();
+
+        //3.从连接通道中获取输入流读取数据
+        InputStream is = socket.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+
+        // BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        int b;
+        while ((b = br.read()) != -1){
+            System.out.print((char) b);
+        }
+
+        //4.释放资源
+        socket.close();
+        ss.close();
+
+    }
+}
+```
 
 
 
+		1. accept方法是阻塞的,作用就是等待客户端连接
+		2. 客户端创建对象并连接服务器,此时是通过三次握手协议,保证跟服务器之间的连接
+		3. 针对客户端来讲,是往外写的,所以是输出流
+			 针对服务器来讲,是往里读的,所以是输入流
+		4. read方法也是阻塞的
+		5. 客户端在关流的时候,还多了一个往服务器写结束标记的动作
+		6. 最后一步断开连接,通过四次挥手协议保证连接终止
+
+  - 三次握手：TCP协议中，在发送数据的准备阶段，客户端与服务器之间的三次交互，以保证连接的可靠
+
+    第一次握手，客户端向服务器端发出连接请求，等待服务器确认
+
+    第二次握手，服务器端向客户端回送一个响应，通知客户端收到了连接请求
+
+    第三次握手，客户端再次向服务器端发送确认信息，确认连接
+
+  - 完成三次握手，连接建立后，客户端和服务器就可以开始进行数据传输了。由于这种面向连接的特性，TCP协议可以保证传输数据的安全，所以应用十分广泛。例如上传文件、下载文件、浏览网页等
+	
+	
+![image](https://user-images.githubusercontent.com/88382462/223961498-a1c9b7ee-88d6-406b-bf37-d950a1c11e66.png)
+
+### 练习
+
++ 客户端：发送一条数据，接收服务端反馈的消息并打印
++ 服务器：接收数据并打印，再给客户端反馈消息
+	
+- 服务端:
+	
+```ruby
+//1.创建对象并绑定10000端口
+ServerSocket ss = new ServerSocket(10000);
+
+//2.等待客户端连接
+Socket socket = ss.accept();
+
+//3.socket中获取输入流读取数据
+InputStream is = socket.getInputStream();
+InputStreamReader isr = new InputStreamReader(is);
+int b;
+//细节：
+//read方法会从连接通道中读取数据
+//但是，需要有一个结束标记，此处的循环才会停止
+//否则，程序就会一直停在read方法这里，等待读取下面的数据
+while ((b = isr.read()) != -1){
+		System.out.println((char)b);
+}
+
+//4.回写数据
+String str = "到底有多开心？";
+OutputStream os = socket.getOutputStream();
+os.write(str.getBytes());
+
+//释放资源
+socket.close();
+ss.close();
+```
+
+- 客户端
+
+```ruby
+//1.创建Socket对象并连接服务端
+Socket socket = new Socket("127.0.0.1",10000);
+
+//2.写出数据
+String str = "见到你很高兴！";
+OutputStream os = socket.getOutputStream();
+os.write(str.getBytes());
+
+//写出一个结束标记
+socket.shutdownOutput();
+
+//3.接收服务端回写的数据
+InputStream is = socket.getInputStream();
+InputStreamReader isr = new InputStreamReader(is);
+int b;
+while ((b = isr.read()) != -1){
+		System.out.print((char)b);
+}
+
+//释放资源
+socket.close();
+```
+
+- 客户端：将本地文件上传到服务器。接收服务器的反馈。
+- 服务器：接收客户端上传的文件，上传完毕之后给出反馈。
+- 同时使用UUIDd生成唯一的文件名
+
+- 服务端
+
+```ruby
+   //1.创建对象并绑定端口
+        ServerSocket ss = new ServerSocket(10000);
+
+        //2.等待客户端来连接
+        Socket socket = ss.accept();
+
+        //3.读取数据并保存到本地文件中
+        BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+        String name = UUID.randomUUID().toString().replace("-", "");
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("mysocketnet\\serverdir\\" + name + ".jpg"));
+        int len;
+        byte[] bytes = new byte[1024];
+        while ((len = bis.read(bytes)) != -1) {
+            bos.write(bytes, 0, len);
+        }
+        bos.close();
+        //4.回写数据
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        bw.write("上传成功");
+        bw.newLine();
+        bw.flush();
+
+        //5.释放资源
+        socket.close();
+        ss.close();
+```
+
+- 客户端
+
+```ruby
+//1. 创建Socket对象，并连接服务器
+Socket socket = new Socket("127.0.0.1",10000);
+
+//2.读取本地文件中的数据，并写到服务器当中
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("mysocketnet\\clientdir\\a.jpg"));
+BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
+byte[] bytes = new byte[1024];
+int len;
+while ((len = bis.read(bytes)) != -1){
+		bos.write(bytes,0,len);
+}
+
+//往服务器写出结束标记
+socket.shutdownOutput();
+
+//3.接收服务器的回写数据
+BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+String line = br.readLine();
+System.out.println(line);
+
+//4.释放资源
+socket.close();
+```
+
+**使用多线程和线程池优化代码**
+
+- 客户端
+
+```ruby
+//1. 创建Socket对象，并连接服务器
+Socket socket = new Socket("127.0.0.1",10000);
+
+//2.读取本地文件中的数据，并写到服务器当中
+BufferedInputStream bis = new BufferedInputStream(new FileInputStream("day32-code\\clientdir\\a.jpg"));
+BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
+byte[] bytes = new byte[1024];
+int len;
+while ((len = bis.read(bytes)) != -1){
+		bos.write(bytes,0,len);
+}
+
+//往服务器写出结束标记
+socket.shutdownOutput();
 
 
+//3.接收服务器的回写数据
+BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+String line = br.readLine();
+System.out.println(line);
 
 
+//4.释放资源
+socket.close();
+```
 
+- 服务端
 
+```ruby
+//1.创建对象并绑定端口
+ServerSocket ss = new ServerSocket(10000);
 
+while (true) {
+		//2.等待客户端来连接
+		Socket socket = ss.accept();
 
+		//创建一条线程
+		//一个用户就对应服务端的一条线程
+		Thread thread = new Thread(new MyRunnable(socket));
+		//将线程加入线程池
+		ExecutorService pool = Executors.newCachedThreadPool();
+		pool.submit(thread);
+}
+```
 
+- 线程类
 
+```ruby
+public class MyRunnable implements Runnable{
 
+    Socket socket;
 
+    public MyRunnable(Socket socket){
+        //使用构造方法获取数据
+        this.socket = socket;
+    }
 
+    @Override
+    public void run() {
+        try {
+            //3.读取数据并保存到本地文件中
+            BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
+            String name = UUID.randomUUID().toString().replace("-", "");
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("day32-code\\serverdir\\" + name + ".jpg"));
+            int len;
+            byte[] bytes = new byte[1024];
+            while ((len = bis.read(bytes)) != -1) {
+                bos.write(bytes, 0, len);
+            }
+            bos.close();
+            //4.回写数据
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            bw.write("上传成功");
+            bw.newLine();
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //5.释放资源
+           if(socket != null){
+               try {
+                   socket.close();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           }
+        }
+    }
+}
+```
 
 
 
