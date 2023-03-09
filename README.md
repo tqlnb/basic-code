@@ -6067,16 +6067,7 @@ InetAddress：此类表示Internet协议（IP）地址
 
   - TCP协议是面向连接的通信协议，即传输数据之前，在发送端和接收端建立逻辑连接，然后再传输数据，它提供了两台计算机之间可靠无差错的数据传输。在TCP连接中必须要明确客户端与服务器端，由客户端向服务端发出连接请求，每次连接的创建都需要经过“三次握手”
 
-  - 三次握手：TCP协议中，在发送数据的准备阶段，客户端与服务器之间的三次交互，以保证连接的可靠
-
-    第一次握手，客户端向服务器端发出连接请求，等待服务器确认
-
-    第二次握手，服务器端向客户端回送一个响应，通知客户端收到了连接请求
-
-    第三次握手，客户端再次向服务器端发送确认信息，确认连接
-
-  - 完成三次握手，连接建立后，客户端和服务器就可以开始进行数据传输了。由于这种面向连接的特性，TCP协议可以保证传输数据的安全，所以应用十分广泛。例如上传文件、下载文件、浏览网页等
-
+## UDP通信
 
 - UDP通信程序(发送数据)
 	- 找快递公司 			 ---->  创建发送端的DatagramSocket对象
@@ -6092,6 +6083,182 @@ InetAddress：此类表示Internet协议（IP）地址
 	- 签收走人						---->			 释放资源
 
 
+- UDP发送端
+
+```ruby
+//发送数据
+
+//1.创建DatagramSocket对象(快递公司)
+//细节：
+//绑定端口，以后我们就是通过这个端口往外发送
+//空参：所有可用的端口中随机一个进行使用(发送端口)
+//有参：指定端口号进行绑定
+DatagramSocket ds = new DatagramSocket();
+
+//2.打包数据
+String str = "你好威啊！！！";
+byte[] bytes = str.getBytes();
+InetAddress address = InetAddress.getByName("127.0.0.1");
+int port = 10086;	//发送到的目标的端口,传入DatagramPacket
+
+DatagramPacket dp = new DatagramPacket(bytes,bytes.length,address,port);
+
+//3.发送数据
+ds.send(dp);
+
+//4.释放资源
+ds.close();
+```
+
+UDP接收端
+
+```ruby
+//接收数据
+
+//1.创建DatagramSocket对象（快递公司）
+//细节：
+//在接收的时候，一定要绑定端口
+//而且绑定的端口一定要跟发送的端口保持一致
+DatagramSocket ds = new DatagramSocket(10086);
+
+//2.接收数据包
+byte[] bytes = new byte[1024];
+DatagramPacket dp = new DatagramPacket(bytes,bytes.length);
+
+//该方法是阻塞的
+//程序执行到这一步的时候，会在这里死等
+//等发送端发送消息
+System.out.println(11111);
+ds.receive(dp);
+System.out.println(2222);
+
+//3.解析数据包
+byte[] data = dp.getData();
+int len = dp.getLength();
+InetAddress address = dp.getAddress();
+int port = dp.getPort();
+
+System.out.println("接收到数据" + new String(data,0,len));
+System.out.println("该数据是从" + address + "这台电脑中的" + port + "这个端口发出的");
+
+//4.释放资源
+ds.close();
+```
+
+**UDP三种通讯方式**
+
+- 单播
+
+  单播用于两个主机之间的端对端通信
+
+- 组播
+
+  组播用于对一组特定的主机进行通信
+
+- 广播
+
+  广播用于一个主机对整个局域网上所有主机上的数据通信
+
+
+- 实现步骤
+
+  - 发送端
+    1. 创建发送端的Socket对象(MulticastSocket)
+    2. 创建数据，并把数据打包(MulticastSocket)
+    3. 调用DatagramSocket对象的方法发送数据(在单播中,这里是发给指定IP的电脑但是在组播当中,这里是发给组播地址)
+    4. 释放资源
+  - 接收端
+    1. 创建接收端Socket对象(MulticastSocket)
+    2. 创建一个箱子,用于接收数据
+    3. 把当前计算机绑定一个组播地址
+    4. 将数据接收到箱子中
+    5. 解析数据包,并打印数据
+    6. 释放资源
+
+- 代码实现
+
+  ```java
+  // 发送端
+  public class ClinetDemo {
+      public static void main(String[] args) throws IOException {
+          // 1. 创建发送端的Socket对象(DatagramSocket)
+          MulticastSocket ds = new MulticastSocket();
+          String s = "hello 组播";
+          byte[] bytes = s.getBytes();
+          InetAddress address = InetAddress.getByName("224.0.1.0");
+          int port = 10000;
+          // 2. 创建数据，并把数据打包(DatagramPacket)
+          DatagramPacket dp = new DatagramPacket(bytes,bytes.length,address,port);
+          // 3. 调用DatagramSocket对象的方法发送数据(在单播中,这里是发给指定IP的电脑但是在组播当中,这里是发给组播地址)
+          ds.send(dp);
+          // 4. 释放资源
+          ds.close();
+      }
+  }
+  // 接收端
+  public class ServerDemo {
+      public static void main(String[] args) throws IOException {
+          // 1. 创建接收端Socket对象(MulticastSocket)
+          MulticastSocket ms = new MulticastSocket(10000);
+          // 2. 创建一个箱子,用于接收数据
+          DatagramPacket dp = new DatagramPacket(new byte[1024],1024);
+          // 3. 把当前计算机绑定一个组播地址,表示添加到这一组中.
+          ms.joinGroup(InetAddress.getByName("224.0.1.0"));
+          // 4. 将数据接收到箱子中
+          ms.receive(dp);
+          // 5. 解析数据包,并打印数据
+          byte[] data = dp.getData();
+          int length = dp.getLength();
+          System.out.println(new String(data,0,length));
+          // 6. 释放资源
+          ms.close();
+      }
+  }
+  ```
+
+## TCP通信
+
+![image](https://user-images.githubusercontent.com/88382462/223953286-ff4198a4-1201-46bc-90bf-40b2d00b3610.png)
+
+
+- Java中的TCP通信
+
+  - Java对基于TCP协议的的网络提供了良好的封装，使用Socket对象来代表两端的通信端口，并通过Socket产生IO流来进行网络通信。
+  - Java为客户端提供了Socket类，为服务器端提供了ServerSocket类
+
+- 构造方法
+
+  | 方法名                               | 说明                                           |
+  | ------------------------------------ | ---------------------------------------------- |
+  | Socket(InetAddress address,int port) | 创建流套接字并将其连接到指定IP指定端口号       |
+  | Socket(String host, int port)        | 创建流套接字并将其连接到指定主机上的指定端口号 |
+
+- 相关方法
+
+  | 方法名                         | 说明                 |
+  | ------------------------------ | -------------------- |
+  | InputStream  getInputStream()  | 返回此套接字的输入流 |
+  | OutputStream getOutputStream() | 返回此套接字的输出流 |
+
+
+  - 三次握手：TCP协议中，在发送数据的准备阶段，客户端与服务器之间的三次交互，以保证连接的可靠
+
+    第一次握手，客户端向服务器端发出连接请求，等待服务器确认
+
+    第二次握手，服务器端向客户端回送一个响应，通知客户端收到了连接请求
+
+    第三次握手，客户端再次向服务器端发送确认信息，确认连接
+
+  - 完成三次握手，连接建立后，客户端和服务器就可以开始进行数据传输了。由于这种面向连接的特性，TCP协议可以保证传输数据的安全，所以应用十分广泛。例如上传文件、下载文件、浏览网页等
+	
+	
+		1. accept方法是阻塞的,作用就是等待客户端连接
+		2. 客户端创建对象并连接服务器,此时是通过三次握手协议,保证跟服务器之间的连接
+		3. 针对客户端来讲,是往外写的,所以是输出流
+			 针对服务器来讲,是往里读的,所以是输入流
+		4. read方法也是阻塞的
+		5. 客户端在关流的时候,还多了一个往服务器写结束标记的动作
+		6. 最后一步断开连接,通过四次挥手协议保证连接终止
 
 
 
