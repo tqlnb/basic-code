@@ -6322,6 +6322,70 @@ public class Server {
 	
 ![image](https://user-images.githubusercontent.com/88382462/223961498-a1c9b7ee-88d6-406b-bf37-d950a1c11e66.png)
 
+### 练习
+
++ 客户端：发送一条数据，接收服务端反馈的消息并打印
++ 服务器：接收数据并打印，再给客户端反馈消息
+	
+- 服务端:
+	
+```ruby
+//1.创建对象并绑定10000端口
+ServerSocket ss = new ServerSocket(10000);
+
+//2.等待客户端连接
+Socket socket = ss.accept();
+
+//3.socket中获取输入流读取数据
+InputStream is = socket.getInputStream();
+InputStreamReader isr = new InputStreamReader(is);
+int b;
+//细节：
+//read方法会从连接通道中读取数据
+//但是，需要有一个结束标记，此处的循环才会停止
+//否则，程序就会一直停在read方法这里，等待读取下面的数据
+while ((b = isr.read()) != -1){
+		System.out.println((char)b);
+}
+
+//4.回写数据
+String str = "到底有多开心？";
+OutputStream os = socket.getOutputStream();
+os.write(str.getBytes());
+
+//释放资源
+socket.close();
+ss.close();
+```
+
+- 客户端
+
+```ruby
+//1.创建Socket对象并连接服务端
+Socket socket = new Socket("127.0.0.1",10000);
+
+//2.写出数据
+String str = "见到你很高兴！";
+OutputStream os = socket.getOutputStream();
+os.write(str.getBytes());
+
+//写出一个结束标记
+socket.shutdownOutput();
+
+//3.接收服务端回写的数据
+InputStream is = socket.getInputStream();
+InputStreamReader isr = new InputStreamReader(is);
+int b;
+while ((b = isr.read()) != -1){
+		System.out.print((char)b);
+}
+
+//释放资源
+socket.close();
+```
+
+
+
 
 
 
