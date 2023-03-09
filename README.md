@@ -6240,6 +6240,74 @@ ds.close();
   | InputStream  getInputStream()  | 返回此套接字的输入流 |
   | OutputStream getOutputStream() | 返回此套接字的输出流 |
 
+发送端:
+
+```ruby
+public class Client {
+    public static void main(String[] args) throws IOException {
+        //TCP协议，发送数据
+
+        //1.创建Socket对象
+        //细节：在创建对象的同时会连接服务端
+        //      如果连接不上，代码会报错
+        Socket socket = new Socket("127.0.0.1",10000);
+
+
+        //2.可以从连接通道中获取输出流
+        OutputStream os = socket.getOutputStream();
+        //写出数据
+        os.write("你好你好".getBytes());//12字节
+
+        //3.释放资源
+        os.close();
+        socket.close();
+
+    }
+}
+```
+
+接收端:
+
+```ruby
+public class Server {
+    public static void main(String[] args) throws IOException {
+        //TCP协议，接收数据
+
+        //1.创建对象ServerSocker
+        ServerSocket ss = new ServerSocket(10000);
+
+        //2.监听客户端的链接
+        Socket socket = ss.accept();
+
+        //3.从连接通道中获取输入流读取数据
+        InputStream is = socket.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+
+        // BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        int b;
+        while ((b = br.read()) != -1){
+            System.out.print((char) b);
+        }
+
+        //4.释放资源
+        socket.close();
+        ss.close();
+
+    }
+}
+```
+
+
+
+		1. accept方法是阻塞的,作用就是等待客户端连接
+		2. 客户端创建对象并连接服务器,此时是通过三次握手协议,保证跟服务器之间的连接
+		3. 针对客户端来讲,是往外写的,所以是输出流
+			 针对服务器来讲,是往里读的,所以是输入流
+		4. read方法也是阻塞的
+		5. 客户端在关流的时候,还多了一个往服务器写结束标记的动作
+		6. 最后一步断开连接,通过四次挥手协议保证连接终止
 
   - 三次握手：TCP协议中，在发送数据的准备阶段，客户端与服务器之间的三次交互，以保证连接的可靠
 
@@ -6252,13 +6320,9 @@ ds.close();
   - 完成三次握手，连接建立后，客户端和服务器就可以开始进行数据传输了。由于这种面向连接的特性，TCP协议可以保证传输数据的安全，所以应用十分广泛。例如上传文件、下载文件、浏览网页等
 	
 	
-		1. accept方法是阻塞的,作用就是等待客户端连接
-		2. 客户端创建对象并连接服务器,此时是通过三次握手协议,保证跟服务器之间的连接
-		3. 针对客户端来讲,是往外写的,所以是输出流
-			 针对服务器来讲,是往里读的,所以是输入流
-		4. read方法也是阻塞的
-		5. 客户端在关流的时候,还多了一个往服务器写结束标记的动作
-		6. 最后一步断开连接,通过四次挥手协议保证连接终止
+![image](https://user-images.githubusercontent.com/88382462/223961498-a1c9b7ee-88d6-406b-bf37-d950a1c11e66.png)
+
+
 
 
 
