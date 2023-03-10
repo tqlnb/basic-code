@@ -6479,19 +6479,22 @@ socket.close();
 - 服务端
 
 ```ruby
-//1.创建对象并绑定端口
-ServerSocket ss = new ServerSocket(10000);
+//创建服务端监听端口
+ServerSocket ss = new ServerSocket(5000);
+//创建自定义线程池
+ThreadPoolExecutor pool = new ThreadPoolExecutor(
+	3,//核心线程数量
+	6,//线程池总大小
+	60,//空闲时间
+	TimeUnit.SECONDS,//空闲时间的单位
+	new ArrayBlockingQueue<>(2),//队列
+	Executors.defaultThreadFactory(),//线程工厂
+	new ThreadPoolExecutor.AbortPolicy()//阻塞队列
+);
 
 while (true) {
-		//2.等待客户端来连接
-		Socket socket = ss.accept();
-
-		//创建一条线程
-		//一个用户就对应服务端的一条线程
-		Thread thread = new Thread(new MyRunnable(socket));
-		//将线程加入线程池
-		ExecutorService pool = Executors.newCachedThreadPool();
-		pool.submit(thread);
+		//往线程池添加线程
+    pool.submit(new MyRunnable(ss.accept()));
 }
 ```
 
@@ -6540,6 +6543,11 @@ public class MyRunnable implements Runnable{
     }
 }
 ```
+
+
+
+
+
 
 
 
