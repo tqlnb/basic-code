@@ -6548,7 +6548,127 @@ public class MyRunnable implements Runnable{
 
 # 反射
 
+反射允许对成员变量，成员方法和构造方法的信息进行编程访问
 
+![image](https://user-images.githubusercontent.com/88382462/224250259-a832a14c-8ebb-4e80-a19a-43be3563b2b3.png)
+
+## 获取
+
+|获取class对象|	Class|
+|构造方法	|Constructor|
+|字段(成员变量)|	Field|
+|成员方法	|Method|
+
+### 获取Class文件
+
+![image](https://user-images.githubusercontent.com/88382462/224250782-5a48f4ad-347e-4cc4-b4c0-4fb814ef44f8.png)
+
+- 获取class对象的三种方式：
+ - 1. Class.forName("全类名");
+ - 2. 类名.class
+ - 3. 对象.getClass();
+
+```ruby
+//1. 第一种方式
+//全类名 ： 包名 + 类名
+//最为常用的
+Class clazz1 = Class.forName("com.tql.myreflect1.Student");
+
+//2. 第二种方式
+//一般更多的是当做参数进行传递
+Class clazz2 = Student.class;
+
+
+//3.第三种方式
+//当我们已经有了这个类的对象时，才可以使用。
+Student s = new Student();
+Class clazz3 = s.getClass();
+```
+
+### Constructor/获取构造方法对象
+
+规则：
+
+​	get表示获取
+
+​	Declared表示私有
+
+​	最后的s表示所有，复数形式
+
+​	如果当前获取到的是私有的，必须要临时修改访问权限，否则无法使用
+
+| 方法名                                                       | 说明                              |
+| ------------------------------------------------------------ | --------------------------------- |
+| Constructor<?>[] getConstructors()                           | 获得所有的构造（只能public修饰）  |
+| Constructor<?>[] getDeclaredConstructors()                   | 获得所有的构造（包含private修饰） |
+| Constructor<T> getConstructor(Class<?>... parameterTypes)    | 获取指定构造（只能public修饰）    |
+| Constructor<T> getDeclaredConstructor(Class<?>... parameterTypes) | 获取指定构造（包含private修饰）   |
+
+
+```java
+public class ReflectDemo2 {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException {
+        //1.获得整体（class字节码文件对象）
+        Class clazz = Class.forName("com.itheima.reflectdemo.Student");
+        //2.获取构造方法对象
+        //获取所有构造方法（public）
+        Constructor[] constructors1 = clazz.getConstructors();
+        for (Constructor constructor : constructors1) {
+            System.out.println(constructor);
+        }
+        System.out.println("=======================");
+        //获取所有构造（带私有的）
+        Constructor[] constructors2 = clazz.getDeclaredConstructors();
+        for (Constructor constructor : constructors2) {
+            System.out.println(constructor);
+        }
+        System.out.println("=======================");
+        //获取指定的空参构造
+        Constructor con1 = clazz.getConstructor();
+        System.out.println(con1);
+        Constructor con2 = clazz.getConstructor(String.class,int.class);
+        System.out.println(con2);
+        System.out.println("=======================");
+        //获取指定的构造(所有构造都可以获取到，包括public包括private)
+        Constructor con3 = clazz.getDeclaredConstructor();
+        System.out.println(con3);
+        //了解 System.out.println(con3 == con1);
+        //每一次获取构造方法对象的时候，都会新new一个。
+        Constructor con4 = clazz.getDeclaredConstructor(String.class);
+        System.out.println(con4);
+    }
+}
+```
+
+```ruby
+//测试类中的代码：
+//需求1：
+//获取空参，并创建对象
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName("com.itheima.a02reflectdemo1.Student");
+//2.获取空参的构造方法
+Constructor con = clazz.getConstructor();
+//3.利用空参构造方法创建对象
+Student stu = (Student) con.newInstance();
+System.out.println(stu);
+
+
+System.out.println("=============================================");
+//测试类中的代码：
+//需求2：
+//获取带参构造，并创建对象
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName("com.itheima.a02reflectdemo1.Student");
+//2.获取有参构造方法
+Constructor con = clazz.getDeclaredConstructor(String.class, int.class);
+//3.临时修改构造方法的访问权限（暴力反射）
+con.setAccessible(true);
+//4.直接创建对象
+Student stu = (Student) con.newInstance("zhangsan", 23);
+System.out.println(stu);
+```
+
+### 获取成员变量
 
 
 
