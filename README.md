@@ -6497,7 +6497,7 @@ while (true) {
 
 - 线程类
 
-```ruby
+```java
 public class MyRunnable implements Runnable{
 
     Socket socket;
