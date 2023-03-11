@@ -6479,19 +6479,22 @@ socket.close();
 - 服务端
 
 ```ruby
-//1.创建对象并绑定端口
-ServerSocket ss = new ServerSocket(10000);
+//创建服务端监听端口
+ServerSocket ss = new ServerSocket(5000);
+//创建自定义线程池
+ThreadPoolExecutor pool = new ThreadPoolExecutor(
+	3,//核心线程数量
+	6,//线程池总大小
+	60,//空闲时间
+	TimeUnit.SECONDS,//空闲时间的单位
+	new ArrayBlockingQueue<>(2),//队列
+	Executors.defaultThreadFactory(),//线程工厂
+	new ThreadPoolExecutor.AbortPolicy()//阻塞队列
+);
 
 while (true) {
-		//2.等待客户端来连接
-		Socket socket = ss.accept();
-
-		//创建一条线程
-		//一个用户就对应服务端的一条线程
-		Thread thread = new Thread(new MyRunnable(socket));
-		//将线程加入线程池
-		ExecutorService pool = Executors.newCachedThreadPool();
-		pool.submit(thread);
+		//往线程池添加线程
+    pool.submit(new MyRunnable(ss.accept()));
 }
 ```
 
@@ -6543,9 +6546,589 @@ public class MyRunnable implements Runnable{
 
 
 
+# 反射
+
+反射允许对成员变量，成员方法和构造方法的信息进行编程访问
+
+![image](https://user-images.githubusercontent.com/88382462/224250259-a832a14c-8ebb-4e80-a19a-43be3563b2b3.png)
+
+## 获取
+
+|获取class对象|	Class|
+|构造方法	|Constructor|
+|字段(成员变量)|	Field|
+|成员方法	|Method|
+
+### 获取Class文件
+
+![image](https://user-images.githubusercontent.com/88382462/224250782-5a48f4ad-347e-4cc4-b4c0-4fb814ef44f8.png)
+
+- 获取class对象的三种方式：
+ - 1. Class.forName("全类名");
+ - 2. 类名.class
+ - 3. 对象.getClass();
+
+```ruby
+//1. 第一种方式
+//全类名 ： 包名 + 类名
+//最为常用的
+Class clazz1 = Class.forName("com.tql.myreflect1.Student");
+
+//2. 第二种方式
+//一般更多的是当做参数进行传递
+Class clazz2 = Student.class;
 
 
+//3.第三种方式
+//当我们已经有了这个类的对象时，才可以使用。
+Student s = new Student();
+Class clazz3 = s.getClass();
+```
 
+### Constructor/获取构造方法对象
+
+规则：
+
+​	get表示获取
+
+​	Declared表示私有
+
+​	最后的s表示所有，复数形式
+
+​	如果当前获取到的是私有的，必须要临时修改访问权限，否则无法使用
+
+| 方法名                                                       | 说明                              |
+| ------------------------------------------------------------ | --------------------------------- |
+| Constructor<?>[] getConstructors()                           | 获得所有的构造（只能public修饰）  |
+| Constructor<?>[] getDeclaredConstructors()                   | 获得所有的构造（包含private修饰） |
+| Constructor<T> getConstructor(Class<?>... parameterTypes)    | 获取指定构造（只能public修饰）    |
+| Constructor<T> getDeclaredConstructor(Class<?>... parameterTypes) | 获取指定构造（包含private修饰）   |
+
+
+```java
+public class ReflectDemo2 {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException {
+        //1.获得整体（class字节码文件对象）
+        Class clazz = Class.forName("com.itheima.reflectdemo.Student");
+        //2.获取构造方法对象
+        //获取所有构造方法（public）
+        Constructor[] constructors1 = clazz.getConstructors();
+        for (Constructor constructor : constructors1) {
+            System.out.println(constructor);
+        }
+        System.out.println("=======================");
+        //获取所有构造（带私有的）
+        Constructor[] constructors2 = clazz.getDeclaredConstructors();
+        for (Constructor constructor : constructors2) {
+            System.out.println(constructor);
+        }
+        System.out.println("=======================");
+        //获取指定的空参构造
+        Constructor con1 = clazz.getConstructor();
+        System.out.println(con1);
+        Constructor con2 = clazz.getConstructor(String.class,int.class);
+        System.out.println(con2);
+        System.out.println("=======================");
+        //获取指定的构造(所有构造都可以获取到，包括public包括private)
+        Constructor con3 = clazz.getDeclaredConstructor();
+        System.out.println(con3);
+        //了解 System.out.println(con3 == con1);
+        //每一次获取构造方法对象的时候，都会新new一个。
+        Constructor con4 = clazz.getDeclaredConstructor(String.class);
+        System.out.println(con4);
+    }
+}
+```
+
+```ruby
+//测试类中的代码：
+//需求1：
+//获取空参，并创建对象
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName("com.itheima.a02reflectdemo1.Student");
+//2.获取空参的构造方法
+Constructor con = clazz.getConstructor();
+//3.利用空参构造方法创建对象
+Student stu = (Student) con.newInstance();
+System.out.println(stu);
+
+
+System.out.println("=============================================");
+//测试类中的代码：
+//需求2：
+//获取带参构造，并创建对象
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName("com.itheima.a02reflectdemo1.Student");
+//2.获取有参构造方法
+Constructor con = clazz.getDeclaredConstructor(String.class, int.class);
+//3.临时修改构造方法的访问权限（暴力反射）
+con.setAccessible(true);
+//4.直接创建对象
+Student stu = (Student) con.newInstance("zhangsan", 23);
+System.out.println(stu);
+```
+
+### 获取成员变量
+
+- Class类中用于获取成员变量的方法
+|	Field[] getFields()：                |返回所有公共成员变量对象的数组|
+|	Field[] getDeclaredFields()：        |返回所有成员变量对象的数组|
+|	Field getField(String name)：        |返回单个公共成员变量对象|
+|	Field getDeclaredField(String name)：|返回单个成员变量对象|
+
+ Field类中用于创建对象的方法
+|void set(Object obj, Object value)：|赋值|
+|Object get(Object obj)              |获取值|
+
+```ruby
+//1.获取class字节码文件的对象
+Class clazz = Class.forName("com.tql.myreflect3.Student");
+
+//2.获取所有的成员变量
+/* Field[] fields = clazz.getDeclaredFields();
+for (Field field : fields) {
+		System.out.println(field);
+}*/
+
+//获取单个的成员变量
+Field name = clazz.getDeclaredField("name");
+System.out.println(name);
+
+//获取权限修饰符
+int modifiers = name.getModifiers();
+System.out.println(modifiers);
+
+//获取成员变量的名字
+String n = name.getName();
+System.out.println(n);
+
+//获取成员变量的数据类型
+Class<?> type = name.getType();
+System.out.println(type);
+
+//获取成员变量记录的值
+Student s = new Student("zhangsan",23,"男");
+name.setAccessible(true);
+String value = (String) name.get(s);
+System.out.println(value);
+
+//修改对象里面记录的值
+name.set(s,"lisi");
+
+System.out.println(s);
+```
+
+### 获取成员方法
+
+- Class类中用于获取成员方法的方法
+		|Method[] getMethods()|返回所有公共成员方法对象的数组，包括继承的|
+		|Method[] getDeclaredMethods()|返回所有成员方法对象的数组，不包括继承的|
+		|Method getMethod(String name, Class<?>... parameterTypes) |返回单个公共成员方法对象|
+		|Method getDeclaredMethod(String name, Class<?>... parameterTypes)|返回单个成员方法对象|
+
+
+- Method类中用于创建对象的方法
+		|Object invoke(Object obj, Object... args)：|运行方法|
+		|参数一：|用obj对象调用该方法|
+		|参数二：|调用方法的传递的参数（如果没有就不写）|
+		|返回值：|方法的返回值（如果没有就不写）|
+
+获取方法的修饰符
+获取方法的名字
+获取方法的形参
+获取方法的返回值
+获取方法的抛出的异常
+
+
+```ruby
+//1. 获取class字节码文件对象
+Class clazz = Class.forName("com.itheima.myreflect4.Student");
+
+//2. 获取里面所有的方法对象(包含父类中所有的公共方法)
+/* Method[] methods = clazz.getMethods();
+for (Method method : methods) {
+		System.out.println(method);
+}*/
+
+// 获取里面所有的方法对象(不能获取父类的，但是可以获取本类中私有的方法)
+/*Method[] methods = clazz.getDeclaredMethods();
+for (Method method : methods) {
+		System.out.println(method);
+}*/
+
+// 获取指定的单一方法
+Method m = clazz.getDeclaredMethod("eat", String.class);
+System.out.println(m);
+
+// 获取方法的修饰符
+int modifiers = m.getModifiers();
+System.out.println(modifiers);
+
+// 获取方法的名字
+String name = m.getName();
+System.out.println(name);
+
+// 获取方法的形参
+Parameter[] parameters = m.getParameters();
+for (Parameter parameter : parameters) {
+		System.out.println(parameter);
+}
+
+//获取方法的抛出的异常
+Class[] exceptionTypes = m.getExceptionTypes();
+for (Class exceptionType : exceptionTypes) {
+		System.out.println(exceptionType);
+}
+
+//方法运行
+/*Method类中用于创建对象的方法
+Object invoke(Object obj, Object... args)：运行方法
+参数一：用obj对象调用该方法
+参数二：调用方法的传递的参数（如果没有就不写）
+返回值：方法的返回值（如果没有就不写）*/
+
+
+Student s = new Student();
+m.setAccessible(true);
+//参数一s：表示方法的调用者
+//参数二"汉堡包"：表示在调用方法的时候传递的实际参数
+String result = (String) m.invoke(s, "汉堡包");
+System.out.println(result);
+```
+
+## 练习
+
+```ruby
+//把对象里面所有的成员变量名和值保存到本地文件中
+public static void saveObject(Object obj) throws IllegalAccessException, IOException {
+		//1.获取字节码文件的对象
+		Class clazz = obj.getClass();
+		//2. 创建IO流
+		BufferedWriter bw = new BufferedWriter(new FileWriter("myreflect\\a.txt"));
+		//3. 获取所有的成员变量
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+				field.setAccessible(true);
+				//获取成员变量的名字
+				String name = field.getName();
+				//获取成员变量的值
+				Object value = field.get(obj);
+				//写出数据
+				bw.write(name + "=" + value);
+				bw.newLine();
+		}
+		bw.close();
+}
+```
+
+反射可以跟配置文件结合的方式，动态的创建对象，并调用方法
+
+```ruby
+//1.读取配置文件中的信息
+Properties prop = new Properties();
+FileInputStream fis = new FileInputStream("day33-code\\prop.properties");
+prop.load(fis);
+fis.close();
+System.out.println(prop);
+
+//2.获取全类名和方法名
+String className = (String) prop.get("classname");
+String methodName = (String) prop.get("method");
+
+System.out.println(className);
+System.out.println(methodName);
+
+//3.利用反射创建对象并运行方法
+Class clazz = Class.forName(className);
+
+//获取构造方法
+Constructor con = clazz.getDeclaredConstructor();
+Object o = con.newInstance();
+System.out.println(o);
+
+//获取成员方法并运行
+Method method = clazz.getDeclaredMethod(methodName);
+method.setAccessible(true);
+method.invoke(o);
+```
+
+## 总结
+
+1. 反射的作用
+	1. 获取任意一个类中的所有信息
+	2. 结合配置文件动态创建对象
+2. 获得class字节码文件对象的三种方式
+	1. Class.forName("全类名");
+	2. 类名.class
+	3. 对象.getClass();
+3. 如何获取构造方法、成员方法、成员变量
+	- get:获取
+	- Constructor:构造方法 
+	- Field:成员变量     
+	- Method:方法 
+	- set:设置
+	- Parameter:参数
+	- Modifiers:修饰符       		
+	- Declared:私有的
+
+# 动态代理
+
+程序为什么需要代理?
+
+![image](https://user-images.githubusercontent.com/88382462/224467499-10a9d1ba-2d1b-4102-9eb5-0c84ac47e391.png)
+
+![image](https://user-images.githubusercontent.com/88382462/224467669-c23a54e8-3f09-437c-ab97-e3e1dd55871b.png)
+
+
+```java
+public class Test {
+    public static void main(String[] args) {
+    /*
+        需求：
+            外面的人想要大明星唱一首歌
+             1. 获取代理的对象
+                代理对象 = ProxyUtil.createProxy(大明星的对象);
+             2. 再调用代理的唱歌方法
+                代理对象.唱歌的方法("只因你太美");
+     */
+        //1. 获取代理的对象
+        BigStar bigStar = new BigStar("鸡哥");
+        Star proxy = ProxyUtil.createProxy(bigStar);
+        //2. 调用唱歌的方法
+        String result = proxy.sing("只因你太美");
+        System.out.println(result);
+    }
+}
+```
+
+```java
+/*
+*
+* 类的作用：
+*       创建一个代理
+*
+* */
+public class ProxyUtil {
+    /*
+    *
+    * 方法的作用：
+    *       给一个明星的对象，创建一个代理
+    *
+    *  形参：
+    *       被代理的明星对象
+    *
+    *  返回值：
+    *       给明星创建的代理
+    *
+    *
+    *
+    * 需求：
+    *   外面的人想要大明星唱一首歌
+    *   1. 获取代理的对象
+    *      代理对象 = ProxyUtil.createProxy(大明星的对象);
+    *   2. 再调用代理的唱歌方法
+    *      代理对象.唱歌的方法("只因你太美");
+    * */
+    public static Star createProxy(BigStar bigStar){
+       /* java.lang.reflect.Proxy类：提供了为对象产生代理对象的方法：
+        public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h)
+        参数一：用于指定用哪个类加载器，去加载生成的代理类
+        参数二：指定接口，这些接口用于指定生成的代理长什么，也就是有哪些方法
+        参数三：用来指定生成的代理对象要干什么事情*/
+        Star star = (Star) Proxy.newProxyInstance(
+                ProxyUtil.class.getClassLoader(),//参数一：用于指定用哪个类加载器，去加载生成的代理类
+                new Class[]{Star.class},//参数二：指定接口，这些接口用于指定生成的代理长什么，也就是有哪些方法
+                //参数三：用来指定生成的代理对象要干什么事情
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        /*
+                        * 参数一：代理的对象
+                        * 参数二：要运行的方法 sing
+                        * 参数三：调用sing方法时，传递的实参
+                        * */
+                        if("sing".equals(method.getName())){
+                            System.out.println("准备话筒，收钱");
+                        }else if("dance".equals(method.getName())){
+                            System.out.println("准备场地，收钱");
+                        }
+                        //去找大明星开始唱歌或者跳舞
+                        //代码的表现形式：调用大明星里面唱歌或者跳舞的方法
+                        return method.invoke(bigStar,args);
+                    }
+                }
+        );
+        return star;
+    }
+}
+```
+
+```java
+public interface Star {
+    //我们可以把所有想要被代理的方法定义在接口当中
+    //唱歌
+    public abstract String sing(String name);
+    //跳舞
+    public abstract void dance();
+}
+```
+
+```java
+public class BigStar implements Star {
+    private String name;
+    public BigStar() {
+    }
+    public BigStar(String name) {
+        this.name = name;
+    }
+    //唱歌
+    @Override
+    public String sing(String name){
+        System.out.println(this.name + "正在唱" + name);
+        return "谢谢";
+    }
+    //跳舞
+    @Override
+    public void dance(){
+        System.out.println(this.name + "正在跳舞");
+    }
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String toString() {
+        return "BigStar{name = " + name + "}";
+    }
+}
+```
+
+## 2.4 额外扩展
+
+动态代理，还可以拦截方法
+
+比如：
+
+​	在这个故事中，经济人作为代理，如果别人让邀请大明星去唱歌，打篮球，经纪人就增强功能。
+
+​	但是如果别人让大明星去扫厕所，经纪人就要拦截，不会去调用大明星的方法。
+
+```java
+/*
+* 类的作用：
+*       创建一个代理
+* */
+public class ProxyUtil {
+    public static Star createProxy(BigStar bigStar){
+        public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h)
+        Star star = (Star) Proxy.newProxyInstance(
+                ProxyUtil.class.getClassLoader(),
+                new Class[]{Star.class},
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        if("cleanWC".equals(method.getName())){
+                            System.out.println("拦截，不调用大明星的方法");
+                            return null;
+                        }
+                        //如果是其他方法，正常执行
+                        return method.invoke(bigStar,args);
+                    }
+                }
+        );
+        return star;
+    }
+}
+```
+
+## 2.5 动态代理的练习
+
+​	 对add方法进行增强，对remove方法进行拦截，对其他方法不拦截也不增强
+
+```java
+public class MyProxyDemo1 {
+    public static void main(String[] args) {
+        //动态代码可以增强也可以拦截
+        //1.创建真正干活的人
+        ArrayList<String> list = new ArrayList<>();
+        //2.创建代理对象
+        //参数一：类加载器。当前类名.class.getClassLoader()
+        //                 找到是谁，把当前的类，加载到内存中了，我再麻烦他帮我干一件事情，把后面的代理类，也加载到内存
+        //参数二：是一个数组，在数组里面写接口的字节码文件对象。
+        //                  如果写了List，那么表示代理，可以代理List接口里面所有的方法，对这些方法可以增强或者拦截
+        //                  但是，一定要写ArrayList真实实现的接口
+        //                  假设在第二个参数中，写了MyInter接口，那么是错误的。
+        //                  因为ArrayList并没有实现这个接口，那么就无法对这个接口里面的方法，进行增强或拦截
+        //参数三：用来创建代理对象的匿名内部类
+        List proxyList = (List) Proxy.newProxyInstance(
+                //参数一：类加载器
+                MyProxyDemo1.class.getClassLoader(),
+                //参数二：是一个数组，表示代理对象能代理的方法范围
+                new Class[]{List.class},
+                //参数三：本质就是代理对象
+                new InvocationHandler() {
+                    @Override
+                    //invoke方法参数的意义
+                    //参数一：表示代理对象，一般不用（了解）
+                    //参数二：就是方法名，我们可以对方法名进行判断，是增强还是拦截
+                    //参数三：就是下面第三步调用方法时，传递的参数。
+                    //举例1：
+                    //list.add("阿玮好帅");
+                    //此时参数二就是add这个方法名
+                    //此时参数三 args[0] 就是 阿玮好帅
+                    //举例2：
+                    //list.set(1, "aaa");
+                    //此时参数二就是set这个方法名
+                    //此时参数三  args[0] 就是 1  args[1]"aaa"
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        //对add方法做一个增强，统计耗时时间
+                        if (method.getName().equals("add")) {
+                            long start = System.currentTimeMillis();
+                            //调用集合的方法，真正的添加数据
+                            method.invoke(list, args);
+                            long end = System.currentTimeMillis();
+                            System.out.println("耗时时间：" + (end - start));
+                            //需要进行返回，返回值要跟真正增强或者拦截的方法保持一致
+                            return true;
+                        }else if(method.getName().equals("remove") && args[0] instanceof Integer){
+                            System.out.println("拦截了按照索引删除的方法");
+                            return null;
+                        }else if(method.getName().equals("remove")){
+                            System.out.println("拦截了按照对象删除的方法");
+                            return false;
+                        }else{
+                            //如果当前调用的是其他方法,我们既不增强，也不拦截
+                            method.invoke(list,args);
+                            return null;
+                        }
+                    }
+                }
+        );
+        //3.调用方法
+        //如果调用者是list，就好比绕过了第二步的代码，直接添加元素
+        //如果调用者是代理对象，此时代理才能帮我们增强或者拦截
+        //每次调用方法的时候，都不会直接操作集合
+        //而是先调用代理里面的invoke，在invoke方法中进行判断，可以增强或者拦截
+        proxyList.add("aaa");
+        proxyList.add("bbb");
+        proxyList.add("ccc");
+        proxyList.add("ddd");
+        proxyList.remove(0);
+        proxyList.remove("aaa");
+        //打印集合
+        System.out.println(list);
+    }
+}
+```
 
 
 
