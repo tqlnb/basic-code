@@ -42,7 +42,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
     }
 
     private void readUserInfo() {
-        //1.读取数据
+        //1.读取数据 因为FileUtil.readLines()读取的文件路径是相对于class文件而不是本项目,所以使用绝对路径
         List<String> userInfo = FileUtil.readLines("C:\\Users\\tql\\IdeaProjects\\basic-code\\puzzlegame\\userinfo.txt", StandardCharsets.UTF_8);
         //2.遍历集合获取学生信息并创建User对象
         for (String str : userInfo) {

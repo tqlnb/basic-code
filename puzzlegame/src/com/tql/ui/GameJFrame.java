@@ -138,7 +138,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
 
         if (victory()) {
             //显示胜利的图标
-            JLabel winJLabel = new JLabel(new ImageIcon("C:\\Users\\moon\\IdeaProjects\\basic-code\\puzzlegame\\image\\win.png"));
+            JLabel winJLabel = new JLabel(new ImageIcon("puzzlegame/image/win.png"));
             winJLabel.setBounds(203, 283, 197, 73);
             this.getContentPane().add(winJLabel);
         }
@@ -178,7 +178,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
 
 
         //添加背景图片
-        JLabel background = new JLabel(new ImageIcon("puzzlegame\\image\\background.png"));
+        JLabel background = new JLabel(new ImageIcon("puzzlegame/image/background.png"));
         background.setBounds(40, 40, 508, 560);
         //把背景图片添加到界面当中
         this.getContentPane().add(background);
@@ -335,7 +335,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             this.getContentPane().add(all);
             //加载背景图片
             //添加背景图片
-            JLabel background = new JLabel(new ImageIcon("puzzlegame\\image\\background.png"));
+            JLabel background = new JLabel(new ImageIcon("puzzlegame/image/background.png"));
             background.setBounds(40, 40, 508, 560);
             //把背景图片添加到界面当中
             this.getContentPane().add(background);
@@ -480,7 +480,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             Properties prop = new Properties();
             //2.读取数据
             try {
-                FileInputStream fis = new FileInputStream("puzzlegame\\game.properties");
+                FileInputStream fis = new FileInputStream("puzzlegame/game.properties");
                 prop.load(fis);
                 fis.close();
             } catch (IOException ex) {
@@ -494,7 +494,6 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
 
         } else if (obj == girl) {
             System.out.println("girl");
-            //下列代码重复了，自己思考一下，能否抽取成一个方法呢？
             int number = r.nextInt(13) + 1;
             path = "puzzlegame\\image\\girl\\girl" + number + "\\";
             //计步器清零
@@ -505,7 +504,6 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             initImage();
         } else if (obj == animal) {
             System.out.println("animal");
-            //下列代码重复了，自己思考一下，能否抽取成一个方法呢？
             int number = r.nextInt(8) + 1;
             path = "puzzlegame\\image\\animal\\animal" + number + "\\";
             //计步器清零
