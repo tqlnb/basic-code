@@ -1,0 +1,151 @@
+syntax = "proto3";
+//无参或无返回值
+import "google/protobuf/empty.proto";
+option java_multiple_files = true;
+option java_package = "ins.daemon.node";
+option java_outer_classname = "INodeRunnerRt";
+option objc_class_prefix = "daemon";
+package ins.daemon.node;
+
+//定义服务
+service INodeRunnerRemote {
+//注意：这里是returns 不是return
+	rpc sayHello (HelloRequest) returns (HelloResponse) {
+	}
+	//测试
+	rpc helloWorld (HellosRequest) returns (HellosResponse) {
+	}
+	//启动app
+	rpc runApp (PrintLogRequest) returns (google.protobuf.Empty) {
+	}
+	//关闭app
+	rpc killApp (google.protobuf.Empty) returns (google.protobuf.Empty) {
+	}
+	//自身运行状态
+	rpc checkAppStatus (google.protobuf.Empty) returns (StatusResponse) {
+	}
+	//自身运行状态
+	rpc checkDeamonStatus (google.protobuf.Empty) returns
+	(checkDeamonStatusResponse) {
+	} //用于检测连接状态
+	//文件操作相关
+	rpc updateApp (stream updateAppRequest) returns (updateAppResponse) {
+	}
+	//与JVISA相关 更新固件
+	rpc updateDSP (updateDSPRequest) returns (google.protobuf.Empty) {
+	}
+	rpc lsEndModule (google.protobuf.Empty) returns (lsEndModuleResponse) {
+	}
+	rpc getSysInfo (SysInfoRequest) returns (SysInfoResponse) {
+	}
+	//获取系统信息
+	rpc fakeSendMsg (google.protobuf.Empty) returns (google.protobuf.Empty) {
+	}
+	//重新获取设备信息
+	rpc resetDevice (google.protobuf.Empty) returns (resetDeviceResponse) {
+	}
+	//配置前端参数
+	rpc setParam (ResEntity) returns (google.protobuf.Empty) {
+	}
+	//更新前端固件
+	rpc updateFirmware (stream firmwareRequest) returns (firmwareResponse) {
+	}
+	//重启前端
+	rpc restart (restartRequest) returns (restartResponse) {
+	}
+}
+
+message restartRequest {
+	string num = 1;
+}
+
+message restartResponse {
+	int32 message = 1;
+}
+
+message firmwareRequest {
+	string name = 1;
+	bytes data = 2;
+	string num = 3;
+}
+
+message firmwareResponse {
+	int32 message = 1;
+}
+
+message ResEntity {
+	string name = 1;
+	string type = 2;
+	string tag = 3;
+	string length = 4;
+	string def = 5;
+	string options = 6;
+	string dataType = 7;
+	string parentName = 8;
+}
+
+message checkDeamonStatusResponse {
+	bool message = 1;
+}
+
+message resetDeviceResponse {
+	int32 message = 1;
+}
+
+message SysInfoRequest {
+	string str = 1;
+}
+
+message SysInfoResponse {
+	string message = 1;
+}
+
+message lsEndModuleResponse {
+	string message = 1;
+}
+
+message updateDSPRequest {
+	string resource = 1;
+	//这里就是一个重复多个的数据定义，理解为数组即可
+	repeated bytes data = 2;
+}
+
+message updateAppRequest {
+	string name = 1;
+	bytes files = 2;
+	bool force = 3;
+}
+
+message updateAppResponse {
+	int32 message = 1;
+}
+
+//定义消息类型
+message HelloRequest {
+	string name = 1;
+}
+
+message HelloResponse {
+	string message = 1;
+}
+
+message HellosRequest {
+	string name = 1;
+}
+
+message HellosResponse {
+	string message = 1;
+}
+
+message PrintLogRequest {
+	string logName = 1;
+}
+
+message RunAppResponse {
+	string message = 1;
+}
+
+//查看app运行状态
+message StatusResponse {
+	bool message = 1;
+}

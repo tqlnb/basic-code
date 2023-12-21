@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="engine">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/day02.code/lib/engine.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,8 @@
+2023-10-22 at 16:07:15 HKT DEBUG cn.hutool.log.LogFactory 161 create - Use [Log4j2] Logger As Default.
+2023-10-22 at 16:07:15 HKT INFO  com.tql.co.CollUtilTest 19 main - 写了一个list: [a, b, c, d, e]
+2023-10-22 at 16:07:15 HKT INFO  com.tql.co.CollUtilTest 33 main - 写了一个listmap: [{a=1, b=2, c=3}, {a=3, b=4, c=5}]
+2023-10-22 at 16:07:15 HKT INFO  com.tql.co.CollUtilTest 36 main - 写了一个map: {a=[1, 3], b=[2, 4], c=[3, 5]}
+2023-10-22 at 16:16:48 HKT DEBUG cn.hutool.log.LogFactory 161 create - Use [Log4j2] Logger As Default.
+2023-10-22 at 16:16:48 HKT INFO  com.tql.co.CollUtilTest 20 main - list: [a, b, c, d, e]
+2023-10-22 at 16:16:48 HKT INFO  com.tql.co.CollUtilTest 34 main - hashMaps: [{a=1, b=2, c=3}, {a=3, b=4, c=5}]
+2023-10-22 at 16:16:48 HKT INFO  com.tql.co.CollUtilTest 37 main - stringListMap: {a=[1, 3], b=[2, 4], c=[3, 5]}

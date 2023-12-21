@@ -1,0 +1,215 @@
+<frames OESwap="" protoMarkIndex="13">
+    <frame group="数据注入返回内容" id="02" name="数据注入返回内容">
+        <starter var="0x1a"/>
+        <block length="2048" name="数据注入返回内容" pass="00">
+            <seg endian="00" name="同步头" pass="00" type="string" typesize="4" unit="byte"/>
+            <seg endian="00" name="包ID" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg displayAs="b" endian="01" name="包序列标志" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg endian="00" name="包数据长度" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="数据类型" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="01" name="时间码/秒" pass="00" type="int" typesize="4" unit="byte"/>
+            <seg end="true" endian="01" name="包序列计数" pass="00" preBits="2" type="short" typesize="14" unit="bit"/>
+            <seg endian="00" name="子系统标识" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="时间码/亚秒" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="标识域" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="序列标志" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="指令序列计数" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="指令数据长度" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="数据类型标识" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="子系统标识" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="辅助序列计数" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="时间标识" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="时间码/秒" pass="00" type="string" typesize="4" unit="byte"/>
+            <seg endian="00" name="时间码/亚秒" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="功能码" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="参数区1" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="参数区2" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="参数区3_10" pass="00" type="string" typesize="10" unit="byte"/>
+            <seg endian="00" name="累加和" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="填充9A" pass="00" type="string" typesize="8" unit="byte"/>
+            <seg endian="00" name="CRC" pass="00" type="string" typesize="4" unit="byte"/>
+        </block>
+        <block length="32" name="new_block" pass="00">
+            <random>
+                <length endian="00" name="new_length" pass="00" type="byte" typesize="64" unit="bit"/>
+                <seg endian="00" name="new_seg" pass="00" type="byte" typesize="64" unit="bit"/>
+            </random>
+        </block>
+    </frame>
+    <frame group="数字量遥测" id="12" name="数字量遥测">
+        <starter var="0x17"/>
+        <block length="32" name="dataBuffera" pass="00">
+            <seg endian="00" name="0_3\r帧头" pass="00" type="string" typesize="4" unit="byte"/>
+            <seg endian="01" name="计数器" pass="00" type="int" typesize="1" unit="byte"/>
+            <seg endian="01" name="1553B总线指令计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg endian="01" name="1553B数据注入指令错误计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="1553B数据注入指令重复计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg endian="01" name="1553B事件表事件数量" pass="00" preBits="0" type="byte" typesize="6" unit="bit"/>
+            <seg end="true" endian="01" name="预留1" pass="00" preBits="6" type="byte" typesize="2" unit="bit"/>
+            <seg endian="01" name="1553B事件表正确计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="1553B事件表执行计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg endian="01" name="1553B事件表丢弃计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="1553B事件表清除状态" pass="00" preBits="4" type="byte" typesize="2" unit="bit"/>
+            <seg end="true" endian="01" name="1553B数据注入指令计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="预留2" pass="00" preBits="6" type="byte" typesize="2" unit="bit"/>
+            <seg endian="01" name="FC总线指令指令计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="FC数据注入指令计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg endian="01" name="FC数据注入指令错误计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="FC数据注入指令重复计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg endian="01" name="FC事件表数量" pass="00" preBits="0" type="byte" typesize="6" unit="bit"/>
+            <seg end="true" endian="01" name="FC事件表丢弃计数" pass="00" preBits="6" type="byte" typesize="2" unit="bit"/>
+            <seg endian="01" name="FC事件表正确计数" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg end="true" endian="01" name="FC事件表执行计数" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="文件接收状态" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg end="true" endian="01" name="丢失或错误的指令序列计数" pass="00" preBits="2" type="short" typesize="14" unit="bit"/>
+            <seg displayAs="b" endian="01" name="载荷工作模式" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="响应BM指令处置状态" pass="00" preBits="2" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="报警参数显示状态" pass="00" preBits="4" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="事件表清除状态" pass="00" preBits="6" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="程序流程" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="流程标志" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="预留3" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="FC载荷存储下行子地址状态" pass="00" preBits="4" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="烧写软件版本升级状态" pass="00" preBits="6" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="#0.0000" endian="01" name="空间站100V电流" pass="00" type="byte" typesize="1" unit="byte"/>
+            <seg displayAs="b" endian="01" name="热控供电状态" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="计算机供电状态" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="惯导供电状态" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="停靠备机供电状态" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="停靠主机供电状态" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="伺服备机供电状态" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="伺服主机供电状态" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="星光观测器供电状态" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点1（星敏）" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点3（惯组）" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点5（伺服俯仰主体）" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点7（伺服支座）" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点9（计算机）" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点10（供配电）" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="测温点11（伺服控制模块）" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="测温点12（方舱底板）" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="陀螺指定轴" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="加速度计指定轴" pass="00" preBits="2" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="陀螺数据状态" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="加速度计数据状态" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="光源标识" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="二次补偿参数固化结果" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="星敏工作模式" pass="00" preBits="0" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="星敏捕获跟踪状态" pass="00" preBits="4" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="探头数据状态" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="探测器强光保护状态" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="停靠状态" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="俯仰指令是否超限" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="俯仰指令是否超限2" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="是否转动禁止" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="俯仰轴运动方向" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="方位轴运动方向" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="俯仰上限位" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="俯仰下限位" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="方位左限位" pass="00" preBits="8" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="方位右限位" pass="00" preBits="9" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="是否运动到位" pass="00" preBits="10" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="是否运动" pass="00" preBits="11" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="单片机RAM区自检状态" pass="00" preBits="12" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="单片机复位标志" pass="00" preBits="13" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="指令系统及定时器" pass="00" preBits="14" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="运动自检是否成功" pass="00" preBits="15" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="光模块加电状态" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="与供配电RS422通信状态" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="与星敏CameraLink总线通讯状态" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="与星敏422总线通信状态" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="与伺服1553B通信状态" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="与惯组RS422通信状态" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="26预留1" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="26预留2" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="AD转换错误标识" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="RS422包校验错误状态" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="5V基准电压状态" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="28V配电母线电压状态" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="空间站100V母线供电电压状态" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="微动开关常闭信号" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="微动开关常开信号" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="预留6" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="热控状态字" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" endian="01" name="适配器巡检供电状态" pass="00" preBits="2" type="byte" typesize="2" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="预留状态字" pass="00" preBits="4" type="byte" typesize="4" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H1状态" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H2状态" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H3状态" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H4状态" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H5状态" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H6状态" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="电加热回路H7状态" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="电加热回路H8状态" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="选星模式标志位" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="微动开关选择标志位" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="停靠装置选择标志位" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="伺服转动错误标志位" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="伺服转动到位标志位" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="拔销器状态位" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="预留4" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="预留5" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留1" pass="00" preBits="0" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留2" pass="00" preBits="1" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留3" pass="00" preBits="2" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留4" pass="00" preBits="3" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留5" pass="00" preBits="4" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留6" pass="00" preBits="5" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" endian="01" name="31预留7" pass="00" preBits="6" type="byte" typesize="1" unit="bit"/>
+            <seg displayAs="b" end="true" endian="01" name="31预留8" pass="00" preBits="7" type="byte" typesize="1" unit="bit"/>
+        </block>
+    </frame>
+    <frame group="载荷数据M" id="19" name="载荷数据M">
+        <starter var="0x1B"/>
+        <block length="64" name="dataBuffera" pass="00">
+            <seg endian="00" name="序列标识" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg endian="00" name="数据域长度" pass="00" type="int" typesize="2" unit="byte"/>
+            <seg end="true" endian="00" name="指令计数" pass="00" preBits="2" type="int" typesize="14" unit="bit"/>
+            <seg endian="00" name="功能标识" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="载荷标识符" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="载荷子系统标识符" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="收发标志" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="子地址" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="结果" pass="00" type="string" typesize="1" unit="byte"/>
+            <seg endian="00" name="填充" pass="01" type="string" typesize="51" unit="byte"/>
+            <seg endian="00" name="累加和" pass="00" type="string" typesize="2" unit="byte"/>
+        </block>
+    </frame>
+    <frame group="协议表格（短）" id="19" name="长抱环反馈">
+        <starter var="0x16"/>
+        <block length="2" name="dataBuffera" pass="00">
+            <seg endian="00" name="长抱环计数" pass="00" type="int" typesize="2" unit="byte"/>
+        </block>
+    </frame>
+    <frame group="协议表格（短）" id="1A" name="报警显示参数">
+        <starter var="0x18"/>
+        <block length="4" name="dataBuffer" pass="00">
+            <seg endian="00" name="Error" pass="00" preBits="0" type="string" typesize="1" unit="bit"/>
+            <seg endian="00" name="level" pass="00" preBits="1" type="string" typesize="1" unit="bit"/>
+            <seg end="true" endian="00" name="ErrorCode" pass="00" preBits="2" type="string" typesize="2" unit="bit"/>
+            <seg endian="00" name="chek" pass="00" type="string" typesize="2" unit="byte"/>
+        </block>
+    </frame>
+    <frame group="工程参数" id="3f" name="工程参数">
+        <starter var="0x19"/>
+        <block length="2048" name="dataBuffer" pass="00">
+            <seg endian="00" name="同步头" pass="00" type="string" typesize="4" unit="byte"/>
+            <seg endian="00" name="包ID" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg displayAs="b" endian="01" name="包序列标志" pass="00" preBits="0" type="byte" typesize="2" unit="bit"/>
+            <seg end="true" endian="01" name="包序列计数" pass="00" preBits="2" type="short" typesize="14" unit="bit"/>
+            <seg endian="00" name="包数据长度" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="01" name="时间码/秒" pass="00" type="int" typesize="4" unit="byte"/>
+            <seg endian="00" name="数据类型" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="子系统标识" pass="00" type="string" typesize="2" unit="byte"/>
+            <seg endian="00" name="时间码/亚秒" pass="00" type="string" typesize="2" unit="byte"/>
+            <loop time="168">
+                <seg endian="01" name="var" pass="00" type="string" typesize="1" unit="byte"/>
+                <seg endian="00" name="new_seg" pass="00" type="byte" typesize="64" unit="bit"/>
+            </loop>
+            <seg endian="00" name="CRC" pass="00" type="string" typesize="4" unit="byte"/>
+            <loop time="5">
+                <seg endian="01" name="nop" pass="00" type="string" typesize="1" unit="byte"/>
+            </loop>
+        </block>
+    </frame>
+</frames>
